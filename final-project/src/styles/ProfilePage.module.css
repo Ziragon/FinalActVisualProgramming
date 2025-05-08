@@ -1,0 +1,152 @@
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.personalInfoSection {
+  padding: 12px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+}
+
+.sectionTitle {
+  color: #333;
+  padding: 12px 0;
+  font-size: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.editButton {
+  padding: 8px 16px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.editButton:hover {
+  border-color: #333333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.editButton:active {
+  transform: translateY(0);
+box-shadow: none;
+}
+
+.infoGridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  border-radius: 6px;
+  padding: 20px;
+  background-color: #f1f1f1;
+}
+
+.infoField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.infoFieldLabel {
+  font-size: 16px;
+  color: #555;
+  font-weight: 500;
+}
+
+.infoFieldInput {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.infoFieldInput:read-only {
+  border-color: #e9ecef;
+  background-color: white;
+  cursor: not-allowed;
+}
+
+.infoFieldInput:not(:read-only) {
+  border-color: #adb5bd;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.infoFieldInput:not(:read-only):hover {
+  border-color: #6c757d;
+}
+
+.infoFieldInput:not(:read-only):focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.statValue {
+  font-size: 30px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.statLabel {
+  color: #666;
+  font-size: 16px;
+}
+
+.preferencesList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preferenceItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px;
+}
+
+.preferenceCheckbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.preferenceInput {
+  width: 40px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-left: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.preferenceInput:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
