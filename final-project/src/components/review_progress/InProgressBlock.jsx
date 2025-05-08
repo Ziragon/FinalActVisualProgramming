@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from "./ReviewProgressPage.module.css";
+import cl from "../../styles/ReviewProgressPage.module.css";
 
 const InProgressBlock = ({item}) => //отображение InProgress ячеек статей
 {

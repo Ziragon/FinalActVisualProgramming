@@ -1,7 +1,7 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
-import ReviewProgressPage from '../components/review_progress/ReviewProgressPage';
-import './ProfileStyles/RouterConfig.css';
+import ReviewProgressPage from '../review_progress/ReviewProgressPage';
+import '../../ProfileStyles/RouterConfig.css';
 
 const MainProfile = () => {
   return (
@@ -24,21 +24,21 @@ const MainProfile = () => {
     
       <nav className="main-nav">
         <div className="nav-links">
-          <NavLink to="/Profile">Profile</NavLink>
-          <NavLink to="/MyArticles">My Articles</NavLink>
-          <NavLink to="/SubmitArticle">Submit Article</NavLink>
-          <NavLink to="/InProgressReviews">In Progress Reviews</NavLink>
-          <NavLink to="/CompletedReviews">Completed Reviews</NavLink>
+          <NavLink to="/profile">Profile</NavLink>
+          <NavLink to="/myArticles">My Articles</NavLink>
+          <NavLink to="/submitArticle">Submit Article</NavLink>
+          <NavLink to="/inProgressReviews">In Progress Reviews</NavLink>
+          <NavLink to="/completedReviews">Completed Reviews</NavLink>
         </div>
       </nav>
    
       <main className="content-area">
         <Routes>
-          <Route path="/Profile" element={<ProfilePage />} />
-          <Route path="/MyArticles" element={null} />
-          <Route path="/SubmitArticle" element={null} />
-          <Route path="/InProgressReviews" element={ReviewProgressPage} />
-          <Route path="/CompletedReviews" element={null} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/myArticles" element={null} />
+          <Route path="/submitArticle" element={null} />
+          <Route path="/inProgressReviews" element={<ReviewProgressPage/>} />
+          <Route path="/completedReviews" element={null} />
         </Routes>
       </main>
     </>

@@ -1,6 +1,6 @@
 import React from 'react';
-import cl from "./ReviewProgressPage.module.css";
-import timeIcon from "../../img/time-svgrepo-com.svg";
+import cl from "../../styles/ReviewProgressPage.module.css";
+import timeIcon from "../../styles/img/time-svgrepo-com.svg";
 
 const ReviewRequestsBlock = ({item}) => //отображение запросов по статьям
 {

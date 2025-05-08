@@ -1,7 +1,7 @@
 import React from 'react';
 import ReviewRequestsBlock from './ReviewRequestsBlock';
 import InProgressBlock from './InProgressBlock';
-import cl from "./ReviewProgressPage.module.css";
+import cl from "../../styles/ReviewProgressPage.module.css";
 
 const ReviewProgressPage = () =>
 {
