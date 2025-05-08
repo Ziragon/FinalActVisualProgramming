@@ -1,20 +1,46 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
 .profilePage {
   display: flex;
   flex-direction: column;
   gap: 16px;
   font-family: Arial, sans-serif;
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
 .personalInfoSection {
   padding: 12px 16px;
   border: 2px solid #dee2e6;
   border-radius: 6px;
+  animation: fadeInScale 0.5s ease-out 0.2s both;
 }
 
 .sectionTitle {
   color: #333;
   padding: 12px 0;
   font-size: 24px;
+  animation: fadeIn 0.5s ease-out 0.3s both;
 }
 
 .sectionHeader {
@@ -33,6 +59,7 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out 0.4s both;
 }
 
 .editButton:hover {
@@ -43,7 +70,7 @@
 
 .editButton:active {
   transform: translateY(0);
-box-shadow: none;
+  box-shadow: none;
 }
 
 .infoGridContainer {
@@ -53,12 +80,14 @@ box-shadow: none;
   border-radius: 6px;
   padding: 20px;
   background-color: #f1f1f1;
+  animation: fadeInScale 0.5s ease-out 0.4s both;
 }
 
 .infoField {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  animation: fadeIn 0.5s ease-out var(--delay) both;
 }
 
 .infoFieldLabel {
@@ -104,6 +133,7 @@ box-shadow: none;
   gap: 16px;
   text-align: center;
   margin-bottom: 24px;
+  animation: fadeIn 0.6s ease-out 0.5s both;
 }
 
 .statValue {
@@ -121,6 +151,7 @@ box-shadow: none;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  animation: fadeIn 0.6s ease-out 0.6s both;
 }
 
 .preferenceItem {
@@ -150,3 +181,11 @@ box-shadow: none;
   border-color: #000000;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
+
+
+.infoField:nth-child(1) { --delay: 0.5s; }
+.infoField:nth-child(2) { --delay: 0.55s; }
+.infoField:nth-child(3) { --delay: 0.6s; }
+.infoField:nth-child(4) { --delay: 0.65s; }
+.infoField:nth-child(5) { --delay: 0.7s; }
+.infoField:nth-child(6) { --delay: 0.75s; }

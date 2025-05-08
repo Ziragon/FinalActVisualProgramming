@@ -1,7 +1,42 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .date_div {
     float: right;
     background-color: rgb(230, 230, 230);
     border-radius: 50px;
+    padding: 8px 16px;
+    animation: fadeIn 0.6s ease-out 0.2s both;
 }
 
 .main_container {
@@ -10,6 +45,7 @@
     background-color: rgb(245, 245, 245);
     padding: 20px;
     gap: 10px;
+    animation: fadeInScale 0.5s ease-out both;
 }
 
 .container {
@@ -25,7 +61,14 @@
     border-radius: 10px;
     padding: 24px;
     overflow: hidden;
+    animation: fadeIn 0.5s ease-out var(--delay, 0.3s) both;
 }
+
+/* Задержки для последовательного появления блоков */
+.req_block:nth-child(1) { --delay: 0.3s; }
+.req_block:nth-child(2) { --delay: 0.4s; }
+.req_block:nth-child(3) { --delay: 0.5s; }
+.req_block:nth-child(4) { --delay: 0.6s; }
 
 .flex_block {
     display: flex;
@@ -40,6 +83,7 @@
     align-items: center;
     margin-inline: 8px;
     opacity: 50%;
+    animation: fadeIn 0.5s ease-out 0.5s both;
 }
 
 .buttons {
@@ -49,6 +93,7 @@
     flex-basis: 100%;
     display: flex;
     justify-content: flex-end;
+    animation: fadeIn 0.5s ease-out 0.6s both;
 }
 
 .p, .p_header, .p_name, .p_author, .p_abstract, .p_exp_time, .p_date, .p_date_remaining, .p_progress {
@@ -59,23 +104,27 @@
 .p_header {
     font-weight: 600;
     font-size: 26px;
+    animation: fadeIn 0.5s ease-out 0.4s both;
 }
 
 .p_name {
     font-size: 24px;
     font-weight: 500;
+    animation: fadeIn 0.5s ease-out 0.45s both;
 }
 
 .p_author {
     color: rgb(120, 120, 120);
     font-weight: 500;
     margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-out 0.5s both;
 }
 
 .p_abstract {
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: 500;
+    animation: fadeIn 0.5s ease-out 0.55s both;
 }
 
 .p_progress {
@@ -83,16 +132,19 @@
     font-size: 16px;
     font-weight: 500;
     margin-right: auto;
+    animation: fadeIn 0.5s ease-out 0.6s both;
 }
 
 .p_exp_time {
     font-weight: 500;
+    animation: fadeIn 0.5s ease-out 0.65s both;
 }
 
 .p_date {
     font-weight: 500;
     font-size: 14px;
     margin-inline: 10px;
+    animation: fadeIn 0.5s ease-out 0.7s both;
 }
 
 .p_date_remaining {
@@ -101,6 +153,7 @@
     font-weight: 500;
     float: right;
     clear: right;
+    animation: slideInRight 0.5s ease-out 0.75s both;
 }
 
 .white_button, .black_button {
@@ -114,6 +167,7 @@
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    animation: fadeIn 0.5s ease-out 0.8s both;
 }
 
 .black_button {
@@ -126,13 +180,13 @@
 .white_button:hover {
     background-color: rgb(235, 235, 235);
     border-color: rgb(220, 220, 220);
-    transform: translateY(-1px); /* Лёгкий подъём */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень при наведении */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .white_button:active {
     background-color: rgb(225, 225, 225);
-    transform: translateY(0); /* Возврат при нажатии */
+    transform: translateY(0);
     box-shadow: none;
 }
 
@@ -154,7 +208,6 @@
     box-shadow: none;
 }
 
-/* ProgressBar.css */
 .progress_bar_container {
     height: 8px;
     background-color: rgb(230,230,230);
@@ -162,11 +215,29 @@
     border-radius: 12px;
     overflow: hidden;
     position: relative;
+    animation: fadeIn 0.5s ease-out 0.85s both;
 }
-  
+
 .progress_bar_fill {
     height: 100%;
     background-color: rgb(30,40,50);
     border-radius: 12px;
     transition: width 0.3s ease;
+}
+
+
+.white_button::after, .black_button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.white_button:hover::after, .black_button:hover::after {
+    transform: translateX(0);
 }

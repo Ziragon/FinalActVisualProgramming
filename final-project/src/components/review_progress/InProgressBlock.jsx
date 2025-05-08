@@ -1,7 +1,7 @@
 import React from 'react';
 import cl from "../../styles/ReviewProgressPage.module.css";
 
-const InProgressBlock = ({item}) => //отображение InProgress ячеек статей
+const InProgressBlock = ({item}) =>
 {
     return (
         <div> 
