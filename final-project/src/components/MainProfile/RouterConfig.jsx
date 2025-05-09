@@ -3,6 +3,7 @@ import ProfilePage from './ProfilePage';
 import ReviewProgressPage from '../reviewProgress/ReviewProgressPage';
 import SubmitArticle from "../submitArticle/SubmitArticle";
 import CompletedReviewsPage from "../completedReviews/CompletedReviewsPage";
+import ArticlesPage from "../myArticlesPage/MyArticlePage";
 import styles from '../../styles/RouterConfig.module.css';
 import profileImg from '../../styles/img/32.jpg';
 
@@ -53,7 +54,7 @@ const MainProfile = () => {
       <main className={styles.contentArea}>
         <Routes>
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/myArticles" element={null} />
+          <Route path="/myArticles" element={<ArticlesPage/>} />
           <Route path="/submitArticle" element={<SubmitArticle/>} />
           <Route path="/inProgressReviews" element={<ReviewProgressPage/>} />
           <Route path="/completedReviews" element={<CompletedReviewsPage/>} />
