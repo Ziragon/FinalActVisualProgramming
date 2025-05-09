@@ -1,0 +1,176 @@
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .mainTitle {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .sectionTitle {
+    font-size: 22px;
+    color: #444;
+    margin: 0;
+  }
+  
+  .searchBox {
+    width: 300px;
+  }
+  
+  .searchInput {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .filterContainer {
+    margin-bottom: 20px;
+  }
+  
+  .tagSelect {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .articlesList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .articleCard {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .articleContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+  }
+  
+  .articleTitle {
+    font-size: 18px;
+    margin: 0 0 5px 0;
+    color: #222;
+  }
+  
+  .articleAuthor {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 10px 0;
+  }
+  
+  .articleMeta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .articleMeta li {
+    display: flex;
+    align-items: center;
+  }
+  
+  .articleActions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    min-width: 150px;
+  }
+  
+  .articleStatus {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: right;
+  }
+  
+  .PendingReview {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  .InProgress {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+  
+  .Reviewed {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .detailsButton {
+    padding: 6px 12px;
+    background-color: #000000;
+    border: 1px solid #000000;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  .detailsButton:hover {
+    border-color: #333333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 30px;
+  }
+  
+  .paginationButton {
+    padding: 6px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 40px;
+  }
+  
+
+  .activePage {
+    background-color: #000000;
+    color: white;
+    border-color: #000000;
+  }
+
+.iconsformat{
+    max-width: 20px;
+    max-height: 20px;
+    opacity: 0.5;    
+}
