@@ -1,5 +1,6 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
+import ArticlesPage from '../myArticlesPage/myArticlePage.jsx'
 import ReviewProgressPage from '../review_progress/ReviewProgressPage';
 import styles from '../../styles/RouterConfig.module.css';
 import profileImg from '../../styles/img/32.jpg';
@@ -51,7 +52,7 @@ const MainProfile = () => {
       <main className={styles.contentArea}>
         <Routes>
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/myArticles" element={null} />
+          <Route path="/myArticles" element={<ArticlesPage/>} />
           <Route path="/submitArticle" element={null} />
           <Route path="/inProgressReviews" element={<ReviewProgressPage/>} />
           <Route path="/completedReviews" element={null} />
