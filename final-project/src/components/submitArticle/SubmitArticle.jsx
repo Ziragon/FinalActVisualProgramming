@@ -1,5 +1,5 @@
 import styles from '../../styles/SubmitArticle.module.css';
-import cl from "../../styles/ReviewProgressPage.module.css";
+import cl from "../../styles/ReviewDefaultClasses.module.css";
 import loadIcon from "../../styles/img/drop-file.svg";
 import { useState, useRef } from 'react';
 const SubmitArticle = () => {

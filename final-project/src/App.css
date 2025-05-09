@@ -1,0 +1,49 @@
+.white_button, .black_button, .black_button_cover {
+    background-color: rgb(245, 245, 245);
+    border: 2px solid rgb(220, 220, 220);
+    border-radius: 10px;
+    height: 40px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out 0.8s both;
+}
+
+.black_button, .black_button_cover {
+    background-color: rgb(30,40,50);
+    border: 0px;
+    color: white;
+    padding-inline: 10px;
+}
+
+.black_button_cover {
+    width: 100%;
+}
+
+.white_button:hover {
+    background-color: rgb(235, 235, 235);
+    border-color: rgb(220, 220, 220);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.white_button:active {
+    background-color: rgb(225, 225, 225);
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.black_button:hover, .black_button_cover:hover {
+    background-color: rgb(20, 30, 40);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.black_button:active, .black_button_cover:active {
+    background-color: rgb(10, 20, 30);
+    transform: translateY(0);
+    box-shadow: none;
+}
