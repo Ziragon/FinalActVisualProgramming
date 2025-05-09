@@ -143,6 +143,7 @@
 
 .contentArea {
   flex: 1;
+  min-height: 800px;
   padding: 40px 100px;
   background-color: #f1f1f1;
 }
@@ -155,6 +156,15 @@
   opacity: 0;
   animation: fadeIn 0.5s forwards;
   animation-delay: 0.6s;
+}
+
+.footercontainer{
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #dee2e6;
+  min-height: 60px;
+  background-color: #f1f1f1;
+  color:#666;
 }
 
 @keyframes fadeIn {

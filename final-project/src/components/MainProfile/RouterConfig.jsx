@@ -60,6 +60,10 @@ const MainProfile = () => {
           <Route path="/completedReviews" element={<CompletedReviewsPage/>} />
         </Routes>
       </main>
+
+      <footer className={styles.footercontainer}>
+        <p>© 2025 Review System. All rights reserved.</p>
+      </footer>
     </>
   );
 };
