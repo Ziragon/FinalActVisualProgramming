@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import ReviewRequestsBlock from './ReviewRequestsBlock';
 import InProgressBlock from './InProgressBlock';
 import defcl from "../../styles/ReviewDefaultClasses.module.css";
-import clreqcom from "../../styles/ReviewProgressPage.module.css"
 
 const ReviewProgressPage = () =>
 {
