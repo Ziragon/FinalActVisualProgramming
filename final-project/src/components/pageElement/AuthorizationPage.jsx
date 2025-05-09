@@ -7,7 +7,11 @@ const AuthorizationPage = () => {
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .required('Обязательное поле')
-            .min(3, 'Логин должен содержать минимум 3 символа'),
+            .min(3, 'Логин должен содержать минимум 3 символа')
+            .matches(
+                /^[a-zA-Zа-яА-ЯёЁ0-9]+$/,
+                'Логин может содержать только буквы и цифры'
+            ),
         password: Yup.string()
             .required('Обязательное поле')
             .min(6, 'Пароль должен содержать минимум 6 символов'),
