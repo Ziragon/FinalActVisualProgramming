@@ -1,4 +1,4 @@
-.white_button, .black_button {
+.white_button, .black_button, .black_button_cover {
     background-color: rgb(245, 245, 245);
     border: 2px solid rgb(220, 220, 220);
     border-radius: 10px;
@@ -12,11 +12,15 @@
     animation: fadeIn 0.5s ease-out 0.8s both;
 }
 
-.black_button {
+.black_button, .black_button_cover {
     background-color: rgb(30,40,50);
     border: 0px;
     color: white;
     padding-inline: 10px;
+}
+
+.black_button_cover {
+    width: 100%;
 }
 
 .white_button:hover {
@@ -32,19 +36,13 @@
     box-shadow: none;
 }
 
-.black_button {
-    background-color: rgb(30, 40, 50);
-    color: white;
-    padding-inline: 10px;
-}
-
-.black_button:hover {
+.black_button:hover, .black_button_cover:hover {
     background-color: rgb(20, 30, 40);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.black_button:active {
+.black_button:active, .black_button_cover:active {
     background-color: rgb(10, 20, 30);
     transform: translateY(0);
     box-shadow: none;

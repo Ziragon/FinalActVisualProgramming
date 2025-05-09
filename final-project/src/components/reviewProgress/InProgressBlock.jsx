@@ -19,7 +19,7 @@ const InProgressBlock = ({item}) => {
                         style={{ width: `${item.progress}%` }}
                     ></div>
                 </div>
-                <div className={defcl.flex_block}>
+                <div className={defcl.flex_block_inprog}>
                     <p className={defcl.p_progress}>Progress: {item.progress}%</p>
                     <p className={defcl.p_date_remaining}>{item.remaining} remaining</p>
                     <div className={defcl.buttons}>
