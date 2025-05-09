@@ -3,6 +3,9 @@ import cl from "../../styles/ReviewProgressPage.module.css";
 
 const InProgressBlock = ({item}) =>
 {
+    const doFunction = () => {
+
+    }
     return (
         <div> 
             <div className={cl.req_block}>
@@ -21,7 +24,10 @@ const InProgressBlock = ({item}) =>
                     <p className={cl.p_progress}>Progress: {item.progress}%</p>
                     <p className={cl.p_date_remaining}>{item.remaining} remaining</p>
                     <div className={cl.buttons}>
-                        <input id="clickMe" type="button" value="Continue Review" onclick="doFunction();" className={cl.black_button}/>
+                        <button 
+                            onClick={doFunction()}
+                            className='black_button'
+                        >Continue Review</button>
                     </div>
                 </div>
             </div>

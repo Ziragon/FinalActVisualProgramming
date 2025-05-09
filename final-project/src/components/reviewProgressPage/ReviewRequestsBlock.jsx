@@ -4,6 +4,9 @@ import timeIcon from "../../styles/img/time-svgrepo-com.svg";
 
 const ReviewRequestsBlock = ({item}) => //отображение запросов по статьям
 {
+    const doFunction = () => {
+
+    }
     return (
         <div> 
             <div className={cl.req_block}>
@@ -18,8 +21,14 @@ const ReviewRequestsBlock = ({item}) => //отображение запросо�
                     <p className={cl.p_exp_time}>Expected time: {item.expectedTime}</p>
                 </div>
                 <div className={cl.buttons}>
-                    <input id="clickMe" type="button" value="Decline" onclick="doFunction();" className={cl.white_button}/>
-                    <input id="clickMe" type="button" value="Accept Review" onclick="doFunction();" className={cl.black_button}/>
+                    <button 
+                        onClick={doFunction()}
+                        className='white_button'
+                    >Decline</button>
+                    <button 
+                        onClick={doFunction()}
+                        className='black_button'
+                    >Accept Review</button>
                 </div>
             </div>
         </div>
