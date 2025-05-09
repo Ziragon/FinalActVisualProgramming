@@ -1,6 +1,6 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
-import ReviewProgressPage from '../review_progress/ReviewProgressPage';
+import ReviewProgressPage from '../reviewProgressPage/ReviewProgressPage';
 import styles from '../../styles/RouterConfig.module.css';
 import profileImg from '../../styles/img/32.jpg';
 
