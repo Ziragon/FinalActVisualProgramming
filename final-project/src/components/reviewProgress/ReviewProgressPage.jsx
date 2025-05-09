@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import ReviewRequestsBlock from './ReviewRequestsBlock';
 import InProgressBlock from './InProgressBlock';
-import cl from "../../styles/ReviewProgressPage.module.css";
+import defcl from "../../styles/ReviewDefaultClasses.module.css";
+import clreqcom from "../../styles/ReviewProgressPage.module.css"
 
 const ReviewProgressPage = () =>
 {
@@ -44,20 +45,20 @@ const ReviewProgressPage = () =>
     }]);
 
     return (
-        <div className={cl.main_container}>
-            <div className={cl.container}>
-                <p className={cl.p_header}>New Review Requests</p>
+        <div className={defcl.main_container}>
+            <div className={defcl.container}>
+                <p className={defcl.p_header}>New Review Requests</p>
                 {reviewData.map((item) =>
                     <ReviewRequestsBlock
-                        className={cl.req_block}
+                        className={defcl.req_block}
                         item={item}
                     />)}
             </div>
-            <div className={cl.container}>
-                <p className={cl.p_header}>In Progress Reviews</p>
+            <div className={defcl.container}>
+                <p className={defcl.p_header}>In Progress Reviews</p>
                 {inProgressReview.map((item) =>
                     <InProgressBlock
-                        className={cl.req_block}
+                        className={defcl.req_block}
                         item={item}
                     />)}
             </div>

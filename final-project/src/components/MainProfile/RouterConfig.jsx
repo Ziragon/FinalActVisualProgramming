@@ -1,6 +1,7 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
-import ReviewProgressPage from '../reviewProgressPage/ReviewProgressPage';
+import ReviewProgressPage from '../reviewProgress/ReviewProgressPage';
+import CompletedReviewsPage from '../completedReviews/CompletedReviewsPage';
 import styles from '../../styles/RouterConfig.module.css';
 import profileImg from '../../styles/img/32.jpg';
 
@@ -54,7 +55,7 @@ const MainProfile = () => {
           <Route path="/myArticles" element={null} />
           <Route path="/submitArticle" element={null} />
           <Route path="/inProgressReviews" element={<ReviewProgressPage/>} />
-          <Route path="/completedReviews" element={null} />
+          <Route path="/completedReviews" element={<CompletedReviewsPage/>} />
         </Routes>
       </main>
     </>

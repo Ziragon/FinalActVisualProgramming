@@ -1,0 +1,174 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.main_container {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+    animation: fadeInScale 0.5s ease-out both;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+
+.right_float_block {
+    float: right;
+    background-color: rgb(230, 230, 230);
+    border-radius: 50px;
+    padding: 0px;
+    animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
+.req_block {
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    padding: 24px;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out var(--delay, 0.3s) both;
+}
+
+/* Задержки для последовательного появления блоков */
+.req_block:nth-child(1) { --delay: 0.3s; }
+.req_block:nth-child(2) { --delay: 0.4s; }
+.req_block:nth-child(3) { --delay: 0.5s; }
+.req_block:nth-child(4) { --delay: 0.6s; }
+
+.flex_block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.time_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-inline: 8px;
+    animation: fadeIn 0.5s ease-out 0.5s both;
+}
+
+.buttons {
+    float: right;
+    display: flex;
+    gap: 10px;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: flex-end;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+.p, .p_header, .p_name, .p_author, .p_abstract, .p_exp_time, .p_date, .p_date_remaining, .p_progress {
+    margin: 6px;
+    font-size: 18px;
+}
+
+.p_header {
+    font-weight: 600;
+    font-size: 26px;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+}
+
+.p_name {
+    font-size: 24px;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-out 0.45s both;
+}
+
+.p_author {
+    color: rgb(120, 120, 120);
+    font-weight: 500;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-out 0.5s both;
+}
+
+.p_abstract {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-out 0.55s both;
+}
+
+.p_progress {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: auto;
+    animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+.p_exp_time {
+    font-weight: 500;
+}
+
+.p_date {
+    font-weight: 500;
+    font-size: 14px;
+    margin-inline: 10px;
+    animation: fadeIn 0.5s ease-out 0.7s both;
+}
+
+.p_date_remaining {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    float: right;
+    clear: right;
+    animation: slideInRight 0.5s ease-out 0.75s both;
+}
+
+.progress_bar_container {
+    height: 8px;
+    background-color: rgb(230,230,230);
+    margin-left: 6px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    animation: fadeIn 0.5s ease-out 0.85s both;
+}
+
+.progress_bar_fill {
+    height: 100%;
+    background-color: rgb(30,40,50);
+    border-radius: 12px;
+    transition: width 0.3s ease;
+}
