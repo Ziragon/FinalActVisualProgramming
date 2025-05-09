@@ -1,5 +1,4 @@
 import styles from '../../styles/SubmitArticle.module.css';
-import cl from "../../styles/ReviewDefaultClasses.module.css";
 import loadIcon from "../../styles/img/drop-file.svg";
 import { useState, useRef } from 'react';
 const SubmitArticle = () => {
@@ -103,7 +102,7 @@ const SubmitArticle = () => {
                                         <span>Drag and drop your image here or</span>
                                         <button
                                             type="button"
-                                            className={cl.black_button}
+                                            className="black_button"
                                             onClick={handleButtonClick}>
                                             Browse Files
                                         </button>
@@ -149,8 +148,8 @@ const SubmitArticle = () => {
                     </div>
 
                     <div className={styles.formActions}>
-                        <button type="submit" className={cl.black_button}>Submit for Review</button>
-                        <button type="button" className={cl.white_button}>Save Draft</button>
+                        <button type="submit" className="black_button">Submit for Review</button>
+                        <button type="button" className="white_button">Save Draft</button>
                     </div>
                 </form>
             </div>
