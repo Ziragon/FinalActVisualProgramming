@@ -212,7 +212,6 @@ return (
             </div>
         ))}
     </div>
-
     {filteredArticles.length > articlesPerPage && (
     <div className={styles.pagination}>
         {currentPage > 1 && (
@@ -235,7 +234,7 @@ return (
             onClick={() => setCurrentPage(totalPages)}>
             Last »
         </button>)}
-    </div>)}
+    </div>)}   
 </div>
 );
 };

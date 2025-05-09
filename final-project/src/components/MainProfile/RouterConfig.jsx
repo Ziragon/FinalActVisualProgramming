@@ -17,10 +17,10 @@ const MainProfile = () => {
         <div className={styles.headerRight}>
           <span className={styles.profileName}>John Smith</span>
           <img
-          src={profileImg} 
-          alt="?"
-          className={styles.profileImage}
-        /> 
+            src={profileImg} 
+            alt="?"
+            className={styles.profileImage}
+          />
         </div>
       </header>
 

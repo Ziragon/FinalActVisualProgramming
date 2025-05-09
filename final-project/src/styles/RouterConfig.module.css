@@ -15,10 +15,15 @@
 }
 
 
+.headerRight {
+  display: flex;
+  align-items: center; 
+  gap: 12px; 
+}
+
 .headerRight .profileName {
   font-weight: bold;
   color: #555;
-  padding-right: 12px;
   opacity: 0;
   animation: fadeIn 0.5s forwards;
   animation-delay: 0.4s;
@@ -149,6 +154,7 @@
 }
 
 .profileImage {
+  display: flex;
   width: 40px;
   height: 40px;
   border-radius: 50%;
