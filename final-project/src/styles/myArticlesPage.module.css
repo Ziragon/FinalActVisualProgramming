@@ -167,22 +167,6 @@
   color: #155724;
 }
 
-.detailsButton {
-  padding: 6px 12px;
-  background-color: #000000;
-  border: 1px solid #000000;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.detailsButton:hover {
-  border-color: #333333;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
 
 .pagination {
   display: flex;
@@ -223,9 +207,9 @@
   animation: fadeIn 0.5s ease-out 1.2s both;
 }
 .activePage {
-  background-color: #000000;
+  background-color: rgb(30,40,50);
   color: white;
-  border-color: #000000;
+  background-color: rgb(30,40,50);
 }
 
 .iconsformat{

@@ -239,7 +239,7 @@ return (
             {article.status}
           </span>
           <button
-            className={styles.detailsButton}
+            className="black_button"
             onClick={() => setSelectedArticleId(article.id)}>View Details</button>
         </div>
       </div>
