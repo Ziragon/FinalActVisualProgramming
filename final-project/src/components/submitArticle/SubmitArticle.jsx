@@ -89,9 +89,12 @@ const SubmitArticle = () => {
                             required
                         />
                     </div>
+                    <div className={styles.formGroupCenter}>
+                        <label htmlFor="content" className={styles.formLabel}>OR</label>
 
+                    </div>
                     <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Featured Image</label>
+                        <label className={styles.formLabel}>Upload a file</label>
                         <div className={styles.fileUpload}>
                             <label htmlFor="featuredImage" className={styles.uploadLabel}>
                                 {featuredImage ? (
@@ -99,7 +102,7 @@ const SubmitArticle = () => {
                                 ) : (
                                     <>
                                         <img src={loadIcon} alt="Loading" className={styles.icon}/>
-                                        <span>Drag and drop your image here or</span>
+                                        <span>Upload a Docx or Pdf file</span>
                                         <button
                                             type="button"
                                             className="black_button"

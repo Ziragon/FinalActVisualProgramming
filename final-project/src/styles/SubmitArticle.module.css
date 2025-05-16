@@ -81,6 +81,15 @@
     gap: 0.5rem;
     animation: fadeIn 0.5s ease-out var(--delay, 0.5s) both;
 }
+.formGroupCenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 0.5rem;
+    animation: fadeIn 0.5s ease-out var(--delay, 0.5s) both;
+}
 
 /* Последовательное появление полей формы */
 .formGroup:nth-child(1) { --delay: 0.5s; }
