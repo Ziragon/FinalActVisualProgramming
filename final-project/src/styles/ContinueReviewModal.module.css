@@ -1,0 +1,191 @@
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 32px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.section {
+  margin-bottom: 24px;
+  border: 2px solid #dee2e6;
+  padding: 16px 20px 20px 24px;
+  border-radius: 8px;
+}
+
+.ratingSection {
+  margin: 16px 0;
+}
+
+.ratingStars {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.starLabel {
+  cursor: pointer;
+}
+
+.starInput {
+  display: none;
+}
+
+.starContainer {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+
+.starIcon {
+  width: 100%;
+  height: 100%;
+  filter: grayscale(100%) opacity(0.4);
+  transition: filter 0.2s;
+}
+
+.starIcon.filled {
+  filter: grayscale(0%) opacity(1);
+}
+
+.starContainer:hover .starIcon {
+  filter: grayscale(0%) opacity(1);
+}
+
+
+.recommendationSelect {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.uploadArea {
+  border: 2px dashed #ccc;
+  padding: 16px;
+  text-align: center;
+  margin: 16px 0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.uploadArea:hover, .uploadArea.dragActive {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.uploadArea p {
+  margin: 0;
+  color: #666;
+}
+
+.fileInput {
+  display: none;
+}
+
+.dragActive {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.attachmentsList {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 16px;
+}
+
+.attachmentsList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.removeAttachment {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.charCount {
+  font-size: 12px;
+  color: #6c757d;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.textarea:invalid {
+  border-color: #dc3545;
+}

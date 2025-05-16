@@ -4,9 +4,12 @@ import timeIcon from "../../styles/img/time-svgrepo-com.svg";
 
 const ReviewRequestsBlock = ({item}) => //отображение запросов по статьям
 {
-    const doFunction = () => {
+    // const AcceptFunction = () => {
 
-    }
+    // }
+    // const DeclineFunction = () => {
+
+    // }
     return (
         <div> 
             <div className={defcl.req_block}>
@@ -22,11 +25,11 @@ const ReviewRequestsBlock = ({item}) => //отображение запросо�
                 </div>
                 <div className={defcl.buttons}>
                     <button 
-                        onClick={doFunction()}
+                        // onClick={AcceptFunction()}
                         className='white_button'
                     >Decline</button>
                     <button 
-                        onClick={doFunction()}
+                        // onClick={DeclineFunction()}
                         className='black_button'
                     >Accept Review</button>
                 </div>
