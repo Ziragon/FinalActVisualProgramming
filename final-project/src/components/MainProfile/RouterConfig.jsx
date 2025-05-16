@@ -4,6 +4,7 @@ import ReviewProgressPage from '../reviewProgress/ReviewProgressPage';
 import SubmitArticle from "../submitArticle/SubmitArticle";
 import CompletedReviewsPage from "../completedReviews/CompletedReviewsPage";
 import ArticlesPage from "../myArticlesPage/MyArticlePage";
+import AdminPage from "../adminPanel/AdminPage";
 import styles from '../../styles/RouterConfig.module.css';
 import profileImg from '../../styles/img/32.jpg';
 
@@ -48,6 +49,9 @@ const MainProfile = () => {
           <NavLink to="/completedReviews" className={({ isActive }) => 
             isActive ? styles.activeNavLink : undefined
           }>Completed Reviews</NavLink>
+            <NavLink to="/adminPanel" className={({ isActive }) =>
+                isActive ? styles.activeNavLink : undefined
+            }>Admin Panel</NavLink>
         </div>
       </nav>
    
@@ -58,6 +62,7 @@ const MainProfile = () => {
           <Route path="/submitArticle" element={<SubmitArticle/>} />
           <Route path="/inProgressReviews" element={<ReviewProgressPage/>} />
           <Route path="/completedReviews" element={<CompletedReviewsPage/>} />
+            <Route path="/adminPanel" element={<AdminPage/>} />
         </Routes>
       </main>
 
