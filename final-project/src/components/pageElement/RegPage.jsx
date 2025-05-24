@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Добавляем axios для HTTP-запросов
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const RegPage = () => {
@@ -30,18 +31,36 @@ const RegPage = () => {
             .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
     });
 
-    const handleSubmit = (values, { setSubmitting }) => {
-        console.log('Регистрация:', values);
-        // Здесь будет API для регистрации
-        setTimeout(() => {
+    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+        try {
+            const response = await axios.post('https://localhost:7135/api/users/register', {
+                login: values.username,
+                password: values.password,
+                roleId: 2
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200 || response.status === 201) {
+                navigate('/');
+            }
+        } catch (error) {
+            console.error('Ошибка регистрации:', error);
+            if (error.response && error.response.data) {
+                setErrors({ username: error.response.data.message || 'Ошибка регистрации' });
+            } else {
+                setErrors({ username: 'Произошла ошибка при регистрации' });
+            }
+        } finally {
             setSubmitting(false);
-            navigate('/'); // Перенаправляем на авторизацию после регистрации
-        }, 1000);
+        }
     };
 
     const handleLoginClick = (e) => {
         e.preventDefault();
-        navigate('/'); // Переход на страницу авторизации
+        navigate('/');
     };
 
     return (

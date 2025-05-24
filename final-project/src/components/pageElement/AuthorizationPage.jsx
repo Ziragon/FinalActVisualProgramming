@@ -1,11 +1,12 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Импортируем axios для HTTP-запросов
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const AuthorizationPage = () => {
-    const navigate = useNavigate(); // Хук для навигации
+    const navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
         username: Yup.string()
@@ -20,11 +21,27 @@ const AuthorizationPage = () => {
             .min(6, 'Пароль должен содержать минимум 6 символов'),
     });
 
-    const handleSubmit = (values, { setSubmitting }) => {
-        console.log('Отправка данных:', values);
-        setTimeout(() => {
+    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+        try {
+            const response = await axios.post('https://localhost:7135/api/users/login', {
+                login: values.username,
+                password: values.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.data && response.data.token) {
+                localStorage.setItem('authToken', response.data.token);
+                navigate('/profile');
+            }
+        } catch (error) {
+            console.error('Ошибка авторизации:', error);
+            setErrors({ password: 'Неверный логин или пароль' });
+        } finally {
             setSubmitting(false);
-        }, 1000);
+        }
     };
 
     const handleRegisterClick = (e) => {

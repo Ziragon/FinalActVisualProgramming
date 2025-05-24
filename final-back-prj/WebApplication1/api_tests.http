@@ -1,4 +1,4 @@
-@host = http://localhost:5000
+@host = https://localhost:7135
 @token = 
 @admin_token = 
 
@@ -18,8 +18,8 @@ POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "im-cool",
-  "password": "UserPass123!",
+  "login": "Evher1",
+  "password": "User11",
   "roleId": 2
 }
 
