@@ -1,32 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Models
 {
-    public class Roles
+    [Table("roles")]
+    public class Role
     {
-        private int _roleId;
-        private string _roleName;
-
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("role_id")]
-        public int RoleId
-        {
-            get => _roleId;
-            set => _roleId = value;
-        }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int RoleId { get; set; }
 
         [Required]
-        [StringLength(255)]
         [Column("role_name")]
-        public string RoleName
-        {
-            get => _roleName;
-            set => _roleName = value ?? throw new ArgumentNullException(nameof(value));
-        }
-
-        // Навигационное свойство для связи с пользователями
-        public virtual ICollection<Users> Users { get; set; }
+        [StringLength(50)]
+        public string RoleName { get; set; }
+        
+        public virtual ICollection<User> Users { get; set; }
     }
 }

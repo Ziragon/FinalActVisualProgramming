@@ -1,78 +1,48 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApplication1.Models
 {
+    [Table("profile")]
     public class Profile
     {
-        private int _userId;
-        private string _fullName;
-        private int? _articleId;
-        private int? _reviewId;
-        private string _email;
-        private string _institution;
-        private string _fieldOfExpertise;
-
         [Key]
         [ForeignKey("User")]
         [Column("user_id")]
-        public int UserId
-        {
-            get => _userId;
-            set => _userId = value;
-        }
+        public int UserId { get; set; }
 
+        [Column("profile_pic_id")]
         [StringLength(255)]
+        public int? ProfilePicId { get; set; }
+
+        [Required]
         [Column("full_name")]
-        public string FullName
-        {
-            get => _fullName;
-            set => _fullName = value;
-        }
+        [StringLength(100)]
+        public string FullName { get; set; }
 
-        [Column("article_id")]
-        public int? ArticleId
-        {
-            get => _articleId;
-            set => _articleId = value;
-        }
-
-        [Column("review_id")]
-        public int? ReviewId
-        {
-            get => _reviewId;
-            set => _reviewId = value;
-        }
-
-        [StringLength(255)]
+        [Required]
         [Column("email")]
-        public string Email
-        {
-            get => _email;
-            set => _email = value;
-        }
+        [StringLength(100)]
+        [EmailAddress]
+        public string Email { get; set; }
 
-        [StringLength(255)]
         [Column("institution")]
-        public string Institution
-        {
-            get => _institution;
-            set => _institution = value;
-        }
+        [StringLength(100)]
+        public string? Institution { get; set; }
 
-        [StringLength(255)]
         [Column("field_of_expertise")]
-        public string FieldOfExpertise
-        {
-            get => _fieldOfExpertise;
-            set => _fieldOfExpertise = value;
-        }
+        [StringLength(100)]
+        public string? FieldOfExpertise { get; set; }
 
-        // Навигационное свойство (1:1 с Users)
-        public virtual Users User { get; set; }
+        // Навигационное свойство для связи 1:1 с User
+        [ForeignKey("ProfilePicId")]
+        public virtual File ProfilePicture { get; set; }
 
-        // Навигационные свойства для связей
-        public virtual Articles Article { get; set; }
-        public virtual Reviews Review { get; set; }
+        // Остальные навигационные свойства
+        [JsonIgnore]
+        public virtual User User { get; set; }
+        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

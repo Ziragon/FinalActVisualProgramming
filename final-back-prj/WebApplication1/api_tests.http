@@ -1,0 +1,88 @@
+### 1. Роли ###
+### Создать роль
+POST https://localhost:7135/api/roles
+Content-Type: application/json
+
+"User"
+
+### Получить все роли
+GET https://localhost:7135/api/roles
+
+### 2. Пользователи ###
+### Регистрация
+POST https://localhost:7135/api/users/register
+Content-Type: application/json
+
+{
+  "login": "Eugene",
+  "password": "P@ssw0rd123",
+  "roleid": 2
+}
+
+### Авторизация
+POST https://localhost:7135/api/users/login
+Content-Type: application/json
+
+{
+  "login": "Artem",
+  "password": "P@ssw0rd123"
+}
+
+### 3. Профили ###
+### Обновить профиль
+PUT https://localhost:7135/api/profiles/2
+Content-Type: application/json
+
+{
+  "fullName": "Артем 1488",
+  "email": "Krakovcev@example.com"
+}
+
+### 4. Статьи ###
+### Создать статью
+POST https://localhost:7135/api/articles
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "title": "Новая статья",
+  "body": "Текст статьи..."
+}
+
+###Отправить на рецензирование
+POST https://localhost:7135/api/articles/1/submit
+
+### 5. Рецензии ###
+### Создать рецензию
+POST https://localhost:7135/api/reviews
+Content-Type: application/json
+
+{
+  "articleId": 1,
+  "reviewerId": 2,
+  "comments": "Отличная статья!"
+}
+
+### Завершить рецензию
+POST https://localhost:7135/api/reviews/1/complete
+Content-Type: application/json
+
+5
+
+### 6. Файлы ###
+### Загрузить файл
+POST https://localhost:7135/api/files/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="test.txt"
+
+< ./test.txt
+--boundary--
+
+### Прикрепить к статье
+POST {{host}}/api/files/1/attach/article/1
+
+### Переменные
+@host = http://localhost:5000
+@token = <ВСТАВЬТЕ_ТОКЕН_ПОСЛЕ_АВТОРИЗАЦИИ>

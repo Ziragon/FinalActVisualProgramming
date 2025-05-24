@@ -1,94 +1,60 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Models
 {
-    public class Articles
+    [Table("articles")]
+    public class Article
     {
-        private int _id;
-        private string _name;
-        private string _article;
-        private int _userId;
-        private string _category;
-        private byte[] _body;
-        private string[] _tags;
-        private DateTime _requestDate;
-        private string _status;
-
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
-        public int Id
-        {
-            get => _id;
-            set => _id = value;
-        }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         [Required]
-        [StringLength(255)]
         [Column("name")]
-        public string Name
-        {
-            get => _name;
-            set => _name = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        [StringLength(200)]
+        public string Name { get; set; }
 
         [Column("article")]
-        public string Article
-        {
-            get => _article;
-            set => _article = value;
-        }
+        [StringLength(50)]
+        public string? ArticleCode { get; set; } // Если это код статьи
 
         [Required]
         [Column("user_id")]
-        public int UserId
-        {
-            get => _userId;
-            set => _userId = value;
-        }
+        public int UserId { get; set; }
 
-        [StringLength(100)]
         [Column("category")]
-        public string Category
-        {
-            get => _category;
-            set => _category = value;
-        }
+        [StringLength(100)]
+        public string? Category { get; set; }
 
-        [Column("body", TypeName = "bytea")]
-        public byte[] Body
-        {
-            get => _body;
-            set => _body = value;
-        }
+        [Column("body", TypeName = "text")]
+        public string? Body { get; set; }
 
-        [Column("tags", TypeName = "varchar[]")]
-        public string[] Tags
-        {
-            get => _tags;
-            set => _tags = value;
-        }
+        [Column("body_id")]
+        [StringLength(255)]
+        public int? BodyFileId { get; set; } // Идентификатор файла (docx/pdf)
 
-        [Column("request_date")]
-        public DateTime RequestDate
-        {
-            get => _requestDate;
-            set => _requestDate = value;
-        }
+        [Column("tags")]
+        [StringLength(200)]
+        public string? Tags { get; set; }
 
+        [Required]
         [Column("status")]
-        public string Status
-        {
-            get => _status;
-            set => _status = value;
-        }
+        [StringLength(50)]
+        public string Status { get; set; } = "editing";
 
-        // Навигационное свойство к пользователю (M:1)
+        [Required]
+        [Column("request_date", TypeName = "timestamp")]
+        public DateTime RequestDate { get; set; } = DateTime.UtcNow;
+        
+        [ForeignKey("BodyFileId")]
+        public virtual File ArticleFile { get; set; }
+
+        // Остальные навигационные свойства
         [ForeignKey("UserId")]
-        public virtual Users User { get; set; }
-
-        // Навигационное свойство к рецензии (1:1)
-        public virtual Reviews Review { get; set; }
+        public virtual Profile Profile { get; set; }
+        public virtual Review Review { get; set; }
     }
 }
