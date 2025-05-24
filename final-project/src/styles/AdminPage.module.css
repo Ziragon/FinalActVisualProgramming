@@ -1,0 +1,213 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.SubmitPage {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: Arial, sans-serif;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.sectionDescription {
+    color: #666;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+}
+
+.personalInfoSection {
+    padding: 12px 16px;
+    width: 100%;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    animation: fadeInScale 0.5s ease-out 0.2s both;
+    background-color:#f1f1f1;
+}
+
+.sectionTitle {
+    color: #333;
+    padding: 5px 0;
+    font-size: 32px;
+    animation: fadeIn 0.5s ease-out 0.3s both;
+    margin-bottom: 20px;
+}
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tabButton {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #495057;
+    transition: all 0.3s ease;
+}
+
+.tabButton:hover {
+    color: #212529;
+}
+
+.tabButton.active {
+    color: #212529;
+    border-bottom: 2px solid #212529;
+    font-weight: 500;
+}
+
+.userManagement {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.searchBar {
+    margin-bottom: 20px;
+}
+
+.searchInput {
+    width: 99.5%;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.addButton {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.addButton:hover {
+    background-color: #e9ecef;
+}
+
+.usersTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.usersTable th, .usersTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.usersTable th {
+    font-weight: 500;
+    color: #495057;
+}
+
+.actionButton {
+    background: none;
+    border: 1px solid #dee2e6;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.actionButton:hover {
+    background-color: #f8f9fa;
+}
+
+.addUserForm {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    animation: fadeInScale 0.3s ease-out;
+}
+
+.addUserForm h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #212529;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.formInput {
+    width: 99.2%;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.formActions button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.formActions button:first-child {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.formActions button:last-child {
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+}
+
+.formActions button:hover {
+    background-color: #dee2e6;
+}
+
+.articlesSection {
+    animation: fadeIn 0.5s ease-out;
+}

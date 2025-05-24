@@ -1,9 +1,12 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const AuthorizationPage = () => {
+    const navigate = useNavigate(); // Хук для навигации
+
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .required('Обязательное поле')
@@ -16,12 +19,17 @@ const AuthorizationPage = () => {
             .required('Обязательное поле')
             .min(6, 'Пароль должен содержать минимум 6 символов'),
     });
-    // ЗДЕСЬ БУДЕТ API ДЛЯ АВТОРИЗАЦИИ В БД!!!!
+
     const handleSubmit = (values, { setSubmitting }) => {
         console.log('Отправка данных:', values);
         setTimeout(() => {
             setSubmitting(false);
         }, 1000);
+    };
+
+    const handleRegisterClick = (e) => {
+        e.preventDefault();
+        navigate('/register');
     };
 
     return (
@@ -72,10 +80,9 @@ const AuthorizationPage = () => {
                             </Form>
                         )}
                     </Formik>
-
                     <div className={styles.auth__links}>
-                        <a href="#" className={styles.auth__link}>Забыли пароль?</a>
-                        <a href="#" className={styles.auth__link}>Регистрация</a>
+                        <a href="https://rutube.ru/shorts/5a6a2d03b2a57eb896be17115e4ba6ed/" className={styles.auth__link}>Забыли пароль?</a>
+                        <a href="#" className={styles.auth__link} onClick={handleRegisterClick}>Регистрация</a>
                     </div>
                 </div>
             </div>

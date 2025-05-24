@@ -9,6 +9,7 @@
     background: #fff;
 }
 
+
 .backgroundAnimation {
     position: absolute;
     top: 0;
@@ -222,4 +223,28 @@
 .auth__link:hover {
     color: #666;
     text-decoration: underline;
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.form__group:nth-child(1) {
+    animation: slideIn 0.5s ease-out 0.7s forwards;
+}
+
+.form__group:nth-child(2) {
+    animation: slideIn 0.5s ease-out 0.9s forwards;
+}
+
+.form__group:nth-child(3) {
+    animation: slideIn 0.5s ease-out 1.1s forwards;
+}
+
+.form__group:nth-child(4) {
+    animation: slideIn 0.5s ease-out 1.3s forwards;
 }
