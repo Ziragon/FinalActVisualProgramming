@@ -7,16 +7,23 @@ namespace WebApplication1.Services
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IArticleRepository _articleRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ReviewService(IReviewRepository reviewRepository, IArticleRepository articleRepository)
+        public ReviewService(IReviewRepository reviewRepository,
+                           IArticleRepository articleRepository,
+                           IUserRepository userRepository)
         {
             _reviewRepository = reviewRepository;
             _articleRepository = articleRepository;
+            _userRepository = userRepository;
         }
 
-        // Создание рецензии
         public async Task<Review> CreateReviewAsync(int articleId, int reviewerId, string comments)
         {
+            var reviewer = await _userRepository.GetByIdAsync(reviewerId);
+            if (reviewer == null) throw new Exception("Рецензент не найден");
+            if (reviewer.RoleId != 2) throw new Exception("Только рецензенты могут создавать рецензии");
+
             var article = await _articleRepository.GetByIdAsync(articleId);
             if (article == null) throw new Exception("Статья не найдена");
 
@@ -34,11 +41,11 @@ namespace WebApplication1.Services
             return review;
         }
 
-        // Завершение рецензии
-        public async Task CompleteReviewAsync(int reviewId, int rating)
+        public async Task CompleteReviewAsync(int reviewId, int rating, int currentUserId)
         {
             var review = await _reviewRepository.GetByIdAsync(reviewId);
             if (review == null) throw new Exception("Рецензия не найдена");
+            if (review.UserId != currentUserId) throw new UnauthorizedAccessException("Вы не автор рецензии");
 
             review.Rating = rating;
             review.IsCompleted = true;

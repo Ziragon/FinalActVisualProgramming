@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
@@ -6,6 +8,7 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "2")] // Только для рецензентов с ролью Reviewer (2)
     public class ReviewsController : ControllerBase
     {
         private readonly ReviewService _reviewService;
@@ -20,6 +23,10 @@ namespace WebApplication1.Controllers
         {
             try
             {
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (currentUserId != request.ReviewerId)
+                    return Forbid();
+
                 var review = await _reviewService.CreateReviewAsync(request.ArticleId, request.ReviewerId, request.Comments);
                 return Ok(review);
             }
@@ -34,7 +41,8 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                await _reviewService.CompleteReviewAsync(id, rating);
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                await _reviewService.CompleteReviewAsync(id, rating, currentUserId);
                 return Ok("Рецензия завершена");
             }
             catch (Exception ex)

@@ -1,7 +1,8 @@
-﻿using WebApplication1.Models;
-using WebApplication1.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using WebApplication1.DbContext;
-using Microsoft.EntityFrameworkCore;
+using WebApplication1.Models;
+using WebApplication1.Repositories;
 
 namespace WebApplication1.Services
 {
@@ -9,22 +10,28 @@ namespace WebApplication1.Services
     {
         private readonly IFileRepository _fileRepository;
         private readonly AppDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public FileService(IFileRepository fileRepository, AppDbContext dbContext)
+        public FileService(IFileRepository fileRepository,
+                         AppDbContext dbContext,
+                         IUserRepository userRepository)
         {
             _fileRepository = fileRepository;
             _dbContext = dbContext;
+            _userRepository = userRepository;
         }
 
-        // Загрузка файла
-        public async Task<Models.File> UploadFileAsync(byte[] content, string fileName, string contentType)
+        public async Task<Models.File> UploadFileAsync(byte[] content, string fileName, string contentType, int userId)
         {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) throw new Exception("Пользователь не найден");
+
             var file = new Models.File
             {
                 Name = fileName,
                 Type = contentType,
                 Content = content,
-                UploadDate = DateTime.UtcNow
+                UploadDate = DateTime.UtcNow,
             };
 
             await _fileRepository.AddAsync(file);
@@ -32,31 +39,31 @@ namespace WebApplication1.Services
             return file;
         }
 
-        // Прикрепление файла к статье (новая версия)
-        public async Task AttachToArticleAsync(int fileId, int articleId)
+        public async Task AttachToArticleAsync(int fileId, int articleId, int currentUserId)
         {
             var article = await _dbContext.Articles
                 .FirstOrDefaultAsync(a => a.Id == articleId);
-            
-            if (article == null) 
+
+            if (article == null)
                 throw new Exception("Статья не найдена");
 
+            if (article.UserId != currentUserId)
+                throw new UnauthorizedAccessException("Вы не автор статьи");
+
             var file = await _fileRepository.GetByIdAsync(fileId);
-            if (file == null) 
+            if (file == null)
                 throw new Exception("Файл не найден");
 
-            // Обновляем связь через body_id в Article
             article.BodyFileId = fileId;
             _dbContext.Articles.Update(article);
             await _dbContext.SaveChangesAsync();
         }
 
-        // Прикрепление аватарки к профилю
-        public async Task AttachToProfileAsync(int fileId, int profileId)
+        public async Task AttachToProfileAsync(int fileId, int userId)
         {
             var profile = await _dbContext.Profiles
-                .FirstOrDefaultAsync(p => p.UserId == profileId);
-            
+                .FirstOrDefaultAsync(p => p.UserId == userId);
+
             if (profile == null)
                 throw new Exception("Профиль не найден");
 
@@ -66,24 +73,6 @@ namespace WebApplication1.Services
 
             profile.ProfilePicId = fileId;
             _dbContext.Profiles.Update(profile);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        // Прикрепление файла к рецензии
-        public async Task AttachToReviewAsync(int fileId, int reviewId)
-        {
-            var review = await _dbContext.Reviews
-                .FirstOrDefaultAsync(r => r.Id == reviewId);
-            
-            if (review == null)
-                throw new Exception("Рецензия не найдена");
-
-            var file = await _fileRepository.GetByIdAsync(fileId);
-            if (file == null)
-                throw new Exception("Файл не найден");
-
-            review.AttachmentsId = fileId;
-            _dbContext.Reviews.Update(review);
             await _dbContext.SaveChangesAsync();
         }
     }

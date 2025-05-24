@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
@@ -6,6 +8,7 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "3")] // Только для пользователей с ролью User (3)
     public class ArticlesController : ControllerBase
     {
         private readonly ArticleService _articleService;
@@ -20,6 +23,10 @@ namespace WebApplication1.Controllers
         {
             try
             {
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (currentUserId != request.AuthorId)
+                    return Forbid();
+
                 var article = await _articleService.CreateAsync(request.AuthorId, request.Title, request.Body);
                 return Ok(article);
             }
@@ -34,7 +41,8 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                await _articleService.SubmitForReviewAsync(id);
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                await _articleService.SubmitForReviewAsync(id, currentUserId);
                 return Ok("Статья отправлена на рецензирование");
             }
             catch (Exception ex)
@@ -43,6 +51,7 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("status/{status}")]
         public async Task<IActionResult> GetByStatus(string status)
         {

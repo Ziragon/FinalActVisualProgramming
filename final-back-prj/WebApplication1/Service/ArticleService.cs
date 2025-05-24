@@ -14,11 +14,11 @@ namespace WebApplication1.Services
             _userRepository = userRepository;
         }
 
-        // Создание статьи
         public async Task<Article> CreateAsync(int authorId, string title, string body)
         {
             var author = await _userRepository.GetByIdAsync(authorId);
             if (author == null) throw new Exception("Автор не найден");
+            if (author.RoleId != 3) throw new Exception("Только пользователи могут создавать статьи");
 
             var article = new Article
             {
@@ -34,17 +34,16 @@ namespace WebApplication1.Services
             return article;
         }
 
-        // Получение статей по статусу
         public async Task<List<Article>> GetByStatusAsync(string status)
         {
             return await _articleRepository.GetByStatusAsync(status);
         }
 
-        // Отправка на рецензирование
-        public async Task SubmitForReviewAsync(int articleId)
+        public async Task SubmitForReviewAsync(int articleId, int currentUserId)
         {
             var article = await _articleRepository.GetByIdAsync(articleId);
             if (article == null) throw new Exception("Статья не найдена");
+            if (article.UserId != currentUserId) throw new UnauthorizedAccessException("Вы не автор статьи");
 
             article.Status = "under_review";
             _articleRepository.Update(article);

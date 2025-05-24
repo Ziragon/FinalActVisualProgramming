@@ -1,3 +1,7 @@
+@host = http://localhost:5000
+@token = 
+@admin_token = 
+
 ### 1. Роли ###
 ### Создать роль
 POST https://localhost:7135/api/roles
@@ -10,22 +14,23 @@ GET https://localhost:7135/api/roles
 
 ### 2. Пользователи ###
 ### Регистрация
-POST https://localhost:7135/api/users/register
+POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "Eugene",
-  "password": "P@ssw0rd123",
-  "roleid": 2
+  "login": "im-cool",
+  "password": "UserPass123!",
+  "roleId": 2
 }
 
 ### Авторизация
-POST https://localhost:7135/api/users/login
+### 3. Авторизация обычного пользователя
+POST {{host}}/api/users/login
 Content-Type: application/json
 
 {
-  "login": "Artem",
-  "password": "P@ssw0rd123"
+  "login": "regular_user",
+  "password": "UserPass123!"
 }
 
 ### 3. Профили ###
@@ -82,7 +87,3 @@ Content-Disposition: form-data; name="file"; filename="test.txt"
 
 ### Прикрепить к статье
 POST {{host}}/api/files/1/attach/article/1
-
-### Переменные
-@host = http://localhost:5000
-@token = <ВСТАВЬТЕ_ТОКЕН_ПОСЛЕ_АВТОРИЗАЦИИ>

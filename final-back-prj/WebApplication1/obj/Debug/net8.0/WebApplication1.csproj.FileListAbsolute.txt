@@ -544,3 +544,4 @@ C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\WebApplication1.pdb
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\WebApplication1.genruntimeconfig.cache
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\ref\WebApplication1.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

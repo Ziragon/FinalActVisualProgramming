@@ -14,9 +14,11 @@ namespace WebApplication1.Services
             _userRepository = userRepository;
         }
 
-        // Создание/обновление профиля
         public async Task UpdateProfileAsync(int userId, string fullName, string email)
         {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) throw new Exception("Пользователь не найден");
+
             var profile = await _profileRepository.GetByUserIdAsync(userId);
             if (profile == null)
             {
@@ -38,7 +40,6 @@ namespace WebApplication1.Services
             await _profileRepository.SaveAsync();
         }
 
-        // Получение профиля
         public async Task<Profile> GetProfileAsync(int userId)
         {
             return await _profileRepository.GetByUserIdAsync(userId);

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
@@ -6,6 +8,7 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ProfilesController : ControllerBase
     {
         private readonly ProfileService _profileService;
@@ -15,25 +18,49 @@ namespace WebApplication1.Controllers
             _profileService = profileService;
         }
 
-        [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateProfile(int userId, [FromBody] ProfileUpdateRequest request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
         {
             try
             {
-                await _profileService.UpdateProfileAsync(userId, request.FullName, request.Email);
-                return Ok("Профиль обновлён");
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                await _profileService.UpdateProfileAsync(currentUserId, request.FullName, request.Email);
+                return Ok(new { Message = "Профиль обновлён" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProfile()
+        {
+            try
+            {
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var profile = await _profileService.GetProfileAsync(currentUserId);
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetProfile(int userId)
+        [Authorize(Roles = "1,2")] // Только для админов и рецензентов
+        public async Task<IActionResult> GetProfileById(int userId)
         {
-            var profile = await _profileService.GetProfileAsync(userId);
-            return profile != null ? Ok(profile) : NotFound();
+            try
+            {
+                var profile = await _profileService.GetProfileAsync(userId);
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
         }
     }
 
