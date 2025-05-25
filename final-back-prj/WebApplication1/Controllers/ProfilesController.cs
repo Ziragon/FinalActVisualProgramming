@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
             try
             {
                 var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                await _profileService.UpdateProfileAsync(currentUserId, request.FullName, request.Email);
+                await _profileService.UpdateProfileAsync(currentUserId, request.FullName, request.Email, request.Institution, request.FieldOfExpertise);
                 return Ok(new { Message = "Профиль обновлён" });
             }
             catch (Exception ex)
@@ -68,5 +68,8 @@ namespace WebApplication1.Controllers
     {
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string Institution { get; set; }
+
+        public string FieldOfExpertise { get; set; }
     }
 }

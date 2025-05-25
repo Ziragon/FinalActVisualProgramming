@@ -1,16 +1,16 @@
-@host = https://localhost:7135
+@host = http://localhost:5000
 @token = 
 @admin_token = 
 
 ### 1. Роли ###
 ### Создать роль
-POST https://localhost:7135/api/roles
+POST http://localhost:5000/api/roles
 Content-Type: application/json
 
 "User"
 
 ### Получить все роли
-GET https://localhost:7135/api/roles
+GET http://localhost:5000/api/roles
 
 ### 2. Пользователи ###
 ### Регистрация

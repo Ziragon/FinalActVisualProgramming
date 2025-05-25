@@ -14,7 +14,7 @@ namespace WebApplication1.Services
             _userRepository = userRepository;
         }
 
-        public async Task UpdateProfileAsync(int userId, string fullName, string email)
+        public async Task UpdateProfileAsync(int userId, string fullName, string email, string Institution, string FieldOfExpertise)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) throw new Exception("Пользователь не найден");
@@ -26,7 +26,9 @@ namespace WebApplication1.Services
                 {
                     UserId = userId,
                     FullName = fullName,
-                    Email = email
+                    Email = email,
+                    Institution = Institution,
+                    FieldOfExpertise = FieldOfExpertise
                 };
                 await _profileRepository.AddAsync(profile);
             }
@@ -34,6 +36,8 @@ namespace WebApplication1.Services
             {
                 profile.FullName = fullName;
                 profile.Email = email;
+                profile.Institution = Institution;
+                profile.FieldOfExpertise= FieldOfExpertise;
                 _profileRepository.Update(profile);
             }
 
