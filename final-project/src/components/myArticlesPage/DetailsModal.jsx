@@ -28,17 +28,6 @@ return (
                 <p>{article.content || "No content available."}</p>
             </div>
 
-            {article.featuredImage && typeof article.featuredImage === 'string' && article.featuredImage.trim() !== '' ? 
-            (<div className={styles.field}>
-                <strong>Featured Image:</strong>
-                <img src={article.featuredImage} alt="Featured" className={styles.featuredImage} />
-            </div>) : 
-            (<div className={styles.field}>
-                <strong>Featured Image:</strong>
-                <span>No images</span>
-            </div>)
-            }
-
             <div className={styles.footerButtons}>
                 <button className="black_button" onClick={onClose}>
                     Close
