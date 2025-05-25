@@ -9,8 +9,6 @@ public class AuthService
 {
     private readonly UserService _userService;
     private readonly IConfiguration _configuration;
-
-    // Константа для единообразного использования имени claim
     public const string UserIdClaimType = "userId";
 
     public AuthService(UserService userService, IConfiguration configuration)

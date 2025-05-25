@@ -18,7 +18,7 @@ POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "Eugene",
+  "login": "Lev",
   "password": "Password",
   "roleId": 3
 }
@@ -56,7 +56,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "authorId": 5,
+  "authorId": 6,
   "name": "Новая статья",
   "title": "",
   "category": "Mathematics",
@@ -64,6 +64,11 @@ Authorization: Bearer {{token}}
   "tags": "1258125897215",
   "status": "draft"
 }
+
+###
+
+GET http://localhost:5000/api/articles/user/5
+Authorization: Bearer {{token}}
 
 ###Отправить на рецензирование
 POST https://localhost:7135/api/articles/1/submit

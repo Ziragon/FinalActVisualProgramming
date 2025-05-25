@@ -54,6 +54,20 @@ namespace WebApplication1.Controllers
             var articles = await _articleService.GetByStatusAsync(status);
             return Ok(articles);
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetArticlesByUser(int userId)
+        {
+            try
+            {
+                var articles = await _articleService.GetArticlesByUserIdAsync(userId);
+                return Ok(articles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 
     public class ArticleCreateRequest

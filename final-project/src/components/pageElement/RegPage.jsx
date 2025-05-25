@@ -2,11 +2,13 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios'; // Добавляем axios для HTTP-запросов
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const RegPage = () => {
     const navigate = useNavigate();
+    const { login, userId } = useAuth();
 
     const validationSchema = Yup.object().shape({
         username: Yup.string()
@@ -39,6 +41,29 @@ const RegPage = () => {
                 roleId: 3
             }, {
                 headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const response1 = await axios.post('http://localhost:5000/api/users/login', {
+                login: values.username,
+                password: values.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.data?.token) {
+                await login(response.data.token);
+            }
+
+            const token = await localStorage.getItem('authToken');
+            await axios.put(`http://localhost:5000/api/profiles/${userId}`, {
+                mail: values.mail,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });

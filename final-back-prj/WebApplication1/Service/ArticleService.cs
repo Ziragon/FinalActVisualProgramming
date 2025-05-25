@@ -52,5 +52,10 @@ namespace WebApplication1.Services
             _articleRepository.Update(article);
             await _articleRepository.SaveAsync();
         }
+
+        public async Task<List<Article>> GetArticlesByUserIdAsync(int userId)
+        {
+            return await _articleRepository.GetByUserIdAsync(userId);
+        }
     }
 }
