@@ -1,7 +1,13 @@
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../hooks/useAuth';
 import styles from '../../styles/SubmitArticle.module.css';
 import loadIcon from "../../styles/img/drop-file.svg";
-import { useState, useRef } from 'react';
+
+const localhost = "http://localhost:5000";
+
 const SubmitArticle = () => {
+    const { isAuthenticated, userId, username, token } = useAuth();
     const [formData, setFormData] = useState({
         title: '',
         category: '',
@@ -9,13 +15,15 @@ const SubmitArticle = () => {
         tags: '',
         isOriginal: false
     });
+    const [featuredImage, setFeaturedImage] = useState(null);
+    const [submissionType, setSubmissionType] = useState('text');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleButtonClick = () => {
-        fileInputRef.current.click(); // Программно кликаем на input
+        fileInputRef.current.click();
     };
-
-    const [featuredImage, setFeaturedImage] = useState(null)
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -28,38 +36,141 @@ const SubmitArticle = () => {
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setFeaturedImage(e.target.files[0]);
+            if (submissionType !== 'file') {
+                setSubmissionType('file');
+                setFormData(prev => ({ ...prev, content: '' }));
+            }
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // ЛОГИКА ОТПРАВКИ ФОРМЫ
-        console.log({ ...formData, featuredImage });
+    const handleSubmissionTypeChange = (type) => {
+        setSubmissionType(type);
+        if (type === 'text') {
+            setFeaturedImage(null);
+        } else {
+            setFormData(prev => ({ ...prev, content: '' }));
+        }
     };
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    // Валидация
+    if (!formData.isOriginal) {
+        setError("Подтвердите, что это ваша оригинальная работа");
+        return;
+    }
+
+    if (!formData.title || !formData.category) {
+        setError("Название и категория обязательны");
+        return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+        // Подготовка данных согласно модели C#
+        const articleData = {
+            Title: formData.title,
+            user_id: userId,              
+            category: formData.category,   
+            body: submissionType === 'text' ? formData.content : null,
+            tags: formData.tags || null,
+            status: "pending",           
+            request_date: new Date().toISOString() 
+        };
+
+        // 1. Создаем статью
+        const articleResponse = await axios.post(`${localhost}/api/articles`, articleData, {
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const articleId = articleResponse.data.id;
+
+        // 2. Если загружен файл
+        if (submissionType === 'file' && featuredImage) {
+            const formDataFile = new FormData();
+            formDataFile.append('file', featuredImage);
+
+            const fileResponse = await axios.post(
+                `${localhost}/api/files/upload`,
+                formDataFile,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+
+            const fileId = fileResponse.data.id;
+            
+            // Обновляем статью с body_id
+            await axios.patch(
+                `${localhost}/api/articles/${articleId}`,
+                { body_id: fileId },
+                {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        }
+
+        // Сброс формы
+        setFormData({
+            title: '',
+            category: '',
+            content: '',
+            tags: '',
+            isOriginal: false
+        });
+        setFeaturedImage(null);
+        alert('Статья успешно отправлена!');
+
+    } catch (err) {
+        console.error('Ошибка:', {
+            status: err.response?.status,
+            data: err.response?.data,
+            message: err.message
+        });
+        
+        setError(err.response?.data?.title || err.response?.data?.message || 'Ошибка при отправке');
+    } finally {
+        setIsSubmitting(false);
+    }
+};
 
     return (
         <div className={styles.SubmitPage}>
             <div className={styles.personalInfoSection}>
-                <h1 className={styles.sectionTitle}>Submit Article for Review</h1>
-                <p className={styles.sectionDescription}>Please fill in the details below to submit your article for review.</p>
+                <h1 className={styles.sectionTitle}>Отправить статью на модерацию</h1>
+                <p className={styles.sectionDescription}>Заполните детали ниже для отправки статьи</p>
+
+                {error && <div className={styles.errorMessage}>{error}</div>}
 
                 <form onSubmit={handleSubmit} className={styles.articleForm}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="title" className={styles.formLabel}>Article Title</label>
+                        <label htmlFor="title" className={styles.formLabel}>Название статьи</label>
                         <input
                             type="text"
                             id="title"
                             name="title"
-                            placeholder="Enter article title"
+                            placeholder="Введите название статьи"
                             className={styles.formInput}
-                            value={formData.title}
+                            value={formData.article}
                             onChange={handleChange}
                             required
                         />
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="category" className={styles.formLabel}>Category</label>
+                        <label htmlFor="category" className={styles.formLabel}>Категория</label>
                         <select
                             id="category"
                             name="category"
@@ -68,68 +179,85 @@ const SubmitArticle = () => {
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select a category</option>
-                            <option value="technology">Technology</option>
-                            <option value="science">Science</option>
-                            <option value="health">Health</option>
-                            <option value="business">Business</option>
-                            <option value="entertainment">Entertainment</option>
+                            <option value="">Выберите категорию</option>
+                            <option value="technology">Технологии</option>
+                            <option value="science">Наука</option>
+                            <option value="health">Здоровье</option>
+                            <option value="business">Бизнес</option>
+                            <option value="entertainment">Развлечения</option>
                         </select>
                     </div>
 
-                    <div className={styles.formGroup}>
-                        <label htmlFor="content" className={styles.formLabel}>Article Content</label>
-                        <textarea
-                            id="content"
-                            name="content"
-                            placeholder="Write your article content here..."
-                            className={styles.formTextarea}
-                            value={formData.content}
-                            onChange={handleChange}
-                            required
-                        />
+                    <div className={styles.submissionTypeSelector}>
+                        <button
+                            type="button"
+                            className={`${styles.typeButton} ${submissionType === 'text' ? styles.active : ''}`}
+                            onClick={() => handleSubmissionTypeChange('text')}
+                        >
+                            Написать статью
+                        </button>
+                        <button
+                            type="button"
+                            className={`${styles.typeButton} ${submissionType === 'file' ? styles.active : ''}`}
+                            onClick={() => handleSubmissionTypeChange('file')}
+                        >
+                            Загрузить файл
+                        </button>
                     </div>
-                    <div className={styles.formGroupCenter}>
-                        <label htmlFor="content" className={styles.formLabel}>OR</label>
 
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Upload a file</label>
-                        <div className={styles.fileUpload}>
-                            <label htmlFor="featuredImage" className={styles.uploadLabel}>
-                                {featuredImage ? (
-                                    <span>{featuredImage.name}</span>
-                                ) : (
-                                    <>
-                                        <img src={loadIcon} alt="Loading" className={styles.icon}/>
-                                        <span>Upload a Docx or Pdf file</span>
-                                        <button
-                                            type="button"
-                                            className="black_button"
-                                            onClick={handleButtonClick}>
-                                            Browse Files
-                                        </button>
-                                    </>
-                                )}
-                            </label>
-                            <input
-                                type="file"
-                                id="featuredImage"
-                                accept="image/*"
-                                className={styles.fileInput}
-                                onChange={handleImageChange}
-                                ref={fileInputRef}
+                    {submissionType === 'text' ? (
+                        <div className={styles.formGroup}>
+                            <label htmlFor="content" className={styles.formLabel}>Содержание статьи</label>
+                            <textarea
+                                id="content"
+                                name="content"
+                                placeholder="Напишите содержание статьи здесь..."
+                                className={styles.formTextarea}
+                                value={formData.content}
+                                onChange={handleChange}
+                                required={submissionType === 'text'}
+                                disabled={submissionType !== 'text'}
                             />
                         </div>
-                    </div>
+                    ) : (
+                        <div className={styles.formGroup}>
+                            <label className={styles.formLabel}>Загрузить файл</label>
+                            <div className={styles.fileUpload}>
+                                <label htmlFor="featuredImage" className={styles.uploadLabel}>
+                                    {featuredImage ? (
+                                        <span>{featuredImage.name}</span>
+                                    ) : (
+                                        <>
+                                            <img src={loadIcon} alt="Загрузка" className={styles.icon}/>
+                                            <span>Загрузите файл в формате Docx или Pdf</span>
+                                            <button
+                                                type="button"
+                                                className="black_button"
+                                                onClick={handleButtonClick}>
+                                                Выбрать файл
+                                            </button>
+                                        </>
+                                    )}
+                                </label>
+                                <input
+                                    type="file"
+                                    id="featuredImage"
+                                    accept=".doc,.docx,.pdf"
+                                    className={styles.fileInput}
+                                    onChange={handleImageChange}
+                                    ref={fileInputRef}
+                                />
+                            </div>
+                        </div>
+                    )}
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="tags" className={styles.formLabel}>Tags</label>
+                        <label htmlFor="tags" className={styles.formLabel}>Теги</label>
                         <input
                             type="text"
                             id="tags"
                             name="tags"
-                            placeholder="Enter tags separated by commas"
+                            placeholder="Введите теги через запятую"
                             className={styles.formInput}
                             value={formData.tags}
                             onChange={handleChange}
@@ -146,13 +274,19 @@ const SubmitArticle = () => {
                                 onChange={handleChange}
                                 required
                             />
-                            <span>I confirm that this article is my original work and I have read and agree to the submission guidelines</span>
+                            <span>Я подтверждаю, что это моя оригинальная работа и я согласен с правилами публикации</span>
                         </label>
                     </div>
 
                     <div className={styles.formActions}>
-                        <button type="submit" className="black_button">Submit for Review</button>
-                        <button type="button" className="white_button">Save Draft</button>
+                        <button
+                            type="submit"
+                            className="black_button"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Отправка...' : 'Отправить на модерацию'}
+                        </button>
+                        <button type="button" className="white_button">Сохранить черновик</button>
                     </div>
                 </form>
             </div>

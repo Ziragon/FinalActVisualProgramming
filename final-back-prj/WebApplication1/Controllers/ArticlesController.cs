@@ -23,10 +23,6 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                if (currentUserId != request.AuthorId)
-                    return Forbid();
-
                 var article = await _articleService.CreateAsync(request.AuthorId, request.Title, request.Body);
                 return Ok(article);
             }
