@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios'; // Добавляем axios для HTTP-запросов
 import styles from '../../styles/AuthorizationPage.module.css';
 
@@ -45,7 +46,7 @@ const RegPage = () => {
                 }
             });
 
-            const response1 = await axios.post('http://localhost:5000/api/users/login', {
+            const responseLogin = await axios.post('http://localhost:5000/api/users/login', {
                 login: values.username,
                 password: values.password
             }, {
@@ -54,22 +55,26 @@ const RegPage = () => {
                 }
             });
 
-            if (response.data?.token) {
-                await login(response.data.token);
+            if (responseLogin.data?.token) {
+                await login(responseLogin.data.token);
             }
 
-            const token = await localStorage.getItem('authToken');
-            await axios.put(`http://localhost:5000/api/profiles/${userId}`, {
-                mail: values.mail,
+            const decoded = jwtDecode(responseLogin.data.token);
+            const currentUserId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+            await axios.put(`http://localhost:5000/api/profiles/${currentUserId}`, {
+                fullName: '',
+                email: values.email,
+                institution: '',
+                fieldOfExpertise: ''
             }, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${responseLogin.data.token}`,
                     'Content-Type': 'application/json'
                 }
             });
 
             if (response.status === 200 || response.status === 201) {
-                navigate('/');
+                navigate('/profile');
             }
         } catch (error) {
             console.error('Ошибка регистрации:', error);

@@ -36,6 +36,10 @@ namespace WebApplication1.Services
             await _articleRepository.SaveAsync();
             return article;
         }
+        public async Task<Article> GetByIdAsync(int id)
+        {
+            return await _articleRepository.GetByIdAsync(id);
+        }
 
         public async Task<List<Article>> GetByStatusAsync(string status)
         {
