@@ -915,3 +915,8 @@ C:\Projects\VP_Final_Act\FinalActVisualProgramming\final-back-prj\WebApplication
 C:\Projects\VP_Final_Act\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Jint.dll
 C:\Projects\VP_Final_Act\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Projects\VP_Final_Act\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\PostmanRunner.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Colorful.Console.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Esprima.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Jint.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\PostmanRunner.dll

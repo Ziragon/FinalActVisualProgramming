@@ -18,13 +18,19 @@ namespace WebApplication1.Controllers
             _profileService = profileService;
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
+        [HttpPut("{userId}")] // Добавляем параметр userId в маршрут
+        public async Task<IActionResult> UpdateProfile(int userId, [FromBody] ProfileUpdateRequest request)
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                await _profileService.UpdateProfileAsync(currentUserId, request.FullName, request.Email, request.Institution, request.FieldOfExpertise);
+                await _profileService.UpdateProfileAsync(
+                    userId, 
+                    request.FullName, 
+                    request.Email, 
+                    request.Institution, 
+                    request.FieldOfExpertise
+                );
+        
                 return Ok(new { Message = "Профиль обновлён" });
             }
             catch (Exception ex)
@@ -49,7 +55,6 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("{userId}")]
-        [Authorize(Roles = "1,2")] // Только для админов и рецензентов
         public async Task<IActionResult> GetProfileById(int userId)
         {
             try

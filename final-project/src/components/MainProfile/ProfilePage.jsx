@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import styles from '../../styles/ProfilePage.module.css';
 
 const localhost = "http://localhost:5000";
 
 const ProfilePage = () => {
-    const { userId } = useParams(); // Получаем userId из URL
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [formData, setFormData] = useState({
@@ -20,45 +20,31 @@ const ProfilePage = () => {
         inProgress: 0,
         completed: 0
     });
-    const [isCurrentUser, setIsCurrentUser] = useState(false);
+    const {isAuthenticated, userId, username, logout} = useAuth();
 
     useEffect(() => {
         const fetchProfileData = async () => {
+            if (!userId) return;
+
             try {
                 const token = localStorage.getItem('authToken');
-                const currentUserId = JSON.parse(atob(token.split('.')[1])).userId; // Получаем ID текущего пользователя из токена
-                
-                setIsCurrentUser(currentUserId === parseInt(userId));
-
-                // Загрузка данных профиля
-                const profileResponse = await axios.get(`${localhost}/api/profile/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                const response = await axios.get(`${localhost}/api/profiles/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
-                
+
                 setFormData({
-                    fullName: profileResponse.data.fullName,
-                    email: profileResponse.data.email,
-                    institution: profileResponse.data.institution || '',
-                    fieldOfExpertise: profileResponse.data.fieldOfExpertise || ''
+                    fullName: response.data.fullName || '',
+                    email: response.data.email || '',
+                    institution: response.data.institution || '',
+                    fieldOfExpertise: response.data.fieldOfExpertise || ''
                 });
-
-                // Загрузка статистики
-                const statsResponse = await axios.get(`${localhost}/api/profile/${userId}/stats`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                setStats({
-                    totalReviews: statsResponse.data.totalReviews || 0,
-                    inProgress: statsResponse.data.inProgress || 0,
-                    completed: statsResponse.data.completed || 0
-                });
+                console.log('Current userId:', userId);
 
             } catch (error) {
                 console.error('Ошибка загрузки профиля:', error);
+                if (error.response?.status === 401) {
+                    logout();
+                }
             } finally {
                 setIsLoading(false);
             }
@@ -75,7 +61,7 @@ const ProfilePage = () => {
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            await axios.put(`${localhost}/api/profile/${userId}`, formData, {
+            await axios.put(`${localhost}/api/profiles/${userId}`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

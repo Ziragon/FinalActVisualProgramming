@@ -40,29 +40,30 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = issuer,
         ValidAudience = audience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-        ClockSkew = TimeSpan.Zero // Убираем задержку по времени для токена
+        ClockSkew = TimeSpan.Zero
     };
 });
 
+// Настройка CORS
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("ReactApp", policy =>
     {
         policy.WithOrigins("http://localhost:3000", "http://localhost:3001")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials(); // Добавляем для работы с куками и заголовками авторизации
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
-// 1. Настройка сервисов
+// Регистрация сервисов
 builder.Services.AddControllers();
 
-// 2. Подключение БД
+// Подключение БД
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 
-// 3. Регистрация репозиториев и сервисов
+// Регистрация репозиториев и сервисов
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
@@ -76,13 +77,12 @@ builder.Services.AddScoped<ArticleService>();
 builder.Services.AddScoped<ReviewService>();
 builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<FileService>();
-builder.Services.AddScoped<AuthService>(); // Добавляем сервис для работы с аутентификацией
+builder.Services.AddScoped<AuthService>();
 
-// 4. Swagger (для тестирования API)
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // Настройка Swagger для работы с JWT
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
@@ -107,48 +107,54 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseCors();
+// Конвейер middleware
+app.UseRouting();
 
-// 5. Применение миграций и создание БД (если её нет)
-using (var scope = app.Services.CreateScope())
+// Включение CORS (должно быть после UseRouting и перед UseAuthorization)
+app.UseCors("ReactApp");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Отключаем HTTPS редирект в development
+if (!app.Environment.IsDevelopment())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-    try
-    {
-        if (!db.Database.CanConnect())
-        {
-            Console.WriteLine("База данных не существует. Создаём...");
-            db.Database.EnsureCreated();
-        }
-        else
-        {
-            Console.WriteLine("Применяем миграции...");
-            db.Database.Migrate();
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Ошибка: {ex.Message}");
-        if (ex.InnerException != null)
-        {
-            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-        }
-    }
+    app.UseHttpsRedirection();
 }
 
-// 6. Middleware
+// Swagger только для разработки
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-// Добавляем middleware для аутентификации и авторизации
-app.UseAuthentication(); // Должно быть перед UseAuthorization
-app.UseAuthorization();
+// Применение миграций БД
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        if (!db.Database.CanConnect())
+        {
+            Console.WriteLine("Creating database...");
+            db.Database.EnsureCreated();
+        }
+        else
+        {
+            Console.WriteLine("Applying migrations...");
+            db.Database.Migrate();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database error: {ex.Message}");
+        if (ex.InnerException != null)
+        {
+            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+        }
+    }
+}
 
 app.MapControllers();
 

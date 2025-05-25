@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI0MzY3YmRlYS0yZWMzLTQ5MTAtYjUyOC1jOGIxYjM5MzllMTYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiZXhwIjoxNzQ4MTczMzAwLCJpc3MiOiJ5b3VyX2lzc3VlciIsImF1ZCI6InlvdXJfYXVkaWVuY2UifQ.sOKZ-D9bphCYExXbT54MLFNB44wHM8LvwR6Z0WQi4-8
 @admin_token = 
 
 ### 1. Роли ###
@@ -18,9 +18,9 @@ POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "Evher1",
-  "password": "User11",
-  "roleId": 2
+  "login": "Eugene",
+  "password": "Password",
+  "roleId": 3
 }
 
 ### Авторизация
@@ -29,19 +29,25 @@ POST {{host}}/api/users/login
 Content-Type: application/json
 
 {
-  "login": "regular_user",
-  "password": "UserPass123!"
+  "login": "Eugene",
+  "password": "Password"
 }
 
 ### 3. Профили ###
 ### Обновить профиль
-PUT https://localhost:7135/api/profiles/2
+PUT https://localhost:7135/api/profiles/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI5MTdkZjI4Yi03MzZlLTRiMTItYmI2Yi1hZTI4MDBlMmNhNjAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiZXhwIjoxNzQ4MTc0MjMyLCJpc3MiOiJ5b3VyX2lzc3VlciIsImF1ZCI6InlvdXJfYXVkaWVuY2UifQ.cwtAOz573QMNOMtBBTML2NdiioBwMK5Ju9A4Ev9aCIQ
 Content-Type: application/json
-
 {
   "fullName": "Артем 1488",
-  "email": "Krakovcev@example.com"
+  "email": "Krakovcev@example.com",
+  "institution": "Sibsutis",
+  "FieldOfExpertise": "privet"
 }
+
+###
+
+GET https://localhost:7135/api/profiles
 
 ### 4. Статьи ###
 ### Создать статью

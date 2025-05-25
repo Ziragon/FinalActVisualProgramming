@@ -2,12 +2,13 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth'; // Импортируем наш хук
 import axios from 'axios'; // Импортируем axios для HTTP-запросов
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const AuthorizationPage = () => {
     const navigate = useNavigate();
-
+    const { login } = useAuth();
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .required('Обязательное поле')
@@ -32,8 +33,8 @@ const AuthorizationPage = () => {
                 }
             });
 
-            if (response.data && response.data.token) {
-                localStorage.setItem('authToken', response.data.token);
+            if (response.data?.token) {
+                login(response.data.token); // Используем метод login из хука
                 navigate('/profile');
             }
         } catch (error) {

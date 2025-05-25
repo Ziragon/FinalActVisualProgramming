@@ -6,10 +6,12 @@ namespace WebApplication1.Services
     public class UserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IProfileRepository _profileRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IProfileRepository profileRepository)
         {
             _userRepository = userRepository;
+            _profileRepository = profileRepository;
         }
 
         // Регистрация пользователя
@@ -18,15 +20,28 @@ namespace WebApplication1.Services
             if (await _userRepository.LoginExistsAsync(login))
                 return false;
 
-            var user = new User 
-            { 
-                Login = login, 
+            var user = new User
+            {
+                Login = login,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                 RoleId = roleid
             };
 
             await _userRepository.AddAsync(user);
             await _userRepository.SaveAsync();
+
+            var profile = new Profile
+            {
+                UserId = user.UserId,
+                FullName = "",
+                Email = "",
+                Institution = "",
+                FieldOfExpertise = ""
+            };
+
+            await _profileRepository.AddAsync(profile);
+            await _profileRepository.SaveAsync();
+
             return true;
         }
 
