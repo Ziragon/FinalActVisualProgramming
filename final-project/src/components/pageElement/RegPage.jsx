@@ -4,11 +4,7 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { jwtDecode } from 'jwt-decode';
-<<<<<<< HEAD
 import axios from 'axios';
-=======
-import axios from 'axios'; // Добавляем axios для HTTP-запросов
->>>>>>> origin/test-for-merge
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const RegPage = () => {
