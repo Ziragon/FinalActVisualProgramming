@@ -44,8 +44,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var profile = await _profileService.GetProfileAsync(currentUserId);
+                var profile = await _profileService.GetProfilesAsync();
                 return Ok(profile);
             }
             catch (Exception ex)
@@ -59,7 +58,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var profile = await _profileService.GetProfileAsync(userId);
+                var profile = await _profileService.GetByUserIdAsync(userId);
                 return Ok(profile);
             }
             catch (Exception ex)

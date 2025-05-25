@@ -23,7 +23,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
 
                 using var memoryStream = new MemoryStream();
                 await file.CopyToAsync(memoryStream);
@@ -46,7 +46,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
                 await _fileService.AttachToArticleAsync(fileId, articleId, currentUserId);
                 return Ok(new { Message = "Файл прикреплён к статье" });
             }
@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
                 await _fileService.AttachToProfileAsync(fileId, currentUserId);
                 return Ok(new { Message = "Файл прикреплён к профилю" });
             }

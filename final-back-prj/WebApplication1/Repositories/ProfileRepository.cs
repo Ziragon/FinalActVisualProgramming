@@ -19,6 +19,11 @@ namespace WebApplication1.Repositories
             return await _db.Profiles.FindAsync(userId);
         }
 
+        public async Task<List<Profile>> GetProfilesAsync()
+        {
+            return await _db.Profiles.ToListAsync();
+        }
+
         public async Task AddAsync(Profile profile)
         {
             await _db.Profiles.AddAsync(profile);

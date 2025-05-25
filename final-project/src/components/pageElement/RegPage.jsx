@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios'; // Добавляем axios для HTTP-запросов
+import axios from 'axios';
 import styles from '../../styles/AuthorizationPage.module.css';
 
 const RegPage = () => {

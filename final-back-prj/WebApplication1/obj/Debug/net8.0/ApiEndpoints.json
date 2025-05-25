@@ -264,11 +264,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "rating",
-        "Type": "System.Int32",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []

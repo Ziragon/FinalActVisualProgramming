@@ -29,6 +29,7 @@ namespace WebApplication1.Services
 
             var review = new Review
             {
+                Id = articleId,
                 ArticleId = articleId,
                 UserId = reviewerId,
                 CommentsToAuthor = comments,
@@ -41,13 +42,12 @@ namespace WebApplication1.Services
             return review;
         }
 
-        public async Task CompleteReviewAsync(int reviewId, int rating, int currentUserId)
+        public async Task CompleteReviewAsync(int reviewId, int currentUserId)
         {
             var review = await _reviewRepository.GetByIdAsync(reviewId);
             if (review == null) throw new Exception("Рецензия не найдена");
             if (review.UserId != currentUserId) throw new UnauthorizedAccessException("Вы не автор рецензии");
 
-            review.Rating = rating;
             review.IsCompleted = true;
             review.CompleteDate = DateTime.UtcNow;
             review.Progress = 100;

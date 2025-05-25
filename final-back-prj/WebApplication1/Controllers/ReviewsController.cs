@@ -23,7 +23,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
                 if (currentUserId != request.ReviewerId)
                     return Forbid();
 
@@ -37,12 +37,12 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("{id}/complete")]
-        public async Task<IActionResult> CompleteReview(int id, [FromBody] int rating)
+        public async Task<IActionResult> CompleteReview(int id)
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                await _reviewService.CompleteReviewAsync(id, rating, currentUserId);
+                var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
+                await _reviewService.CompleteReviewAsync(id, currentUserId);
                 return Ok("Рецензия завершена");
             }
             catch (Exception ex)

@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> GetUserProfile()
         {
             // Получаем ID текущего пользователя из claims
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var userId = int.Parse(User.FindFirst("userId")?.Value);
             var user = await _userService.GetByIdAsync(userId);
 
             return user != null ? Ok(user) : NotFound();

@@ -44,9 +44,14 @@ namespace WebApplication1.Services
             await _profileRepository.SaveAsync();
         }
 
-        public async Task<Profile> GetProfileAsync(int userId)
+        public async Task<Profile> GetByUserIdAsync(int userId)
         {
             return await _profileRepository.GetByUserIdAsync(userId);
+        }
+
+        public async Task<List<Profile>> GetProfilesAsync()
+        {
+            return await _profileRepository.GetProfilesAsync();
         }
     }
 }

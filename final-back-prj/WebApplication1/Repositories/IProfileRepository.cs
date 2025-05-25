@@ -6,6 +6,7 @@ namespace WebApplication1.Repositories
     public interface IProfileRepository
     {
         Task<Profile> GetByUserIdAsync(int userId);
+        Task<List<Profile>> GetProfilesAsync();
         Task AddAsync(Profile profile);
         void Update(Profile profile);
         void Delete(Profile profile);

@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI0NzhjMjk4OS0zMWRlLTRkMTctOTIxMS0yMDkwNTk5MDk1MmUiLCJ1c2VySWQiOiI1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMyIsImV4cCI6MTc0ODE4MjY0OCwiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.poppcp86sP8hvs-jrfO-j15G3BR6XPjYFxCm9tCksuo
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJHYW1lciIsImp0aSI6ImI0ODYyZjUzLTg4ODMtNDM2ZC1iYzQxLTM1N2QwMGMzMWVjNyIsInVzZXJJZCI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjIiLCJleHAiOjE3NDgxOTA0MjQsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.FA0NDWtajxWaog1_rDP794d5Sp2V3p9J3lrwpnvUyHc
 @admin_token = 
 
 ### 1. Роли ###
@@ -18,9 +18,9 @@ POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "Lev",
+  "login": "Gamer",
   "password": "Password",
-  "roleId": 3
+  "roleId": 2
 }
 
 ### Авторизация
@@ -29,7 +29,7 @@ POST {{host}}/api/users/login
 Content-Type: application/json
 
 {
-  "login": "Eugene",
+  "login": "Gamer",
   "password": "Password"
 }
 
@@ -48,6 +48,7 @@ Content-Type: application/json
 ###
 
 GET https://localhost:7135/api/profiles
+Authorization: Bearer {{token}}
 
 ### 4. Статьи ###
 ### Создать статью
@@ -56,8 +57,8 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "authorId": 6,
   "name": "Новая статья",
+  "authorId": 7,
   "title": "",
   "category": "Mathematics",
   "body": "Текст статьи...",
@@ -72,15 +73,17 @@ Authorization: Bearer {{token}}
 
 ###Отправить на рецензирование
 POST https://localhost:7135/api/articles/1/submit
+Authorization: Bearer {{token}}
 
 ### 5. Рецензии ###
 ### Создать рецензию
 POST https://localhost:7135/api/reviews
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "articleId": 1,
-  "reviewerId": 2,
+  "articleId": 4,
+  "reviewerId": 10,
   "comments": "Отличная статья!"
 }
 
