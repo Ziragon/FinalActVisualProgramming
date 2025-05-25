@@ -10,6 +10,9 @@ public class AuthService
     private readonly UserService _userService;
     private readonly IConfiguration _configuration;
 
+    // Константа для единообразного использования имени claim
+    public const string UserIdClaimType = "userId";
+
     public AuthService(UserService userService, IConfiguration configuration)
     {
         _userService = userService;
@@ -45,6 +48,7 @@ public class AuthService
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Login),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(UserIdClaimType, user.UserId.ToString()),
             new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new Claim(ClaimTypes.Role, user.RoleId.ToString())
         };

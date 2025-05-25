@@ -23,7 +23,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var article = await _articleService.CreateAsync(request.AuthorId, request.Title, request.Body);
+                var article = await _articleService.CreateAsync(request.AuthorId, request.Name, request.Category, request.Body, request.Body_Id, request.Tags, request.Status);
                 return Ok(article);
             }
             catch (Exception ex)
@@ -37,8 +37,8 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                await _articleService.SubmitForReviewAsync(id, currentUserId);
+                var userId = int.Parse(User.FindFirst(AuthService.UserIdClaimType)?.Value);
+                await _articleService.SubmitForReviewAsync(id, userId);
                 return Ok("Статья отправлена на рецензирование");
             }
             catch (Exception ex)
@@ -59,7 +59,11 @@ namespace WebApplication1.Controllers
     public class ArticleCreateRequest
     {
         public int AuthorId { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
         public string Body { get; set; }
+        public int? Body_Id { get; set; }
+        public string Tags { get; set; }
+        public string Status { get; set; }
     }
 }

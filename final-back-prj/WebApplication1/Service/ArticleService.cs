@@ -13,8 +13,7 @@ namespace WebApplication1.Services
             _articleRepository = articleRepository;
             _userRepository = userRepository;
         }
-
-        public async Task<Article> CreateAsync(int authorId, string title, string body)
+        public async Task<Article> CreateAsync(int authorId, string name, string category, string body, int? body_id, string tags, string status)
         {
             var author = await _userRepository.GetByIdAsync(authorId);
             if (author == null) throw new Exception("Автор не найден");
@@ -23,9 +22,13 @@ namespace WebApplication1.Services
             var article = new Article
             {
                 UserId = authorId,
-                Name = title,
+                Name = name,
+                ArticleCode = "",
+                Category = category,
                 Body = body,
-                Status = "draft",
+                BodyFileId = body_id,
+                Tags = tags,
+                Status = status,
                 RequestDate = DateTime.Now
             };
 

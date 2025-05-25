@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI0MzY3YmRlYS0yZWMzLTQ5MTAtYjUyOC1jOGIxYjM5MzllMTYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiZXhwIjoxNzQ4MTczMzAwLCJpc3MiOiJ5b3VyX2lzc3VlciIsImF1ZCI6InlvdXJfYXVkaWVuY2UifQ.sOKZ-D9bphCYExXbT54MLFNB44wHM8LvwR6Z0WQi4-8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI0NzhjMjk4OS0zMWRlLTRkMTctOTIxMS0yMDkwNTk5MDk1MmUiLCJ1c2VySWQiOiI1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMyIsImV4cCI6MTc0ODE4MjY0OCwiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.poppcp86sP8hvs-jrfO-j15G3BR6XPjYFxCm9tCksuo
 @admin_token = 
 
 ### 1. Роли ###
@@ -53,11 +53,16 @@ GET https://localhost:7135/api/profiles
 ### Создать статью
 POST https://localhost:7135/api/articles
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "authorId": 1,
-  "title": "Новая статья",
-  "body": "Текст статьи..."
+  "authorId": 5,
+  "name": "Новая статья",
+  "title": "",
+  "category": "Mathematics",
+  "body": "Текст статьи...",
+  "tags": "1258125897215",
+  "status": "draft"
 }
 
 ###Отправить на рецензирование
