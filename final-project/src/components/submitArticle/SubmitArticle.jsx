@@ -7,7 +7,7 @@ import loadIcon from "../../styles/img/drop-file.svg";
 const localhost = "http://localhost:5000";
 
 const SubmitArticle = () => {
-    const { isAuthenticated, userId, username, token } = useAuth();
+    const { isAuthenticated, userId, token } = useAuth();
     const [formData, setFormData] = useState({
         title: '',
         category: '',
@@ -52,100 +52,85 @@ const SubmitArticle = () => {
         }
     };
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
 
-    // Валидация
-    if (!formData.isOriginal) {
-        setError("Подтвердите, что это ваша оригинальная работа");
-        return;
-    }
-
-    if (!formData.title || !formData.category) {
-        setError("Название и категория обязательны");
-        return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-        // Подготовка данных согласно модели C#
-        const articleData = {
-            Title: formData.title,
-            user_id: userId,              
-            category: formData.category,   
-            body: submissionType === 'text' ? formData.content : null,
-            tags: formData.tags || null,
-            status: "pending",           
-            request_date: new Date().toISOString() 
-        };
-
-        // 1. Создаем статью
-        const articleResponse = await axios.post(`${localhost}/api/articles`, articleData, {
-            headers: { 
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const articleId = articleResponse.data.id;
-
-        // 2. Если загружен файл
-        if (submissionType === 'file' && featuredImage) {
-            const formDataFile = new FormData();
-            formDataFile.append('file', featuredImage);
-
-            const fileResponse = await axios.post(
-                `${localhost}/api/files/upload`,
-                formDataFile,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-            );
-
-            const fileId = fileResponse.data.id;
-            
-            // Обновляем статью с body_id
-            await axios.patch(
-                `${localhost}/api/articles/${articleId}`,
-                { body_id: fileId },
-                {
-                    headers: { 
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
+        if (!formData.isOriginal) {
+            setError("Подтвердите, что это ваша оригинальная работа");
+            return;
         }
 
-        // Сброс формы
-        setFormData({
-            title: '',
-            category: '',
-            content: '',
-            tags: '',
-            isOriginal: false
-        });
-        setFeaturedImage(null);
-        alert('Статья успешно отправлена!');
+        if (!formData.title || !formData.category) {
+            setError("Название и категория обязательны");
+            return;
+        }
 
-    } catch (err) {
-        console.error('Ошибка:', {
-            status: err.response?.status,
-            data: err.response?.data,
-            message: err.message
-        });
-        
-        setError(err.response?.data?.title || err.response?.data?.message || 'Ошибка при отправке');
-    } finally {
-        setIsSubmitting(false);
-    }
-};
+        setIsSubmitting(true);
 
+        try {
+            let bodyFileId = null;
+            if (submissionType === 'file' && featuredImage) {
+                const formDataFile = new FormData();
+                formDataFile.append('file', featuredImage);
+
+                const fileResponse = await axios.post(
+                    `${localhost}/api/files/upload`,
+                    formDataFile,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                );
+                bodyFileId = fileResponse.data.id;
+            }
+
+            const articleResponse = await axios.post(`${localhost}/api/articles`, {
+                authorId: Number(userId),
+                name: formData.title,
+                category: formData.category,
+                body: submissionType === 'text' ? formData.content : "",
+                body_id: bodyFileId,
+                tags: formData.tags || "",
+                status: "draft"
+            }, {
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (formData.isOriginal) {
+                await axios.post(
+                    `${localhost}/api/articles/${articleResponse.data.id}/submit`,
+                    {},
+                    { headers: { 'Authorization': `Bearer ${token}` } }
+                );
+            }
+            setFormData({
+                title: '',
+                category: '',
+                content: '',
+                tags: '',
+                isOriginal: false
+            });
+            setFeaturedImage(null);
+            alert('Статья успешно отправлена!');
+
+        } catch (err) {
+            console.error('Ошибка:', {
+                status: err.response?.status,
+                data: err.response?.data,
+                message: err.message
+            });
+            
+            setError(err.response?.data?.message || 'Ошибка при отправке статьи');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     return (
         <div className={styles.SubmitPage}>
             <div className={styles.personalInfoSection}>
