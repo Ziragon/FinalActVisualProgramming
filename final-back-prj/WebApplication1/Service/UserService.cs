@@ -14,7 +14,6 @@ namespace WebApplication1.Services
             _profileRepository = profileRepository;
         }
 
-        // Регистрация пользователя
         public async Task<bool> RegisterAsync(string login, string password, int roleid)
         {
             if (await _userRepository.LoginExistsAsync(login))
@@ -45,7 +44,6 @@ namespace WebApplication1.Services
             return true;
         }
 
-        // Аутентификация
         public async Task<User> AuthenticateAsync(string login, string password)
         {
             var user = await _userRepository.GetByLoginAsync(login);
@@ -55,14 +53,17 @@ namespace WebApplication1.Services
             return user;
         }
 
-        // Получение пользователя по ID
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _userRepository.GetAllAsync();
+        }
+
         public async Task<User> GetByIdAsync(int id)
         {
             return await _userRepository.GetByIdAsync(id);
         }
 
-        // Удаление пользователя
-        public async Task DeleteAsync(int id)
+        public async Task DeleteUserAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user != null)

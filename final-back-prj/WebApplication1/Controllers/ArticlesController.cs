@@ -8,7 +8,6 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "3")] // Только для пользователей с ролью User (3)
     public class ArticlesController : ControllerBase
     {
         private readonly ArticleService _articleService;
@@ -18,6 +17,7 @@ namespace WebApplication1.Controllers
             _articleService = articleService;
         }
 
+        [Authorize(Roles = "3")]
         [HttpPost]
         public async Task<IActionResult> CreateArticle([FromBody] ArticleCreateRequest request)
         {
@@ -32,12 +32,13 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [Authorize(Roles = "3")]
         [HttpPost("{id}/submit")]
         public async Task<IActionResult> SubmitForReview(int id)
         {
             try
             {
-                var userId = int.Parse(User.FindFirst(AuthService.UserIdClaimType)?.Value);
+                var userId = int.Parse(User.FindFirst("userId")?.Value);
                 await _articleService.SubmitForReviewAsync(id, userId);
                 return Ok("Статья отправлена на рецензирование");
             }
@@ -47,7 +48,7 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "2")]
         [HttpGet("status/{status}")]
         public async Task<IActionResult> GetByStatus(string status)
         {
@@ -55,6 +56,7 @@ namespace WebApplication1.Controllers
             return Ok(articles);
         }
 
+        [Authorize(Roles = "3")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetArticlesByUser(int userId)
         {
@@ -69,17 +71,33 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetById(int userId)
+        [Authorize(Roles = "1")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var articles = await _articleService.GetByIdAsync(userId);
+                var articles = await _articleService.GetAllAsync();
                 return Ok(articles);
             }
             catch (Exception ex)
             {
                 return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete("{articleId}")]
+        public async Task<IActionResult> DeleteArticle(int articleId)
+        {
+            try
+            {
+                await _articleService.DeleteArticleAsync(articleId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

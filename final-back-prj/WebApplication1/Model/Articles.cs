@@ -19,7 +19,7 @@ namespace WebApplication1.Models
 
         [Column("article")]
         [StringLength(50)]
-        public string? ArticleCode { get; set; } // Если это код статьи
+        public string? ArticleCode { get; set; }
 
         [Required]
         [Column("user_id")]
@@ -52,7 +52,6 @@ namespace WebApplication1.Models
         [ForeignKey("BodyFileId")]
         public virtual File ArticleFile { get; set; }
 
-        // Остальные навигационные свойства
         [ForeignKey("UserId")]
         public virtual Profile Profile { get; set; }
         public virtual Review Review { get; set; }

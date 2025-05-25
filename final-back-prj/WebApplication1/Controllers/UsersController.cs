@@ -11,11 +11,13 @@ namespace WebApplication1.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserService _userService;
+        private readonly ProfileService _profileService;
         private readonly AuthService _authService;
 
-        public UsersController(UserService userService, AuthService authService)
+        public UsersController(UserService userService, ProfileService profileService, AuthService authService)
         {
             _userService = userService;
+            _profileService = profileService;
             _authService = authService;
         }
 
@@ -45,7 +47,7 @@ namespace WebApplication1.Controllers
             return Ok(new { Token = token });
         }
 
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -53,12 +55,19 @@ namespace WebApplication1.Controllers
             return user != null ? Ok(user) : NotFound();
         }
 
-        [Authorize(Roles = "1")] // Только для администраторов (RoleId = 1)
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        [Authorize(Roles = "1")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            await _userService.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                var profile = await _userService.GetAllUsersAsync();
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
         }
 
         [Authorize]
@@ -70,6 +79,22 @@ namespace WebApplication1.Controllers
             var user = await _userService.GetByIdAsync(userId);
 
             return user != null ? Ok(user) : NotFound();
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            try
+            {
+                await _profileService.DeleteProfileAsync(userId);
+                await _userService.DeleteUserAsync(userId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 

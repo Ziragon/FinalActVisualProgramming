@@ -1,5 +1,7 @@
-﻿using WebApplication1.Models;
+﻿using Azure.Core;
+using WebApplication1.Models;
 using WebApplication1.Repositories;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApplication1.Services
 {
@@ -18,7 +20,25 @@ namespace WebApplication1.Services
             _userRepository = userRepository;
         }
 
-        public async Task<Review> CreateReviewAsync(int articleId, int reviewerId, string comments)
+        public int CalculateProgress(Review review)
+        {
+            int totalFields = 7;
+            int filledFields = 0;
+
+            if (review.Rating.HasValue) filledFields++;
+            if (!string.IsNullOrEmpty(review.Decision)) filledFields++;
+            if (!string.IsNullOrEmpty(review.TechnicalMerit)) filledFields++;
+            if (!string.IsNullOrEmpty(review.Originality)) filledFields++;
+            if (!string.IsNullOrEmpty(review.PresentationQuality)) filledFields++;
+            if (!string.IsNullOrEmpty(review.CommentsToAuthor)) filledFields++;
+            if (!string.IsNullOrEmpty(review.ConfidentialComments)) filledFields++;
+
+            // Рассчитываем процент (1-99)
+            int progress = (int)Math.Round((double)filledFields / totalFields * 98) + 1;
+            return Math.Clamp(progress, 1, 99);
+        }
+
+        public async Task<Review> CreateReviewAsync(int articleId, int reviewerId)
         {
             var reviewer = await _userRepository.GetByIdAsync(reviewerId);
             if (reviewer == null) throw new Exception("Рецензент не найден");
@@ -32,7 +52,6 @@ namespace WebApplication1.Services
                 Id = articleId,
                 ArticleId = articleId,
                 UserId = reviewerId,
-                CommentsToAuthor = comments,
                 IsCompleted = false,
                 Progress = 0
             };
@@ -40,6 +59,47 @@ namespace WebApplication1.Services
             await _reviewRepository.AddAsync(review);
             await _reviewRepository.SaveAsync();
             return review;
+        }
+
+        public async Task UpdateReviewAsync(int reviewId, int reviewerId, int? rating, string? decision,
+                                            string? technicalMerit, string? originality, string? presentationQuality,
+                                            string? commentsToAuthor, string? confidentialComments, int? attachmentsId)
+        {
+            var review = await _reviewRepository.GetByIdAsync(reviewId);
+            if (review == null) throw new Exception("Рецензия не найдена");
+            if (review.UserId != reviewerId) throw new UnauthorizedAccessException("Вы не автор рецензии");
+            if (review == null)
+            {
+                review = new Review
+                {
+                    Id = reviewId,
+                    UserId = reviewerId,
+                    Rating = rating,
+                    Decision = decision,
+                    TechnicalMerit = technicalMerit,
+                    Originality = originality,
+                    PresentationQuality = presentationQuality,
+                    CommentsToAuthor = commentsToAuthor,
+                    ConfidentialComments = confidentialComments,
+                    AttachmentsId = attachmentsId,
+                    Progress = CalculateProgress(review)
+                };
+                await _reviewRepository.AddAsync(review);
+            }
+            else
+            {
+                review.Rating = rating;
+                review.Decision = decision;
+                review.TechnicalMerit = technicalMerit;
+                review.Originality = originality;
+                review.PresentationQuality = presentationQuality;
+                review.CommentsToAuthor = commentsToAuthor;
+                review.ConfidentialComments = confidentialComments;
+                review.AttachmentsId = attachmentsId;
+                review.Progress = CalculateProgress(review);
+                _reviewRepository.Update(review);
+            }
+            await _reviewRepository.SaveAsync();
         }
 
         public async Task CompleteReviewAsync(int reviewId, int currentUserId)
@@ -54,6 +114,28 @@ namespace WebApplication1.Services
 
             _reviewRepository.Update(review);
             await _reviewRepository.SaveAsync();
+        }
+        public async Task<List<Review>> GetByStatusAsync(bool status)
+        {
+            return await _reviewRepository.GetByStatusAsync(status);
+        }
+        public async Task<List<Review>> GetAllAsync()
+        {
+            return await _reviewRepository.GetAllAsync();
+        }
+        public async Task<List<Review>> GetReviewsByUserIdAsync(int userId)
+        {
+            return await _reviewRepository.GetByUserIdAsync(userId);
+        }
+
+        public async Task DeleteReviewAsync(int reviewId)
+        {
+            var review = await _reviewRepository.GetByIdAsync(reviewId);
+            if (review != null)
+            {
+                _reviewRepository.Delete(review);
+                await _reviewRepository.SaveAsync();
+            }
         }
     }
 }

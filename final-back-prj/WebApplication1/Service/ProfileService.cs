@@ -53,5 +53,15 @@ namespace WebApplication1.Services
         {
             return await _profileRepository.GetProfilesAsync();
         }
+
+        public async Task DeleteProfileAsync(int id)
+        {
+            var profile = await _profileRepository.GetByUserIdAsync(id);
+            if (profile != null)
+            {
+                _profileRepository.Delete(profile);
+                await _profileRepository.SaveAsync();
+            }
+        }
     }
 }

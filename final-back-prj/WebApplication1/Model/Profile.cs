@@ -35,11 +35,9 @@ namespace WebApplication1.Models
         [StringLength(100)]
         public string? FieldOfExpertise { get; set; }
 
-        // Навигационное свойство для связи 1:1 с User
         [ForeignKey("ProfilePicId")]
         public virtual File ProfilePicture { get; set; }
 
-        // Остальные навигационные свойства
         [JsonIgnore]
         public virtual User User { get; set; }
         public virtual ICollection<Article> Articles { get; set; }

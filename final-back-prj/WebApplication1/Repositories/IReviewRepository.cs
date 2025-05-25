@@ -13,6 +13,7 @@ namespace WebApplication1.Repositories
         void Delete(Review review);
         Task<List<Review>> GetByArticleIdAsync(int articleId);
         Task<List<Review>> GetByUserIdAsync(int userId);
+        Task<List<Review>> GetByStatusAsync(bool status);
         Task SaveAsync();
     }
 }

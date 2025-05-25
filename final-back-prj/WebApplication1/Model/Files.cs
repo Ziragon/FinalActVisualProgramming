@@ -29,7 +29,6 @@ namespace WebApplication1.Models
         [Column("upload_date")]
         public DateTime UploadDate { get; set; } = DateTime.UtcNow;
 
-        // Навигационные свойства (обратные связи)
         public virtual Profile Profile { get; set; }  // Для profile_pic_id
         public virtual Article Article { get; set; }  // Для body_id
         public virtual Review Review { get; set; }    // Для attachments_id

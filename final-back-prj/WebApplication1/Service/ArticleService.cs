@@ -45,6 +45,10 @@ namespace WebApplication1.Services
         {
             return await _articleRepository.GetByStatusAsync(status);
         }
+        public async Task<List<Article>> GetAllAsync()
+        {
+            return await _articleRepository.GetAllAsync();
+        }
 
         public async Task SubmitForReviewAsync(int articleId, int currentUserId)
         {
@@ -60,6 +64,16 @@ namespace WebApplication1.Services
         public async Task<List<Article>> GetArticlesByUserIdAsync(int userId)
         {
             return await _articleRepository.GetByUserIdAsync(userId);
+        }
+
+        public async Task DeleteArticleAsync(int articleId)
+        {
+            var article = await _articleRepository.GetByIdAsync(articleId);
+            if (article != null)
+            {
+                _articleRepository.Delete(article);
+                await _articleRepository.SaveAsync();
+            }
         }
     }
 }

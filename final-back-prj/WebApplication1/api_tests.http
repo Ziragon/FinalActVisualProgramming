@@ -1,6 +1,7 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJHYW1lciIsImp0aSI6ImI0ODYyZjUzLTg4ODMtNDM2ZC1iYzQxLTM1N2QwMGMzMWVjNyIsInVzZXJJZCI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjIiLCJleHAiOjE3NDgxOTA0MjQsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.FA0NDWtajxWaog1_rDP794d5Sp2V3p9J3lrwpnvUyHc
-@admin_token = 
+@token1 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJHYW1lciIsImp0aSI6ImNlODBhODg4LWVkYmUtNDUwZS1iNWYwLWQxOWVhY2ExYmU4ZCIsInVzZXJJZCI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjIiLCJleHAiOjE3NDgyMDU0NjQsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.JxwKUsaGpYBpE0EFUxkZoIFkEJxgee4GqA-vOchujBE
+@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI4ZjllZDgxMy02ZDlhLTRmY2ItOGM5NC02M2VjN2ZiNmM4ZDAiLCJ1c2VySWQiOiI1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMyIsImV4cCI6MTc0ODIwNTcwMywiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.4sK7QirmtmsWBpyq1-csfia-tWe-2DH9RCsJEe9r59I
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZG1pbiIsImp0aSI6ImU2MWY4Y2M0LTVmYjAtNGI2MC04Y2Y0LTQ4Y2QzMjFjZTg1MiIsInVzZXJJZCI6IjExIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjEiLCJleHAiOjE3NDgyMDU1MzIsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.yZdU3k5AnAKwh24Gcn1p2GeOPZkOf-dJ2riByvcw9ms
 
 ### 1. Роли ###
 ### Создать роль
@@ -18,36 +19,51 @@ POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "Gamer",
+  "login": "Admin",
   "password": "Password",
-  "roleId": 2
+  "roleId": 1
 }
 
-### Авторизация
-### 3. Авторизация обычного пользователя
+### Авторизация обычного пользователя
 POST {{host}}/api/users/login
 Content-Type: application/json
 
 {
-  "login": "Gamer",
+  "login": "Eugene",
   "password": "Password"
 }
+
+### Получение одного User (админ гейминг) 
+GET {{host}}/api/users/5
+Authorization: Bearer {{admin_token}}
+
+### Получение всех Users (админ гейминг) 
+GET {{host}}/api/users
+Authorization: Bearer {{admin_token}}
+
+### Удаление пользователя (админ гейминг) 
+DELETE http://localhost:5000/api/users/9
+Authorization: Bearer {{admin_token}}
 
 ### 3. Профили ###
 ### Обновить профиль
 PUT https://localhost:7135/api/profiles/7
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI5MTdkZjI4Yi03MzZlLTRiMTItYmI2Yi1hZTI4MDBlMmNhNjAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiZXhwIjoxNzQ4MTc0MjMyLCJpc3MiOiJ5b3VyX2lzc3VlciIsImF1ZCI6InlvdXJfYXVkaWVuY2UifQ.cwtAOz573QMNOMtBBTML2NdiioBwMK5Ju9A4Ev9aCIQ
+Authorization: Bearer {{token}}
 Content-Type: application/json
 {
-  "fullName": "Артем 1488",
-  "email": "Krakovcev@example.com",
+  "fullName": "Gamer",
+  "email": "aye@132.com",
   "institution": "Sibsutis",
   "FieldOfExpertise": "privet"
 }
 
-###
+### Вывести все профили
 
 GET https://localhost:7135/api/profiles
+Authorization: Bearer {{token}}
+
+### Вывести профиль по id
+GET https://localhost:7135/api/profiles/5
 Authorization: Bearer {{token}}
 
 ### 4. Статьи ###
@@ -66,32 +82,74 @@ Authorization: Bearer {{token}}
   "status": "draft"
 }
 
-###
-
+### Получить статьи от пользователя
 GET http://localhost:5000/api/articles/user/5
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token2}}
+
+### Получить статьи по статусу 
+GET http://localhost:5000/api/articles/status/draft
+Authorization: Bearer {{token2}}
+
+### Получить все статьи (админ гейминг) 
+GET http://localhost:5000/api/articles
+Authorization: Bearer {{admin_token}}
+
+### Удалить статью (админ гейминг) 
+DELETE http://localhost:5000/api/articles/3
+Authorization: Bearer {{admin_token}}
 
 ###Отправить на рецензирование
-POST https://localhost:7135/api/articles/1/submit
-Authorization: Bearer {{token}}
+POST https://localhost:7135/api/articles/2/submit
+Authorization: Bearer {{token2}}
 
 ### 5. Рецензии ###
 ### Создать рецензию
 POST https://localhost:7135/api/reviews
+Authorization: Bearer {{token1}}
+Content-Type: application/json
+
+{
+  "articleId": 2
+}
+
+### Обновить рецензию
+PUT https://localhost:7135/api/reviews/2
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "articleId": 4,
-  "reviewerId": 10,
-  "comments": "Отличная статья!"
+    "reviewerId": 10,
+    "rating": 3,
+    "decision": "ноу плиз",
+    "technicalMerit": "да фигня"
 }
+###"originality": "на уровне школьного проекта",
+    "presentationQuality": "я бы никому не презентовал",   
+    "commentsToAuthor": "переделывай",
+    "confidentialComments": "ладно прощаю"
+}
+
 
 ### Завершить рецензию
 POST https://localhost:7135/api/reviews/1/complete
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
-5
+### Получить рецензии от пользователя
+GET http://localhost:5000/api/reviews/user/10
+Authorization: Bearer {{token}}
+
+### Получить статьи по статусу 
+GET http://localhost:5000/api/reviews/status/false
+Authorization: Bearer {{token}}
+
+### Получить все статьи (админ гейминг) 
+GET http://localhost:5000/api/reviews
+Authorization: Bearer {{admin_token}}
+
+### Удалить рецензию (админ гейминг)
+DELETE https://localhost:7135/api/reviews/2
+Authorization: Bearer {{admin_token}}
 
 ### 6. Файлы ###
 ### Загрузить файл

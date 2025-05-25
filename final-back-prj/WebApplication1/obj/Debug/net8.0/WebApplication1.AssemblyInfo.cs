@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbd54e285c2f4d59fe709d6098b9f3809a74f865")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a95e6230b956253532cb1d40965d327e4ee7bca0")]
->>>>>>> origin/test-for-merge
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3735f595fca9119d34cd626245f67c0136db432f")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

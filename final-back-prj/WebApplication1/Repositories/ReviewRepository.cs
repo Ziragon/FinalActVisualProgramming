@@ -54,6 +54,12 @@ namespace WebApplication1.Repositories
                 .Where(r => r.UserId == userId)
                 .ToListAsync();
         }
+        public async Task<List<Review>> GetByStatusAsync(bool status)
+        {
+            return await _db.Reviews
+                .Where(a => a.IsCompleted == status)
+                .ToListAsync();
+        }
 
         public async Task SaveAsync()
         {

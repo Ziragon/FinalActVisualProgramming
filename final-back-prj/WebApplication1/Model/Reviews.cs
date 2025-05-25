@@ -59,11 +59,9 @@ namespace WebApplication1.Models
         [Column("complete_date", TypeName = "timestamp with time zone")]
         public DateTime? CompleteDate { get; set; }
 
-        // Навигационные свойства
         [ForeignKey("AttachmentsId")]
         public virtual File Attachment { get; set; }
 
-        // Остальные навигационные свойства
         [ForeignKey("ArticleId")]
         [JsonIgnore]
         public virtual Article Article { get; set; }
