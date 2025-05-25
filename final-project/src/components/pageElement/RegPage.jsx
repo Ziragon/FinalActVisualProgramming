@@ -33,10 +33,10 @@ const RegPage = () => {
 
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
-            const response = await axios.post('https://localhost:7135/api/users/register', {
+            const response = await axios.post('http://localhost:5000/api/users/register', {
                 login: values.username,
                 password: values.password,
-                roleId: 2
+                roleId: 3
             }, {
                 headers: {
                     'Content-Type': 'application/json'

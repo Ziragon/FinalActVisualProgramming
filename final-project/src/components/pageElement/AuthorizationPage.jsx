@@ -24,7 +24,7 @@ const AuthorizationPage = () => {
 
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
-            const response = await axios.post('https://localhost:7135/api/users/login', {
+            const response = await axios.post('http://localhost:5000/api/users/login', {
                 login: values.username,
                 password: values.password
             }, {
