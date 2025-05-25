@@ -3,6 +3,7 @@
   "WorkspaceRootPath": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\projects\\vp_final_act\\finalactvisualprogramming\\final-back-prj\\webapplication1\\service\\articleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\articleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -24,6 +25,33 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\projects\\vp_final_act\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\profilescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+=======
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\articlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\articlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\service\\articleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\articleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\repositories\\articlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\repositories\\articlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\repositories\\iarticlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\repositories\\iarticlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\model\\articles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\model\\articles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\profilescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+>>>>>>> cbd54e285c2f4d59fe709d6098b9f3809a74f865
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\profilescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -34,7 +62,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 4,
+=======
+          "SelectedChildIndex": 6,
+>>>>>>> cbd54e285c2f4d59fe709d6098b9f3809a74f865
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,19 +74,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "ArticleRepository.cs",
               "DocumentMoniker": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Repositories\\ArticleRepository.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Repositories\\ArticleRepository.cs",
               "ToolTip": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Repositories\\ArticleRepository.cs",
               "RelativeToolTip": "WebApplication1\\Repositories\\ArticleRepository.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-25T13:57:46.69Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "IArticleRepository.cs",
               "DocumentMoniker": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Repositories\\IArticleRepository.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Repositories\\IArticleRepository.cs",
@@ -78,33 +110,60 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 0,
+=======
+              "DocumentIndex": 5,
+              "Title": "Articles.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Model\\Articles.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Model\\Articles.cs",
+              "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Model\\Articles.cs",
+              "RelativeToolTip": "WebApplication1\\Model\\Articles.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-25T13:21:53.316Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+>>>>>>> cbd54e285c2f4d59fe709d6098b9f3809a74f865
               "Title": "ArticleService.cs",
               "DocumentMoniker": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Service\\ArticleService.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Service\\ArticleService.cs",
               "ToolTip": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Service\\ArticleService.cs",
               "RelativeToolTip": "WebApplication1\\Service\\ArticleService.cs",
+<<<<<<< HEAD
               "ViewState": "AgIAAAgAAAAAAAAAAAAgwB8AAAAQAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAABgAAAAAAAAAAAAowCcAAAAJAAAAAAAAAA==",
+>>>>>>> cbd54e285c2f4d59fe709d6098b9f3809a74f865
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T13:19:50.421Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-25T13:19:50.421Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ArticlesController.cs",
               "DocumentMoniker": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\ArticlesController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ArticlesController.cs",
               "ToolTip": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\ArticlesController.cs",
               "RelativeToolTip": "WebApplication1\\Controllers\\ArticlesController.cs",
+<<<<<<< HEAD
               "ViewState": "AgIAAC8AAAAAAAAAAAAwwDwAAAAPAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwCAAAAAJAAAAAAAAAA==",
+>>>>>>> cbd54e285c2f4d59fe709d6098b9f3809a74f865
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-25T13:10:02.971Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 2,
+=======
+              "DocumentIndex": 3,
+>>>>>>> cbd54e285c2f4d59fe709d6098b9f3809a74f865
               "Title": "api_tests.http",
               "DocumentMoniker": "C:\\Projects\\VP_Final_Act\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\api_tests.http",
               "RelativeDocumentMoniker": "WebApplication1\\api_tests.http",
@@ -112,8 +171,7 @@
               "RelativeToolTip": "WebApplication1\\api_tests.http",
               "ViewState": "AgIAAC4AAAAAAAAAAAAkwDsAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-05-25T09:11:48.535Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-25T09:11:48.535Z"
             }
           ]
         }

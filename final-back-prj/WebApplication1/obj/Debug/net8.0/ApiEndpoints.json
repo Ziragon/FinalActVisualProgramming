@@ -64,6 +64,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WebApplication1.Controllers.ArticlesController",
+    "Method": "GetById",
+    "RelativePath": "api/Articles/user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebApplication1.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",

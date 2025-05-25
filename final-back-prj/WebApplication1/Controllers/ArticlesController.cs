@@ -68,6 +68,20 @@ namespace WebApplication1.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetById(int userId)
+        {
+            try
+            {
+                var articles = await _articleService.GetByIdAsync(userId);
+                return Ok(articles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 
     public class ArticleCreateRequest

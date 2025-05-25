@@ -38,10 +38,8 @@ const ProfilePage = () => {
                     institution: response.data.institution || '',
                     fieldOfExpertise: response.data.fieldOfExpertise || ''
                 });
-                console.log('Current userId:', userId);
 
             } catch (error) {
-                console.error('Ошибка загрузки профиля:', error);
                 if (error.response?.status === 401) {
                     logout();
                 }

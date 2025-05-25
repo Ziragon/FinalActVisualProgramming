@@ -38,7 +38,6 @@ export const useAuth = () => {
       username: decoded.sub,
       token: token
     });
-    console.log(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']);
   };
 
   // Функция логаута
