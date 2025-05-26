@@ -7,6 +7,14 @@
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\reviewscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\reviewscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,20 +27,12 @@
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\articleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\service\\reviewservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\reviewservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\model\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\model\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +50,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Roles.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Model\\Roles.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Model\\Roles.cs",
@@ -62,19 +62,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\appsettings.json",
               "RelativeDocumentMoniker": "WebApplication1\\appsettings.json",
               "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\appsettings.json",
               "RelativeToolTip": "WebApplication1\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-05-26T09:55:53.124Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "ReviewService.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Service\\ReviewService.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Service\\ReviewService.cs",
@@ -82,12 +82,11 @@
               "RelativeToolTip": "WebApplication1\\Service\\ReviewService.cs",
               "ViewState": "AgIAAHwAAAAAAAAAAAAcwIsAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T07:30:44.679Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T07:30:44.679Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ReviewsController.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\ReviewsController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ReviewsController.cs",
@@ -95,12 +94,11 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\ReviewsController.cs",
               "ViewState": "AgIAAE8AAAAAAAAAAAAcwG8AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T07:30:23.801Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T07:30:23.801Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "ArticleService.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Service\\ArticleService.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Service\\ArticleService.cs",
@@ -108,12 +106,11 @@
               "RelativeToolTip": "WebApplication1\\Service\\ArticleService.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAowEgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T07:29:41.077Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T07:29:41.077Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ArticlesController.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\ArticlesController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ArticlesController.cs",
@@ -121,21 +118,19 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\ArticlesController.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAAAwwDIAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T07:29:33.653Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T07:29:33.653Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Program.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
               "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Program.cs",
               "RelativeToolTip": "WebApplication1\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T14:55:37.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-25T14:55:37.152Z"
             },
             {
               "$type": "Document",
@@ -145,7 +140,7 @@
               "RelativeDocumentMoniker": "WebApplication1\\api_tests.http",
               "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\api_tests.http",
               "RelativeToolTip": "WebApplication1\\api_tests.http",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAUwFoAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAgwFoAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2025-05-25T09:11:48.535Z",
               "EditorCaption": ""

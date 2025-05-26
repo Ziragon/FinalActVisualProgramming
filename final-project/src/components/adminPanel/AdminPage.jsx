@@ -1,31 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../hooks/useAuth';
 import styles from '../../styles/AdminPage.module.css';
+
+const localhost = "http://localhost:5000";
 
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('users');
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [showAddUser, setShowAddUser] = useState(false);
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john@example.com',
-            role: 'Editor',
-            status: 'Active',
-            institution: 'University of Example',
-            fieldOfExpertise: 'Computer Science'
-        },
-        {
-            id: 2,
-            firstName: 'Admin',
-            lastName: 'User',
-            email: 'admin@example.com',
-            role: 'Admin',
-            status: 'Active',
-            institution: 'Tech Institute',
-            fieldOfExpertise: 'Information Technology'
-        }
-    ]);
+    const { isAuthenticated, token, userId } = useAuth();
+    const [users, setUsers] = useState([]);
     const [reviews, setReviews] = useState([
         { id: 1, articleTitle: 'Introduction to React', reviewer: 'John Doe', rating: 4, status: 'Completed' },
         { id: 2, articleTitle: 'Advanced JavaScript', reviewer: 'Admin User', rating: 5, status: 'Pending' }
@@ -39,6 +25,52 @@ const AdminPage = () => {
         institution: '',
         fieldOfExpertise: ''
     });
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const [responseUser, responseProfile] = await Promise.all([
+                    axios.get(`${localhost}/api/users`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    }),
+                    axios.get(`${localhost}/api/profiles`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                ]);
+            
+                const combinedData = await responseUser.data.map(user => {
+                    const profile = responseProfile.data.find(p => p.userId === user.userId);
+
+                    console.log(profile.userId, user.userId)
+                    
+                    return {
+                        id: user.userId,
+                        login: user.login,
+                        roleId: user.roleId,
+                        ...{
+                            fullName: profile.fullName,
+                            email: profile.email,
+                            institution: profile.institution,
+                            fieldOfExpertise: profile.fieldOfExpertise
+                        }
+                    };
+                });
+    
+                await setUsers(combinedData);
+                setIsLoading(false);
+                
+                console.log('Объединенные данные:', combinedData);
+            } catch (err) {
+                console.error('Ошибка при загрузке профилей:', err);
+                setError('Не удалось загрузить профили');
+                setIsLoading(false);
+            }
+        };
+    
+        if (isAuthenticated && userId) {
+            fetchUsers();
+        }
+    }, [isAuthenticated, token, userId]);
 
     const handleAddUser = (e) => {
         e.preventDefault();
@@ -239,19 +271,17 @@ const AdminPage = () => {
                                 <th>Role</th>
                                 <th>Institution</th>
                                 <th>Field of Expertise</th>
-                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             {users.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.firstName} {user.lastName}</td>
+                                    <td>{user.login} {user.lastName}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.role}</td>
+                                    <td>{user.roleId}</td>
                                     <td>{user.institution}</td>
                                     <td>{user.fieldOfExpertise}</td>
-                                    <td>{user.status}</td>
                                     <td>
                                         <button
                                             className={styles.actionButton}
@@ -259,7 +289,7 @@ const AdminPage = () => {
                                         >
                                             Edit
                                         </button>
-                                        <button className={styles.actionButton}>Block</button>
+                                        <button className={styles.actionButton}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
