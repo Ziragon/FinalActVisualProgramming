@@ -24,7 +24,6 @@ namespace WebApplication1.Controllers
             try
             {
                 var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
-
                 var review = await _reviewService.CreateReviewAsync(request.ArticleId, currentUserId);
                 return Ok(review);
             }

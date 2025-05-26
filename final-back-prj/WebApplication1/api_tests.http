@@ -1,7 +1,7 @@
 @host = http://localhost:5000
-@token1 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJHYW1lciIsImp0aSI6ImNlODBhODg4LWVkYmUtNDUwZS1iNWYwLWQxOWVhY2ExYmU4ZCIsInVzZXJJZCI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjIiLCJleHAiOjE3NDgyMDU0NjQsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.JxwKUsaGpYBpE0EFUxkZoIFkEJxgee4GqA-vOchujBE
-@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiI4ZjllZDgxMy02ZDlhLTRmY2ItOGM5NC02M2VjN2ZiNmM4ZDAiLCJ1c2VySWQiOiI1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMyIsImV4cCI6MTc0ODIwNTcwMywiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.4sK7QirmtmsWBpyq1-csfia-tWe-2DH9RCsJEe9r59I
-@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZG1pbiIsImp0aSI6ImU2MWY4Y2M0LTVmYjAtNGI2MC04Y2Y0LTQ4Y2QzMjFjZTg1MiIsInVzZXJJZCI6IjExIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjEiLCJleHAiOjE3NDgyMDU1MzIsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.yZdU3k5AnAKwh24Gcn1p2GeOPZkOf-dJ2riByvcw9ms
+@token1 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiIyMGYyOTQ1ZS00NzdlLTRhNWUtOWE1OS03NjUwODI4ZDhkOTkiLCJ1c2VySWQiOiI1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMyIsImV4cCI6MTc0ODI1NTE2NywiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.2EecgFxvT8AtJD54GWmIZh0tHTaampqo0UoZMLX4gC0
+@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJHYW1lciIsImp0aSI6ImE1YjE0M2UyLWU0ZDktNGMwNC1hNTQyLTgyMjMyMDQ3ZGQ2YSIsInVzZXJJZCI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjIiLCJleHAiOjE3NDgyNTM5NDQsImlzcyI6InlvdXJfaXNzdWVyIiwiYXVkIjoieW91cl9hdWRpZW5jZSJ9.iTAAN6D-2HEGa_qACmiXQyO215SmIO_vwR_sL2mbSa0
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdWdlbmUiLCJqdGkiOiJhYTViYWY0Ny0xYjM1LTRkN2YtYWEwZi1hMjcwMjYzOTA4MDAiLCJ1c2VySWQiOiI1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMyIsImV4cCI6MTc0ODI0ODc2MSwiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.RFfWk7mb6lrldp13oMpLQhD_DbI7Dm3jazqr61d6-v4
 
 ### 1. Роли ###
 ### Создать роль
@@ -70,11 +70,11 @@ Authorization: Bearer {{token}}
 ### Создать статью
 POST https://localhost:7135/api/articles
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token1}}
 
 {
-  "name": "Новая статья",
-  "authorId": 7,
+  "name": "Новая статья 5",
+  "authorId": 5,
   "title": "",
   "category": "Mathematics",
   "body": "Текст статьи...",
@@ -84,10 +84,10 @@ Authorization: Bearer {{token}}
 
 ### Получить статьи от пользователя
 GET http://localhost:5000/api/articles/user/5
-Authorization: Bearer {{token2}}
+Authorization: Bearer {{token1}}
 
 ### Получить статьи по статусу 
-GET http://localhost:5000/api/articles/status/draft
+GET http://localhost:5000/api/articles/status/under_review
 Authorization: Bearer {{token2}}
 
 ### Получить все статьи (админ гейминг) 
@@ -99,31 +99,30 @@ DELETE http://localhost:5000/api/articles/3
 Authorization: Bearer {{admin_token}}
 
 ###Отправить на рецензирование
-POST https://localhost:7135/api/articles/2/submit
-Authorization: Bearer {{token2}}
+POST https://localhost:7135/api/articles/5/submit
+Authorization: Bearer {{token1}}
 
 ### 5. Рецензии ###
 ### Создать рецензию
 POST https://localhost:7135/api/reviews
-Authorization: Bearer {{token1}}
+Authorization: Bearer {{token2}}
 Content-Type: application/json
 
 {
-  "articleId": 2
+  "articleId": 7
 }
 
 ### Обновить рецензию
-PUT https://localhost:7135/api/reviews/2
-Authorization: Bearer {{token}}
+PUT https://localhost:7135/api/reviews/6
+Authorization: Bearer {{token2}}
 Content-Type: application/json
 
 {
     "reviewerId": 10,
-    "rating": 3,
+    "rating": 5,
     "decision": "ноу плиз",
-    "technicalMerit": "да фигня"
-}
-###"originality": "на уровне школьного проекта",
+    "technicalMerit": "да фигня",
+    "originality": "на уровне школьного проекта",
     "presentationQuality": "я бы никому не презентовал",   
     "commentsToAuthor": "переделывай",
     "confidentialComments": "ладно прощаю"
@@ -131,19 +130,19 @@ Content-Type: application/json
 
 
 ### Завершить рецензию
-POST https://localhost:7135/api/reviews/1/complete
+POST https://localhost:7135/api/reviews/6/complete
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token2}}
 
 ### Получить рецензии от пользователя
 GET http://localhost:5000/api/reviews/user/10
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token2}}
 
-### Получить статьи по статусу 
-GET http://localhost:5000/api/reviews/status/false
-Authorization: Bearer {{token}}
+### Получить рецензии по статусу 
+GET http://localhost:5000/api/reviews/status/true
+Authorization: Bearer {{token2}}
 
-### Получить все статьи (админ гейминг) 
+### Получить все рецензии (админ гейминг) 
 GET http://localhost:5000/api/reviews
 Authorization: Bearer {{admin_token}}
 

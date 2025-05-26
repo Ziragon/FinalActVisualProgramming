@@ -56,7 +56,7 @@ namespace WebApplication1.Services
             if (article == null) throw new Exception("Статья не найдена");
             if (article.UserId != currentUserId) throw new UnauthorizedAccessException("Вы не автор статьи");
 
-            article.Status = "under_review";
+            article.Status = "await_review";
             _articleRepository.Update(article);
             await _articleRepository.SaveAsync();
         }

@@ -47,6 +47,7 @@ namespace WebApplication1.Services
             var article = await _articleRepository.GetByIdAsync(articleId);
             if (article == null) throw new Exception("Статья не найдена");
 
+            article.Status = "under_review";
             var review = new Review
             {
                 Id = articleId,
@@ -57,7 +58,9 @@ namespace WebApplication1.Services
             };
 
             await _reviewRepository.AddAsync(review);
+            _articleRepository.Update(article);
             await _reviewRepository.SaveAsync();
+            await _articleRepository.SaveAsync();
             return review;
         }
 
@@ -108,12 +111,19 @@ namespace WebApplication1.Services
             if (review == null) throw new Exception("Рецензия не найдена");
             if (review.UserId != currentUserId) throw new UnauthorizedAccessException("Вы не автор рецензии");
 
+            var article = await _articleRepository.GetByIdAsync(reviewId);
+            if (article == null) throw new Exception("Статья не найдена");
+
+            article.Status = "reviewed";
+
             review.IsCompleted = true;
             review.CompleteDate = DateTime.UtcNow;
             review.Progress = 100;
 
             _reviewRepository.Update(review);
             await _reviewRepository.SaveAsync();
+            _articleRepository.Update(article);
+            await _articleRepository.SaveAsync();
         }
         public async Task<List<Review>> GetByStatusAsync(bool status)
         {

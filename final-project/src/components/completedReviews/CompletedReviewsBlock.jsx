@@ -6,23 +6,10 @@ import ReviewDetailsModal from './ReviewDetailsModal.jsx';
 const CompletedReviewsBlock = ({ item }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const fullReviewData = {
-    ...item,
-    technicalComments: "The research demonstrates solid technical quality with appropriate methodology.",
-    originalityComments: "The work presents novel insights into the field of neural networks.",
-    presentationComments: "The paper is well-organized but could benefit from clearer figures.",
-    authorComments: "Please consider revising the methodology section for clarity.",
-    editorComments: "This paper makes a significant contribution to the field.",
-    attachments: [
-      { name: "review_notes.pdf" },
-      { name: "supplementary_comments.docx" }
-    ]
-  };
-
   return (
     <div className={defcl.rew_complete_block}>
       <div className={defcl.right_float_block}>
-        <p className={defcl.p_date}>Completed: {item.completeDate.toDateString().slice(4)}</p>
+        <p className={defcl.p_date}>Completed: {item.completeDate}</p>
       </div>
       <p className={defcl.p_name}>{item.name}</p>
       <p className={defcl.p_author}>Author: {item.author}</p>
@@ -35,7 +22,7 @@ const CompletedReviewsBlock = ({ item }) => {
         </div>
       </div>
       <div className={defcl.star_block}>
-        <StarRating rating={item.reviewScore} />
+        <StarRating rating={item.rating} />
       </div>
       <div className={defcl.view_button_block}>
         <button 
@@ -48,7 +35,7 @@ const CompletedReviewsBlock = ({ item }) => {
       
       {isModalOpen && (
         <ReviewDetailsModal 
-          review={fullReviewData} 
+          review={item} 
           onClose={() => setIsModalOpen(false)} 
         />
       )}

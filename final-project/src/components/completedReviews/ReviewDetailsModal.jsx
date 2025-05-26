@@ -23,12 +23,12 @@ const ReviewDetailsModal = ({ review, onClose }) => {
                   <div
                     key={star}
                     className={`${styles.starContainer} ${
-                      star <= review.reviewScore ? styles.starFilled : ''
+                      star <= review.rating ? styles.starFilled : ''
                     }`}
                   >
                     <img
                       src={starIcon}
-                      alt={star <= review.reviewScore ? 'Filled star' : 'Empty star'}
+                      alt={star <= review.rating ? 'Filled star' : 'Empty star'}
                       className={styles.starImage}
                     />
                   </div>
@@ -45,22 +45,22 @@ const ReviewDetailsModal = ({ review, onClose }) => {
           <div className={styles.section}>
             <h3>Detailed Review</h3>
             <h4>Technical Merit</h4>
-            <p>{review.technicalComments || "No technical comments provided."}</p>
+            <p>{review.technicalMerit || "No technical comments provided."}</p>
 
             <h4>Originality</h4>
-            <p>{review.originalityComments || "No originality comments provided."}</p>
+            <p>{review.originality || "No originality comments provided."}</p>
 
             <h4>Presentation Quality</h4>
-            <p>{review.presentationComments || "No presentation comments provided."}</p>
+            <p>{review.presentationQuality || "No presentation quality comments provided."}</p>
           </div>
 
           <div className={styles.section}>
             <h3>Additional Comments</h3>
             <h4>Comments to Authors</h4>
-            <p>{review.authorComments || "No additional comments for authors."}</p>
+            <p>{review.commentsToAuthor || "No additional comments for authors."}</p>
 
             <h4>Confidential Comments to Editor</h4>
-            <p>{review.editorComments || "No confidential comments for editor."}</p>
+            <p>{review.confidentialComments || "No confidential comments for editor."}</p>
           </div>
 
           {review.attachments && review.attachments.length > 0 && (
