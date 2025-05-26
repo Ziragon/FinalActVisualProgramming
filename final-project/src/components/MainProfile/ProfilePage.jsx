@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import styles from '../../styles/ProfilePage.module.css';
 
@@ -20,7 +19,8 @@ const ProfilePage = () => {
         inProgress: 0,
         completed: 0
     });
-    const {isAuthenticated, userId, username, logout} = useAuth();
+    const [isReviewer, setIsReviewer] = useState(false);
+    const {roleId, userId, logout} = useAuth();
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -28,21 +28,40 @@ const ProfilePage = () => {
 
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await axios.get(`${localhost}/api/profiles/${userId}`, {
+                const reviewerCheck = roleId === 2;
+                setIsReviewer(reviewerCheck);
+                const profileResponse = await axios.get(`${localhost}/api/profiles/${userId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
+                if (reviewerCheck) {
+                    const reviewsResponse = await axios.get(`${localhost}/api/reviews/user/${userId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                const reviews = reviewsResponse.data;
+                const totalReviews = reviews.length;
+                const completed = reviews.filter(review => review.isCompleted).length;
+                const inProgress = totalReviews - completed;
+
                 setFormData({
-                    fullName: response.data.fullName || '',
-                    email: response.data.email || '',
-                    institution: response.data.institution || '',
-                    fieldOfExpertise: response.data.fieldOfExpertise || ''
+                    fullName: profileResponse.data.fullName || '',
+                    email: profileResponse.data.email || '',
+                    institution: profileResponse.data.institution || '',
+                    fieldOfExpertise: profileResponse.data.fieldOfExpertise || ''
                 });
+
+                setStats({
+                    totalReviews,
+                    inProgress,
+                    completed
+                });
+                }
 
             } catch (error) {
                 if (error.response?.status === 401) {
                     logout();
                 }
+                console.error('Error fetching profile data:', error);
             } finally {
                 setIsLoading(false);
             }
@@ -138,42 +157,26 @@ const ProfilePage = () => {
                 </div>
             </section>
 
-            <section className={styles.personalInfoSection}>
-                <h2>Review Statistics</h2>
-                <div className={styles.statsGrid}>
-                    <div className={styles.statValue}>{stats.totalReviews}</div>
-                    <div className={styles.statValue}>{stats.inProgress}</div>
-                    <div className={styles.statValue}>{stats.completed}</div>
-                    
-                    <div className={styles.statLabel}>Total Reviews</div>
-                    <div className={styles.statLabel}>In Progress</div>
-                    <div className={styles.statLabel}>Completed</div>
-                </div>
-            </section>
+            {isReviewer && (
+                <section className={styles.personalInfoSection}>
+                    <h2>Review Statistics</h2>
+                    <div className={styles.statsGrid}>
+                        <div className={styles.statValue}>{stats.totalReviews}</div>
+                        <div className={styles.statValue}>{stats.inProgress}</div>
+                        <div className={styles.statValue}>{stats.completed}</div>
+                        
+                        <div className={styles.statLabel}>Total Reviews</div>
+                        <div className={styles.statLabel}>In Progress</div>
+                        <div className={styles.statLabel}>Completed</div>
+                    </div>
+                </section>
+            )}
+
 
             <section className={styles.personalInfoSection}>
                 <h2>Review Preferences</h2>
                 <div className={styles.preferencesList}>
-                    <div className={styles.preferenceItem}>
-                        <input 
-                            type="checkbox" 
-                            id="available" 
-                            defaultChecked 
-                            className={styles.preferenceCheckbox}
-                        />
-                        <label>Available for new reviews</label>
-                    </div>
-                    
-                    <div className={styles.preferenceItem}>
-                        <label>Maximum concurrent reviews</label>
-                        <input
-                            type="number"
-                            defaultValue="3"
-                            min="1"
-                            max="10"
-                            className={styles.preferenceInput}
-                        />
-                    </div>
+                    <h3> Ваще Мнение не учитывается</h3>  
                 </div>
             </section>
         </div>
