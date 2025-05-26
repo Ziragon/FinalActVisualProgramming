@@ -1,7 +1,16 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -12,7 +21,7 @@
 @keyframes fadeInScale {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.98);
     }
     to {
         opacity: 1;
@@ -23,7 +32,7 @@
 @keyframes fadeInLeft {
     from {
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateX(-10px);
     }
     to {
         opacity: 1;
@@ -36,35 +45,37 @@
     flex-direction: column;
     gap: 16px;
     font-family: Arial, sans-serif;
-    animation: fadeIn 0.6s ease-out forwards;
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
 .sectionDescription {
     color: #666;
     margin-bottom: 2rem;
-    animation: fadeIn 0.5s ease-out 0.4s both;
+    animation: fadeIn 0.4s ease-out 0.3s both;
 }
 
 .personalInfoSection {
-    padding: 12px 16px;
+    padding: 16px 20px;
     width: 100%;
     border: 2px solid #dee2e6;
-    border-radius: 6px;
-    animation: fadeInScale 0.5s ease-out 0.2s both;
-    background-color:#f1f1f1;
+    border-radius: 8px;
+    animation: fadeInScale 0.4s ease-out 0.2s both;
+    background-color: #f1f1f1;
 }
 
 .sectionTitle {
     color: #333;
     padding: 5px 0;
     font-size: 32px;
-    animation: fadeIn 0.5s ease-out 0.3s both;
+    animation: fadeInUp 0.4s ease-out 0.3s both;
     margin-bottom: 20px;
 }
+
 .tabs {
     display: flex;
     margin-bottom: 20px;
     border-bottom: 1px solid #dee2e6;
+    animation: fadeIn 0.4s ease-out 0.4s both;
 }
 
 .tabButton {
@@ -74,11 +85,12 @@
     cursor: pointer;
     font-size: 16px;
     color: #495057;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .tabButton:hover {
     color: #212529;
+    background-color: #f1f1f1;
 }
 
 .tabButton.active {
@@ -88,19 +100,26 @@
 }
 
 .userManagement {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeInUp 0.4s ease-out 0.5s both;
 }
 
 .searchBar {
     margin-bottom: 20px;
+    animation: fadeIn 0.4s ease-out 0.5s both;
 }
 
 .searchInput {
     width: 99.5%;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border: 1px solid #dee2e6;
     border-radius: 4px;
     font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.searchInput:focus {
+    border-color: #adb5bd;
+    outline: none;
 }
 
 .addButton {
@@ -110,7 +129,7 @@
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 20px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .addButton:hover {
@@ -120,6 +139,7 @@
 .usersTable {
     width: 100%;
     border-collapse: collapse;
+    animation: fadeInUp 0.4s ease-out 0.6s both;
 }
 
 .usersTable th, .usersTable td {
@@ -131,6 +151,7 @@
 .usersTable th {
     font-weight: 500;
     color: #495057;
+    background-color: #f1f1f1;
 }
 
 .actionButton {
@@ -140,7 +161,7 @@
     margin-right: 5px;
     border-radius: 3px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .actionButton:hover {
@@ -149,9 +170,9 @@
 
 .addUserForm {
     margin-bottom: 20px;
-    padding: 15px;
+    padding: 20px;
     border: 1px solid #dee2e6;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: #f8f9fa;
     animation: fadeInScale 0.3s ease-out;
 }
@@ -174,10 +195,16 @@
 
 .formInput {
     width: 99.2%;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border: 1px solid #dee2e6;
     border-radius: 4px;
     font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.formInput:focus {
+    border-color: #adb5bd;
+    outline: none;
 }
 
 .formActions {
@@ -191,7 +218,7 @@
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .formActions button:first-child {
@@ -209,5 +236,27 @@
 }
 
 .articlesSection {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeInUp 0.4s ease-out 0.5s both;
 }
+.ratingStars {
+    color: #000000;
+    font-size: 1.2em;
+}
+
+.statusBadge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.statusBadge.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.statusBadge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
