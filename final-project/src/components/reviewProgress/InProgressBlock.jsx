@@ -6,9 +6,11 @@ import { useAuth } from '../../hooks/useAuth';
 
 const localhost = "http://localhost:5000";
 
-const InProgressBlock = ({ item, onReviewUpdate }) => {
+const InProgressBlock = ({ item, onReviewUpdate, onDownload, onViewArticle }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { token } = useAuth();
+    const hasFile = item.bodyFileId !== null;
+    const hasContent = item.body && item.body.trim() !== '';
     
     const handleSaveDraft = async (formData) => {
         try {
@@ -81,6 +83,21 @@ const InProgressBlock = ({ item, onReviewUpdate }) => {
                 <div className={defcl.flex_block_inprog}>
                     <p className={defcl.p_progress}>Progress: {item.progress}%</p>
                     <div className={defcl.buttons}>
+                        {hasFile ? (
+                            <button 
+                                onClick={onDownload}
+                                className='white_button'
+                            >
+                                Download File
+                            </button>
+                        ) : hasContent ? (
+                            <button 
+                                onClick={onViewArticle}
+                                className='white_button'
+                            >
+                                View Article
+                            </button>
+                        ) : null}
                         <button 
                             onClick={() => setIsModalOpen(true)}
                             className='black_button'

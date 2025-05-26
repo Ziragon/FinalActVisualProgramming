@@ -1,7 +1,9 @@
 import React from 'react';
 import defcl from "../../styles/ReviewDefaultClasses.module.css";
 
-const ReviewRequestsBlock = ({ item, onAccept, onDecline }) => {
+const ReviewRequestsBlock = ({ item, onAccept, onDownload, onViewArticle }) => {
+    const hasFile = item.bodyFileId !== null;
+    const hasContent = item.body && item.body.trim() !== '';
 
     return (
         <div> 
@@ -13,12 +15,22 @@ const ReviewRequestsBlock = ({ item, onAccept, onDecline }) => {
                 <p className={defcl.p_author}>Author: {item.author}</p>
                 <p className={defcl.p_abstract}>Tags: {item.tags}</p>
                 <div className={defcl.buttons}>
-                    <button 
-                        onClick={onDecline}
-                        className='white_button'
-                    >
-                        Decline
-                    </button>
+                    {hasFile ? (
+                        <button 
+                            onClick={onDownload}
+                            className='white_button'
+                        >
+                            Download File
+                        </button>
+                    ) : hasContent ? (
+                        <button 
+                            onClick={onViewArticle}
+                            className='white_button'
+                        >
+                            View Article
+                        </button>
+                    ) : null}
+                    
                     <button 
                         onClick={onAccept}
                         className='black_button'

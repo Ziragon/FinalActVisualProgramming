@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using System.Security.Claims;
 using WebApplication1.Models;
 using WebApplication1.Services;
@@ -34,6 +35,30 @@ namespace WebApplication1.Controllers
                     currentUserId
                 );
                 return Ok(uploadedFile);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpGet("download/{fileId}")]
+        public async Task<IActionResult> DownloadFile(int fileId)
+        {
+            try
+            {
+                var file = await _fileService.GetFileAsync(fileId);
+                if (file == null)
+                {
+                    return NotFound(new { Message = "File not found" });
+                }
+
+                return File(
+                    file.Content,
+                    file.Type,
+                    file.Name,
+                    true
+                );
             }
             catch (Exception ex)
             {

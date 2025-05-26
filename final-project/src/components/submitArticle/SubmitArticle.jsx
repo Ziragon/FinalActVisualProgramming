@@ -35,7 +35,17 @@ const SubmitArticle = () => {
 
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
-            setFeaturedImage(e.target.files[0]);
+            const file = e.target.files[0];
+            const allowedExtensions = ['doc', 'docx', 'pdf'];
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            console.log(fileExtension)
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert('Возможна загрузка только .doc, .docx или .pdf');
+                return;
+            }
+    
+            setFeaturedImage(file);
             if (submissionType !== 'file') {
                 setSubmissionType('file');
                 setFormData(prev => ({ ...prev, content: '' }));

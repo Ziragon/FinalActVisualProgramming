@@ -163,14 +163,11 @@ const ReviewProgressPage = () => {
 
     const handleReviewUpdate = async (updatedReview) => {
       if (updatedReview.shouldRefresh) {
-        // Принудительно обновляем данные
         setRefreshTrigger(prev => prev + 1);
       } else if (updatedReview.isCompleted) {
-        // Если рецензия завершена, обновляем список
         const updatedArticles = await fetchArticlesInProgress();
         setArticlesInProgress(updatedArticles);
       } else {
-        // Если это просто обновление прогресса
         setArticlesInProgress(prev => 
           prev.map(article => 
             article.reviewId === updatedReview.id 
@@ -179,6 +176,45 @@ const ReviewProgressPage = () => {
           )
         );
       }
+    };
+
+    const handleDownloadFile = async (fileId, articleId) => {
+        try {
+            const response = await axios.get(`${localhost}/api/files/download/${fileId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                responseType: 'blob'
+            });
+
+            const contentType = response.headers['content-type'];
+
+            console.log(contentType)
+
+            const filename = `article${articleId}`;
+
+            const blob = new Blob([response.data], { type: contentType });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url);
+            link.remove();
+    
+        } catch (error) {
+            console.error('Error downloading file:', error);
+    
+            let errorMessage = 'An unknown error occurred';
+            if (error.response) {
+                errorMessage = `Server responded with status code ${error.response.status}`;
+            } else if (error.request) {
+                errorMessage = 'No response received from server';
+            }
+    
+            alert(`Error downloading file: ${errorMessage}`);
+        }
     };
 
     if (loading) return <div className={defcl.main_container}>Loading...</div>;
@@ -195,6 +231,7 @@ const ReviewProgressPage = () => {
                             item={article}
                             onAccept={() => handleAcceptReview(article.id)}
                             onDecline={() => handleDeclineReview(article.id)}
+                            onDownload={() => handleDownloadFile(article.bodyFileId, article.id)}
                         />
                     ))
                 ) : (
@@ -209,6 +246,7 @@ const ReviewProgressPage = () => {
                             key={article.reviewId || article.id}
                             item={article}
                             onReviewUpdate={handleReviewUpdate}
+                            onDownload={() => handleDownloadFile(article.bodyFileId, article.id)}
                         />
                     ))
                 ) : (

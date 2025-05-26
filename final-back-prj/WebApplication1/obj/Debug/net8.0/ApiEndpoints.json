@@ -176,6 +176,22 @@
   },
   {
     "ContainingType": "WebApplication1.Controllers.FilesController",
+    "Method": "DownloadFile",
+    "RelativePath": "api/Files/download/{fileId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fileId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication1.Controllers.FilesController",
     "Method": "UploadFile",
     "RelativePath": "api/Files/upload",
     "HttpMethod": "POST",
@@ -475,7 +491,7 @@
   },
   {
     "ContainingType": "WebApplication1.Controllers.UsersController",
-    "Method": "Update",
+    "Method": "UpdateUser",
     "RelativePath": "api/Users/{userId}",
     "HttpMethod": "PUT",
     "IsController": true,

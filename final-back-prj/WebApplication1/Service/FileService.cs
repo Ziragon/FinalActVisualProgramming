@@ -39,6 +39,11 @@ namespace WebApplication1.Services
             return file;
         }
 
+        public async Task<Models.File> GetFileAsync(int fileId)
+        {
+            return await _fileRepository.GetByIdAsync(fileId);
+        }
+
         public async Task AttachToArticleAsync(int fileId, int articleId, int currentUserId)
         {
             var article = await _dbContext.Articles
