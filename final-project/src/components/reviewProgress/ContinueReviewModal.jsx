@@ -1,26 +1,69 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
+import { useAuth } from '../../hooks/useAuth';
 import PortalModal from '../myArticlesPage/PortalModal.jsx';
 import styles from '../../styles/ContinueReviewModal.module.css';
 import starIcon from "../../styles/img/star.svg";
 
-const ContinueReviewModal = ({ article, onClose, onSaveDraft, onSubmitReview }) => {
+const ContinueReviewModal = ({ article, onClose, onReviewUpdated }) => {
+  const { token, userId } = useAuth();
   const [dragActive, setDragActive] = useState(false);
-  const [selectedRating, setSelectedRating] = useState(article.overallRating || 0);
+  const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [apiError, setApiError] = useState(null);
+  const [initialValues, setInitialValues] = useState({
+    overallRating: 0,
+    recommendation: '',
+    technicalComments: '',
+    originalityComments: '',
+    presentationComments: '',
+    authorComments: '',
+    editorComments: '',
+    attachments: null
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const initialValues = {
-    overallRating: article.overallRating || 0,
-    recommendation: article.recommendation || '',
-    technicalComments: article.technicalComments || '',
-    originalityComments: article.originalityComments || '',
-    presentationComments: article.presentationComments || '',
-    authorComments: article.authorComments || '',
-    editorComments: article.editorComments || '',
-    attachments: article.attachments || []
-  };
+  useEffect(() => {
+    if (!token || !userId) return;
 
-const validate = (values) => {
+    const fetchReviewData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `http://localhost:5000/api/reviews/${article.reviewId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        
+        const reviewData = response.data;
+        setInitialValues({
+          overallRating: reviewData.rating || 0,
+          recommendation: reviewData.decision || '',
+          technicalComments: reviewData.technicalMerit || '',
+          originalityComments: reviewData.originality || '',
+          presentationComments: reviewData.presentationQuality || '',
+          authorComments: reviewData.commentsToAuthor || '',
+          editorComments: reviewData.confidentialComments || '',
+          attachments: reviewData.attachmentsId || null
+        });
+        setSelectedRating(reviewData.rating || 0);
+      } catch (error) {
+        console.error('Error fetching review data:', error);
+        setApiError(error.response?.data?.message || 'Failed to load review data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReviewData();
+  }, [article.reviewId, token, userId]);
+
+  const validate = (values) => {
     const errors = {};
     
     if (!values.overallRating) {
@@ -52,6 +95,81 @@ const validate = (values) => {
     return errors;
   };
 
+const handleSaveDraft = async (values) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:5000/api/reviews/${article.reviewId}`,
+      {
+        reviewerId: userId,
+        rating: values.overallRating,
+        decision: values.recommendation,
+        technicalMerit: values.technicalComments,
+        originality: values.originalityComments,
+        presentationQuality: values.presentationComments,
+        commentsToAuthor: values.authorComments,
+        confidentialComments: values.editorComments
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    
+    // Передаем флаг, что нужно обновить данные
+    if (onReviewUpdated) {
+      onReviewUpdated({ ...response.data, shouldRefresh: true });
+    }
+    
+    return response.data;
+  } catch (error) {
+    setApiError(error.response?.data?.message || 'Error saving draft');
+    throw error;
+  }
+};
+
+const handleSubmitReview = async (values) => {
+  try {
+    const updateResponse = await axios.put(
+      `http://localhost:5000/api/reviews/${article.reviewId}`,
+      {
+        reviewerId: userId,
+        rating: values.overallRating,
+        decision: values.recommendation,
+        technicalMerit: values.technicalComments,
+        originality: values.originalityComments,
+        presentationQuality: values.presentationComments,
+        commentsToAuthor: values.authorComments,
+        confidentialComments: values.editorComments
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    await axios.post(
+      `http://localhost:5000/api/reviews/${article.reviewId}/complete`,
+      {},
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    if (onReviewUpdated) {
+      onReviewUpdated({ ...updateResponse.data, isCompleted: true, shouldRefresh: true });
+    }
+  } catch (error) {
+    setApiError(error.response?.data?.message || 'Error submitting review');
+    throw error;
+  }
+};
 
   const handleDrag = useCallback((e) => {
     e.preventDefault();
@@ -77,13 +195,27 @@ const validate = (values) => {
     <PortalModal>
       <div className={styles.modalOverlay}>
         <div className={styles.modalContent}>
+          <button 
+            onClick={onClose} 
+            className={styles.closeButton}
+          >
+            X
+          </button>
+          {apiError && <div className={styles.apiError}>{apiError}</div>}
+          
           <Formik
             initialValues={initialValues}
+            enableReinitialize={true} 
             validate={validate}
-            onSubmit={(values, { setSubmitting }) => {
-              onSubmitReview(values);
-              setSubmitting(false);
-              onClose();
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                await handleSubmitReview(values);
+                onClose();
+              } catch (error) {
+                console.error('Submission error:', error);
+              } finally {
+                setSubmitting(false);
+              }
             }}
           >
             {({ isSubmitting, setFieldValue, values }) => (
@@ -218,34 +350,18 @@ const validate = (values) => {
                       className={styles.fileInput}
                     />
                   </div>
-                  {values.attachments.length > 0 && (
-                    <ul className={styles.attachmentsList}>
-                      {values.attachments.map((file, index) => (
-                        <li key={index}>
-                          {file.name || file}
-                          <button 
-                            type="button"
-                            onClick={() => {
-                              const newAttachments = [...values.attachments];
-                              newAttachments.splice(index, 1);
-                              setFieldValue('attachments', newAttachments);
-                            }}
-                            className={styles.removeAttachment}
-                          >
-                            ×
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                 </div>
 
-               <div className={styles.buttonGroup}>
+                <div className={styles.buttonGroup}>
                   <button 
                     type="button" 
-                    onClick={() => {
-                      onSaveDraft(values); // надо реализовать сэйв
-                      onClose();
+                    onClick={async () => {
+                      try {
+                        await handleSaveDraft(values);
+                        onClose();
+                      } catch (error) {
+                        console.error('Error saving draft:', error);
+                      }
                     }} 
                     className="black_button"
                   >
@@ -254,11 +370,9 @@ const validate = (values) => {
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    // также доделать функцию отправки
                     className="black_button"
-                    
                   >
-                    Submit Review
+                    {isSubmitting ? 'Submitting...' : 'Submit Review'}
                   </button>
                 </div>
 

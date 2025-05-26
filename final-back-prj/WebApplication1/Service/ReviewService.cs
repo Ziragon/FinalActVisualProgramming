@@ -137,7 +137,10 @@ namespace WebApplication1.Services
         {
             return await _reviewRepository.GetByUserIdAsync(userId);
         }
-
+        public async Task<Review> GetArticleByIdAsync(int reviewId)
+        { 
+            return await _reviewRepository.GetByIdAsync(reviewId);
+        }
         public async Task DeleteReviewAsync(int reviewId)
         {
             var review = await _reviewRepository.GetByIdAsync(reviewId);
