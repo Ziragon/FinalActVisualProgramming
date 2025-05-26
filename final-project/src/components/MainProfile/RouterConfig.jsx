@@ -8,14 +8,32 @@ import AdminPage from "../adminPanel/AdminPage";
 import styles from '../../styles/RouterConfig.module.css';
 import profileImg from '../../styles/img/32.jpg';
 import { useAuth } from '../../hooks/useAuth';
+import { useState, useRef } from 'react';
 
 const MainProfile = () => {
     const { roleId, username, logout } = useAuth();
     const navigate = useNavigate();
+    const [avatar, setAvatar] = useState(profileImg);
+    const fileInputRef = useRef(null);
 
     const handleLogout = () => {
         logout();
         navigate('/login');
+    };
+
+    const handleAvatarClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setAvatar(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const isTabAvailable = (tabName) => {
@@ -43,10 +61,19 @@ const MainProfile = () => {
                 </div>
                 <div className={styles.headerRight}>
                     <span className={styles.profileName}>{username || 'Зарегайся скотина'}</span>
-                    <img
-                        src={profileImg}
-                        alt="?"
-                        className={styles.profileImage}
+                    <div onClick={handleAvatarClick} style={{ cursor: 'pointer' }}>
+                        <img
+                            src={avatar}
+                            alt="User Avatar"
+                            className={styles.profileImage}
+                        />
+                    </div>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        style={{ display: 'none' }}
                     />
                     <button
                         onClick={handleLogout}
@@ -57,7 +84,7 @@ const MainProfile = () => {
                 </div>
             </header>
 
-            {/* Остальной код остается без изменений */}
+
             <div className={styles.dashboardHeader}>
                 <h2>
                     {roleId === 1 && 'Admin Dashboard'}
