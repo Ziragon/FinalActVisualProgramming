@@ -9,7 +9,6 @@ using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Для разработки: разрешаем любые сертификаты
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddHttpClient("NoSSL").ConfigurePrimaryHttpMessageHandler(() =>
@@ -75,7 +74,6 @@ builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<AuthService>();
 
-// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

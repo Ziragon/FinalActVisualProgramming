@@ -6,14 +6,16 @@ import CompletedReviewsPage from "../completedReviews/CompletedReviewsPage";
 import ArticlesPage from "../myArticlesPage/MyArticlePage";
 import AdminPage from "../adminPanel/AdminPage";
 import styles from '../../styles/RouterConfig.module.css';
-import profileImg from '../../styles/img/32.jpg';
+import profileImg from '../../styles/img/profile.jpg';
 import { useAuth } from '../../hooks/useAuth';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+const localhost = "http://localhost:5000";
 
 const MainProfile = () => {
-    const { roleId, username, logout } = useAuth();
+    const { roleId, username, logout, token, userId } = useAuth();
     const navigate = useNavigate();
-    const [avatar, setAvatar] = useState(profileImg);
+    const [avatar, setAvatar] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleLogout = () => {
@@ -25,16 +27,95 @@ const MainProfile = () => {
         fileInputRef.current.click();
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setAvatar(event.target.result);
-            };
-            reader.readAsDataURL(file);
+    const fetchUserAvatar = async () => {
+        try {
+            const profileResponse = await axios.get(
+                `${localhost}/api/profiles/${userId}`,
+                {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                    }
+                }
+            );
+            
+            const profilePicId = profileResponse.data.profilePicId;
+            
+            if (profilePicId) {
+                const fileResponse = await axios.get(
+                    `${localhost}/api/files/download/${profilePicId}`,
+                    {
+                        responseType: 'blob',
+                        headers: { 
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    }
+                );
+                
+                const blobUrl = URL.createObjectURL(fileResponse.data);
+                setAvatar(blobUrl);
+            } else {
+                setAvatar(undefined);
+            }
+        } catch (error) {
+            console.error('Error fetching avatar:', error);
+            setAvatar(undefined);
         }
     };
+
+    useEffect(() => {
+        if (userId) {
+            fetchUserAvatar();
+        }
+    }, [userId, token]);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            setAvatar(null);
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const fileResponse = await axios.post(
+                `${localhost}/api/files/upload`,
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+            const fileId = fileResponse.data.id;
+
+            await axios.put(
+                `${localhost}/api/profiles/${userId}/avatar`,
+                { profilePicId: fileId },
+                {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            fetchUserAvatar();
+
+        } catch (error) {
+            console.error('Error uploading avatar:', error);
+            setAvatar(undefined);
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (avatar && avatar !== profileImg && typeof avatar === 'string') {
+                URL.revokeObjectURL(avatar);
+            }
+        };
+    }, [avatar]);
 
     const isTabAvailable = (tabName) => {
         switch (tabName) {
@@ -62,11 +143,15 @@ const MainProfile = () => {
                 <div className={styles.headerRight}>
                     <span className={styles.profileName}>{username || 'Зарегайся скотина'}</span>
                     <div onClick={handleAvatarClick} style={{ cursor: 'pointer' }}>
-                        <img
-                            src={avatar}
-                            alt="User Avatar"
-                            className={styles.profileImage}
-                        />
+                        {avatar === null ? (
+                            <div className={styles.profileImage} style={{ backgroundColor: 'transparent' }} />
+                        ) : (
+                            <img
+                                src={avatar || profileImg}
+                                alt="User Avatar"
+                                className={styles.profileImage}
+                            />
+                        )}
                     </div>
                     <input
                         type="file"

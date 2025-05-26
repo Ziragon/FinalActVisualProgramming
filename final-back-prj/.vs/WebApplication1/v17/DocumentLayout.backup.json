@@ -11,20 +11,20 @@
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\profileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\service\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\controllers\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\api_tests.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\service\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\service\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AC66800-F528-479D-BFBE-4D5D14B0E618}|WebApplication1\\WebApplication1.csproj|c:\\users\\administrator\\finalactvisualprogramming\\final-back-prj\\webapplication1\\service\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -69,14 +69,14 @@
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\ProfilesController.cs",
               "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\ProfilesController.cs",
               "RelativeToolTip": "WebApplication1\\Controllers\\ProfilesController.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAcwDIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAcwDAAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T21:41:08.344Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Service\\AuthService.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Service\\AuthService.cs",
@@ -84,12 +84,11 @@
               "RelativeToolTip": "WebApplication1\\Service\\AuthService.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAQwBkAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T21:11:22.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T21:11:22.824Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\AuthController.cs",
@@ -126,26 +125,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "FilesController.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\FilesController.cs",
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\FilesController.cs",
               "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\Controllers\\FilesController.cs",
               "RelativeToolTip": "WebApplication1\\Controllers\\FilesController.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAAADgAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAQwFMAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T17:36:05.111Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "api_tests.http",
               "DocumentMoniker": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\api_tests.http",
               "RelativeDocumentMoniker": "WebApplication1\\api_tests.http",
               "ToolTip": "C:\\Users\\Administrator\\FinalActVisualProgramming\\final-back-prj\\WebApplication1\\api_tests.http",
               "RelativeToolTip": "WebApplication1\\api_tests.http",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAqwKYAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAADEAAAAAAAAAAAAwwEsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2025-05-25T09:11:48.535Z",
               "EditorCaption": ""

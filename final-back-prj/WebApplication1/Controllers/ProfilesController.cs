@@ -39,8 +39,8 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateProfile(int userId, [FromBody] ProfilePicRequest request)
+        [HttpPut("{userId}/avatar")]
+        public async Task<IActionResult> UpdateProfilePic(int userId, [FromBody] ProfilePicRequest request)
         {
             try
             {
