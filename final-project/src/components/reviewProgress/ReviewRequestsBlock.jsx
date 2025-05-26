@@ -13,7 +13,7 @@ const ReviewRequestsBlock = ({ item, onAccept, onDownload, onViewArticle }) => {
                 </div>
                 <p className={defcl.p_name}>{item.name}</p>
                 <p className={defcl.p_author}>Author: {item.author}</p>
-                <p className={defcl.p_abstract}>Tags: {item.tags}</p>
+                <p className={defcl.p_abstract}>Category: {item.category}</p>
                 <div className={defcl.buttons}>
                     {hasFile ? (
                         <button 

@@ -537,7 +537,6 @@ C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.WebApplication1.props
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.WebApplication1.props
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\WebAppli.7D14BD69.Up2Date
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\WebApplication1.dll
 C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\refint\WebApplication1.dll
@@ -925,3 +924,4 @@ C:\Users\user\Desktop\FinalActVisualProgramming\final-back-prj\WebApplication1\b
 C:\Users\user\Desktop\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Jint.dll
 C:\Users\user\Desktop\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\user\Desktop\FinalActVisualProgramming\final-back-prj\WebApplication1\bin\Debug\net8.0\PostmanRunner.dll
+C:\Users\Administrator\FinalActVisualProgramming\final-back-prj\WebApplication1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

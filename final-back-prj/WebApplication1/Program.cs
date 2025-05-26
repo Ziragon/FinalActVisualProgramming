@@ -145,6 +145,30 @@ using (var scope = app.Services.CreateScope())
             await db.SaveChangesAsync();
             Console.WriteLine("Initial roles seeded successfully.");
         }
+        if (!db.Users.Any(u => u.RoleId == 1))
+        {
+            Console.WriteLine("Creating admin user...");
+            var adminLogin = "Admin";
+            var adminPassword = "Password";
+
+            var userService = scope.ServiceProvider.GetRequiredService<UserService>();
+            var success = await userService.RegisterAsync(adminLogin, adminPassword, 1);
+
+            if (success)
+            {
+                Console.WriteLine("Admin user created successfully.");
+
+                var adminUser = await db.Users.FirstAsync(u => u.RoleId == 1);
+                var adminProfile = await db.Profiles.FirstAsync(p => p.UserId == adminUser.UserId);
+
+                await db.SaveChangesAsync();
+                Console.WriteLine("Admin profile created.");
+            }
+            else
+            {
+                Console.WriteLine("Failed to create admin user.");
+            }
+        }
     }
     catch (Exception ex)
     {

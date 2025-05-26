@@ -7,11 +7,19 @@ namespace WebApplication1.Services
     {
         private readonly IProfileRepository _profileRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IArticleRepository _articleRepository;
+        private readonly IReviewRepository _reviewRepository;
 
-        public ProfileService(IProfileRepository profileRepository, IUserRepository userRepository)
+        public ProfileService(
+            IUserRepository userRepository,
+            IProfileRepository profileRepository,
+            IArticleRepository articleRepository,
+            IReviewRepository reviewRepository)
         {
-            _profileRepository = profileRepository;
             _userRepository = userRepository;
+            _profileRepository = profileRepository;
+            _articleRepository = articleRepository;
+            _reviewRepository = reviewRepository;
         }
 
         public async Task UpdateProfileAsync(int userId, string fullName, string email, string Institution, string FieldOfExpertise)
@@ -69,11 +77,29 @@ namespace WebApplication1.Services
         public async Task DeleteProfileAsync(int id)
         {
             var profile = await _profileRepository.GetByUserIdAsync(id);
-            if (profile != null)
+            if (profile == null) return;
+
+            var articles = await _articleRepository.GetByUserIdAsync(id);
+            foreach (var article in articles)
             {
-                _profileRepository.Delete(profile);
-                await _profileRepository.SaveAsync();
+                var articleReviews = await _reviewRepository.GetByArticleIdAsync(article.Id);
+                foreach (var review in articleReviews)
+                {
+                    _reviewRepository.Delete(review);
+                }
+
+                _articleRepository.Delete(article);
             }
+
+            var userReviews = await _reviewRepository.GetByUserIdAsync(id);
+            foreach (var review in userReviews)
+            {
+                _reviewRepository.Delete(review);
+            }
+
+            _profileRepository.Delete(profile);
+
+            await _userRepository.SaveAsync();
         }
     }
 }

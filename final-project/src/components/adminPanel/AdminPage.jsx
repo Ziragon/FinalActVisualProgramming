@@ -551,7 +551,7 @@ const AdminPage = () => {
                             <tbody>
                             {users.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.login} {user.lastName}</td>
+                                    <td>{user.fullName || "L: " + user.login}</td>
                                     <td>{user.email}</td>
                                     <td>{user.roleId}</td>
                                     <td>{user.institution}</td>

@@ -25,23 +25,15 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             if (!userId) return;
-
+    
             try {
                 const token = localStorage.getItem('authToken');
                 const reviewerCheck = roleId === 2;
                 setIsReviewer(reviewerCheck);
+
                 const profileResponse = await axios.get(`${localhost}/api/profiles/${userId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-
-                if (reviewerCheck) {
-                    const reviewsResponse = await axios.get(`${localhost}/api/reviews/user/${userId}`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                const reviews = reviewsResponse.data;
-                const totalReviews = reviews.length;
-                const completed = reviews.filter(review => review.isCompleted).length;
-                const inProgress = totalReviews - completed;
 
                 setFormData({
                     fullName: profileResponse.data.fullName || '',
@@ -50,13 +42,22 @@ const ProfilePage = () => {
                     fieldOfExpertise: profileResponse.data.fieldOfExpertise || ''
                 });
 
-                setStats({
-                    totalReviews,
-                    inProgress,
-                    completed
-                });
+                if (reviewerCheck) {
+                    const reviewsResponse = await axios.get(`${localhost}/api/reviews/user/${userId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const reviews = reviewsResponse.data;
+                    const totalReviews = reviews.length;
+                    const completed = reviews.filter(review => review.isCompleted).length;
+                    const inProgress = totalReviews - completed;
+    
+                    setStats({
+                        totalReviews,
+                        inProgress,
+                        completed
+                    });
                 }
-
+    
             } catch (error) {
                 if (error.response?.status === 401) {
                     logout();
@@ -66,7 +67,7 @@ const ProfilePage = () => {
                 setIsLoading(false);
             }
         };
-
+    
         fetchProfileData();
     }, [userId]);
 

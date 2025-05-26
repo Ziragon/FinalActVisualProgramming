@@ -86,6 +86,11 @@ namespace WebApplication1.Controllers
         {
             try
             {
+                var currentUserId = int.Parse(User.FindFirst("userId")?.Value);
+                if (currentUserId == userId)
+                {
+                    return BadRequest("Невозможно удалить самого себя");
+                }
                 await _profileService.DeleteProfileAsync(userId);
                 await _userService.DeleteUserAsync(userId);
                 return NoContent();
