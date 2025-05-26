@@ -10,7 +10,7 @@ const ReviewRequestsBlock = ({ item, onAccept, onDecline }) => {
                 </div>
                 <p className={defcl.p_name}>{item.name}</p>
                 <p className={defcl.p_author}>Author: {item.author}</p>
-                <p className={defcl.p_abstract}>Abstract: {item.abstract}</p>
+                <p className={defcl.p_abstract}>Tags: {item.tags}</p>
                 <div className={defcl.buttons}>
                     <button 
                         onClick={onDecline}

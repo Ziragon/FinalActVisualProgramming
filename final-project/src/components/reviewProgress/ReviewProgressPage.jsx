@@ -13,94 +13,80 @@ const ReviewProgressPage = () => {
     const [articlesInProgress, setArticlesInProgress] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                
-                if (!token) {
-                    throw new Error('No authentication token found');
-                }
+    const fetchArticlesInProgress = async () => {
+        try {
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
 
-                const headers = {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                };
+            const [draftResponse, reviewsResponse] = await Promise.all([
+                axios.get(`${localhost}/api/articles/status/under_review`, { headers }),
+                axios.get(`${localhost}/api/reviews/user/${userId}`, { headers })
+            ]);
 
-                // 1. Fetch articles under review (for New Review Requests)
-                const underReviewResponse = await axios.get(
-                    `${localhost}/api/articles/status/under_review`,
-                    { headers }
-                );
-
-                // 2. Fetch draft articles (for In Progress Reviews)
-                const draftResponse = await axios.get(
-                    `${localhost}/api/articles/status/draft`,
-                    { headers }
-                );
-
-                // 3. Fetch user's reviews to track progress
-                const reviewsResponse = await axios.get(
-                    `${localhost}/api/reviews/user/${userId}`,
-                    { headers }
-                );
-
-                // Set articles for review
-                setArticlesForReview(underReviewResponse.data.map(article => ({
+            return draftResponse.data.map(article => {
+                const review = reviewsResponse.data.find(r => r.articleId === article.id);
+                return {
                     ...article,
-                    requestDate: new Date(article.requestDate)
-                })));
-
-                // Combine draft articles with their review progress
-                const inProgressArticles = draftResponse.data.map(article => {
-                    const review = reviewsResponse.data.find(r => r.articleId === article.id);
-                    return {
-                        ...article,
-                        requestDate: new Date(article.requestDate),
-                        progress: review?.progress || 0,
-                        reviewId: review?.id
-                    };
-                });
-
-                setArticlesInProgress(inProgressArticles);
-                
-            } catch (err) {
-                console.error('Error fetching data:', err);
-                setError(err.response?.data?.message || 'Failed to load data');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (token) {
-            fetchData();
+                    requestDate: new Date(article.requestDate),
+                    progress: review?.progress || 0,
+                    reviewId: review?.id
+                };
+            });
+        } catch (err) {
+            console.error('Error fetching in-progress articles:', err);
+            throw err;
         }
-    }, [token, userId]);
+    };
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      const [underReviewResponse, inProgressArticles] = await Promise.all([
+        axios.get(`${localhost}/api/articles/status/await_review`, { headers }),
+        fetchArticlesInProgress()
+      ]);
+
+      setArticlesForReview(underReviewResponse.data.map(article => ({
+        ...article,
+        requestDate: new Date(article.requestDate)
+      })));
+
+      setArticlesInProgress(inProgressArticles);
+      
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      setError(err.response?.data?.message || 'Failed to load data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (token) {
+    fetchData();
+  }
+}, [token, userId, refreshTrigger])
 
     const handleAcceptReview = async (articleId) => {
         try {
-            // 1. Update article status to draft
-            await axios.put(
-                `${localhost}/api/articles/${articleId}/status`,
-                { status: 'draft' },
-                { 
-                    headers: { 
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            // 2. Create the review
             const response = await axios.post(
                 `${localhost}/api/reviews`,
-                { 
-                    articleId,
-                    reviewerId: userId,
-                    progress: 0
-                },
+                { articleId },
                 { 
                     headers: { 
                         'Authorization': `Bearer ${token}`,
@@ -109,14 +95,12 @@ const ReviewProgressPage = () => {
                 }
             );
 
-            // 3. Find the accepted article
             const acceptedArticle = articlesForReview.find(a => a.id === articleId);
             
             if (!acceptedArticle) {
                 throw new Error('Article not found');
             }
 
-            // 4. Update state
             setArticlesForReview(prev => prev.filter(a => a.id !== articleId));
             setArticlesInProgress(prev => [...prev, {
                 ...acceptedArticle,
@@ -135,21 +119,25 @@ const ReviewProgressPage = () => {
         setArticlesForReview(prev => prev.filter(article => article.id !== articleId));
     };
 
-    const handleReviewUpdate = (updatedReview) => {
-        setArticlesInProgress(prev => 
-            prev.map(article => 
-                article.reviewId === updatedReview.id 
-                    ? { ...article, progress: updatedReview.progress } 
-                    : article
-            )
-        );
-        
-        if (updatedReview.isCompleted) {
-            setArticlesInProgress(prev => 
-                prev.filter(article => article.reviewId !== updatedReview.id)
-            );
-        }
-    };
+const handleReviewUpdate = async (updatedReview) => {
+  if (updatedReview.shouldRefresh) {
+    // Принудительно обновляем данные
+    setRefreshTrigger(prev => prev + 1);
+  } else if (updatedReview.isCompleted) {
+    // Если рецензия завершена, обновляем список
+    const updatedArticles = await fetchArticlesInProgress();
+    setArticlesInProgress(updatedArticles);
+  } else {
+    // Если это просто обновление прогресса
+    setArticlesInProgress(prev => 
+      prev.map(article => 
+        article.reviewId === updatedReview.id 
+          ? { ...article, progress: updatedReview.progress } 
+          : article
+      )
+    );
+  }
+};
 
     if (loading) return <div className={defcl.main_container}>Loading...</div>;
     if (error) return <div className={defcl.main_container}>Error: {error}</div>;

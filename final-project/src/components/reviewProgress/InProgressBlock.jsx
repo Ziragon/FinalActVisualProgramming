@@ -8,8 +8,9 @@ const localhost = "http://localhost:5000";
 
 const InProgressBlock = ({ item, onReviewUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { token, userId } = useAuth();
+    const { token } = useAuth();
 
+    
     const handleSaveDraft = async (formData) => {
         try {
             const response = await axios.put(
@@ -22,13 +23,14 @@ const InProgressBlock = ({ item, onReviewUpdate }) => {
                     presentationQuality: formData.presentationComments,
                     commentsToAuthor: formData.authorComments,
                     confidentialComments: formData.editorComments,
-                    progress: formData.progress
+                    progress: formData.progress 
                 },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
             
             onReviewUpdate(response.data);
             setIsModalOpen(false);
+            
         } catch (err) {
             console.error('Error saving draft:', err);
         }
@@ -36,8 +38,8 @@ const InProgressBlock = ({ item, onReviewUpdate }) => {
 
     const handleSubmitReview = async (formData) => {
         try {
-            // First update the review
-            await axios.put(
+            // Обновляем рецензию
+            const updateResponse = await axios.put(
                 `${localhost}/api/reviews/${item.reviewId}`,
                 {
                     rating: formData.overallRating,
@@ -52,14 +54,12 @@ const InProgressBlock = ({ item, onReviewUpdate }) => {
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
             
-            // Then mark as complete
-            const response = await axios.post(
-                `${localhost}/api/reviews/${item.reviewId}/complete`,
-                {},
-                { headers: { 'Authorization': `Bearer ${token}` } }
-            );
+            // Передаем обновленные данные в родительский компонент
+            onReviewUpdate({
+                ...updateResponse.data,
+                isCompleted: true
+            });
             
-            onReviewUpdate(response.data);
             setIsModalOpen(false);
         } catch (err) {
             console.error('Error submitting review:', err);
@@ -95,10 +95,11 @@ const InProgressBlock = ({ item, onReviewUpdate }) => {
             
             {isModalOpen && (
                 <ContinueReviewModal
-                    article={item}
-                    onClose={() => setIsModalOpen(false)}
-                    onSaveDraft={handleSaveDraft}
-                    onSubmitReview={handleSubmitReview}
+                article={item}
+                onClose={() => setIsModalOpen(false)}
+                onSaveDraft={handleSaveDraft}
+                onSubmitReview={handleSubmitReview}
+                onReviewUpdated={onReviewUpdate} 
                 />
             )}
         </div>

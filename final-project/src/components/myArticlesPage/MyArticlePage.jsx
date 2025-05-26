@@ -57,8 +57,9 @@ const ArticlesPage = () => {
     const getStatusText = (status) => {
         switch (status) {
             case 'draft': return 'In Progress';
-            case 'under_review': return 'Pending Review';
-            case 'approved': return 'Reviewed';
+            case 'await_review': return 'Pending Review';
+            case 'under_review': return 'Reviewing';
+            case 'reviewed': return 'Reviewed';
 
             default: return status;
         }

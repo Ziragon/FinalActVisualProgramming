@@ -86,6 +86,21 @@ namespace WebApplication1.Controllers
         }
 
         [Authorize(Roles = "2")]
+        [HttpGet("{reviewId}")]
+        public async Task<IActionResult> GetArticleById(int reviewId)
+        {
+            try
+            {
+                var reviews = await _reviewService.GetArticleByIdAsync(reviewId);
+                return Ok(reviews);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "2")]
         [HttpGet("status/{status}")]
         public async Task<IActionResult> GetByStatus(bool status)
         {
