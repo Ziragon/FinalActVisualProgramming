@@ -37,12 +37,14 @@ const CompletedReviewsPage = () => {
                     confidentialComments: review.confidentialComments,
                     attachmentsId: review.attachmentsId,
                     progress: review.progress,
-                    isCompleted: review.progress,
+                    isCompleted: review.isCompleted,
                     completeDate: formatDate(review.completeDate)
                 }));
                 
                 setReviews(formattedReviews);
                 setIsLoading(false);
+                console.log('All reviews:', reviews);
+                console.log('Filtered reviews:', reviews.filter(item => item.isCompleted));
             } catch (err) {
                 console.error('Ошибка при загрузке статей:', err);
                 setError('Не удалось загрузить статьи');
@@ -56,7 +58,7 @@ const CompletedReviewsPage = () => {
     }, [isAuthenticated, userId, token]);
 
     const formatDate = (dateString) => {
-        if (!dateString) return "N/A"; // Если дата не передана
+        if (!dateString) return "N/A";
         
         const date = new Date(dateString);
         

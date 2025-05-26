@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication1.DbContext;
+using WebApplication1.Models;
 using WebApplication1.Repositories;
 using WebApplication1.Services;
 
@@ -18,7 +19,6 @@ if (builder.Environment.IsDevelopment())
         });
 }
 
-// Настройка JWT аутентификации
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 var issuer = jwtSettings["Issuer"];
@@ -44,7 +44,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Настройка CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
@@ -56,14 +55,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Регистрация сервисов
 builder.Services.AddControllers();
 
-// Подключение БД
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 
-// Регистрация репозиториев и сервисов
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
@@ -107,29 +103,24 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Конвейер middleware
 app.UseRouting();
 
-// Включение CORS (должно быть после UseRouting и перед UseAuthorization)
 app.UseCors("ReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Отключаем HTTPS редирект в development
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
 
-// Swagger только для разработки
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Применение миграций БД
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -144,6 +135,17 @@ using (var scope = app.Services.CreateScope())
         {
             Console.WriteLine("Applying migrations...");
             db.Database.Migrate();
+        }
+        if (!db.Roles.Any())
+        {
+            Console.WriteLine("Seeding initial roles...");
+            db.Roles.AddRange(
+                new Role { RoleId = 1, RoleName = "Admin" },
+                new Role { RoleId = 2, RoleName = "Reviewer" },
+                new Role { RoleId = 3, RoleName = "User" }
+            );
+            await db.SaveChangesAsync();
+            Console.WriteLine("Initial roles seeded successfully.");
         }
     }
     catch (Exception ex)
