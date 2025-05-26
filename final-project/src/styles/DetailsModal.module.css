@@ -69,9 +69,9 @@
 .tag {
   display: inline-block;
   background-color: #e0e0e0;
-  padding: 5px 10px;
-  border-radius: 4px;
-  margin-right: 8px;
+  padding: 5px 5px;
+  border-radius: 8px;
+  margin-inline: 2px;
   margin-bottom: 8px;
 }
 

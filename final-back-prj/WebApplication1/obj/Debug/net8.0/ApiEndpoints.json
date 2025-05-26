@@ -264,6 +264,27 @@
   },
   {
     "ContainingType": "WebApplication1.Controllers.ProfilesController",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/Profiles/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "WebApplication1.Controllers.ProfilePicRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication1.Controllers.ProfilesController",
     "Method": "GetProfileById",
     "RelativePath": "api/Profiles/{userId}",
     "HttpMethod": "GET",

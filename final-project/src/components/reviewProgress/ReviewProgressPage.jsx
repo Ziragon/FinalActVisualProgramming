@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../hooks/useAuth';
+import DetailsModal from '../myArticlesPage/DetailsModal';
 import ReviewRequestsBlock from './ReviewRequestsBlock';
 import InProgressBlock from './InProgressBlock';
 import defcl from "../../styles/ReviewDefaultClasses.module.css";
@@ -16,6 +17,21 @@ const ReviewProgressPage = () => {
     const [error, setError] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [authorNames, setAuthorNames] = useState({});
+    const [selectedArticle, setSelectedArticle] = useState(null);
+
+    const parseTags = (tags) => {
+        if (!tags) return [];
+        if (Array.isArray(tags)) return tags;
+        
+        try {
+          const parsed = JSON.parse(tags);
+          return Array.isArray(parsed) ? parsed : [tags];
+        } catch (e) {
+          return typeof tags === 'string' 
+            ? tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+            : [String(tags)];
+        }
+      };
 
     const fetchAuthorName = async (userId) => {
         try {
@@ -56,12 +72,12 @@ const ReviewProgressPage = () => {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             };
-
+    
             const [draftResponse, reviewsResponse] = await Promise.all([
                 axios.get(`${localhost}/api/articles/status/under_review`, { headers }),
                 axios.get(`${localhost}/api/reviews/user/${userId}`, { headers })
             ]);
-
+    
             const articles = draftResponse.data.map(article => {
                 const review = reviewsResponse.data.find(r => r.articleId === article.id);
                 return {
@@ -69,16 +85,18 @@ const ReviewProgressPage = () => {
                     requestDate: new Date(article.requestDate),
                     progress: review?.progress || 0,
                     reviewId: review?.id,
-                    userId: article.userId // Убедимся, что userId присутствует
+                    userId: article.userId,
+                    tags: parseTags(article.tags)
                 };
             });
-
+    
             return await enrichArticlesWithAuthorNames(articles);
         } catch (err) {
             console.error('Error fetching in-progress articles:', err);
             throw err;
         }
     };
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -104,7 +122,8 @@ const ReviewProgressPage = () => {
                     underReviewResponse.data.map(article => ({
                         ...article,
                         requestDate: new Date(article.requestDate),
-                        userId: article.userId
+                        userId: article.userId,
+                        tags: parseTags(article.tags)
                     }))
                 );
 
@@ -155,10 +174,6 @@ const ReviewProgressPage = () => {
             console.error('Error accepting review:', err);
             setError(err.response?.data?.message || 'Failed to accept review');
         }
-    };
-
-    const handleDeclineReview = async (articleId) => {
-        setArticlesForReview(prev => prev.filter(article => article.id !== articleId));
     };
 
     const handleReviewUpdate = async (updatedReview) => {
@@ -217,6 +232,14 @@ const ReviewProgressPage = () => {
         }
     };
 
+    const handleViewArticle = (article) => {
+        setSelectedArticle(article);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedArticle(null);
+    };
+
     if (loading) return <div className={defcl.main_container}>Loading...</div>;
     if (error) return <div className={defcl.main_container}>Error: {error}</div>;
 
@@ -230,8 +253,8 @@ const ReviewProgressPage = () => {
                             key={article.id}
                             item={article}
                             onAccept={() => handleAcceptReview(article.id)}
-                            onDecline={() => handleDeclineReview(article.id)}
                             onDownload={() => handleDownloadFile(article.bodyFileId, article.id)}
+                            onViewArticle={() => handleViewArticle(article)}
                         />
                     ))
                 ) : (
@@ -246,6 +269,7 @@ const ReviewProgressPage = () => {
                             key={article.reviewId || article.id}
                             item={article}
                             onReviewUpdate={handleReviewUpdate}
+                            onViewArticle={() => handleViewArticle(article)}
                             onDownload={() => handleDownloadFile(article.bodyFileId, article.id)}
                         />
                     ))
@@ -253,6 +277,12 @@ const ReviewProgressPage = () => {
                     <p>No in-progress reviews</p>
                 )}
             </div>
+            {selectedArticle && (
+                <DetailsModal 
+                    article={selectedArticle} 
+                    onClose={handleCloseModal} 
+                />
+            )}
         </div>
     );
 };

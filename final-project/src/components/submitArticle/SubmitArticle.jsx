@@ -9,7 +9,7 @@ const localhost = "http://localhost:5000";
 const SubmitArticle = () => {
     const { isAuthenticated, userId, token } = useAuth();
     const [formData, setFormData] = useState({
-        title: '',
+        name: '',
         category: '',
         content: '',
         tags: '',
@@ -71,7 +71,7 @@ const SubmitArticle = () => {
             return;
         }
 
-        if (!formData.title || !formData.category) {
+        if (!formData.name || !formData.category) {
             setError("The name and category are required");
             return;
         }
@@ -99,7 +99,7 @@ const SubmitArticle = () => {
 
             const articleResponse = await axios.post(`${localhost}/api/articles`, {
                 authorId: Number(userId),
-                name: formData.title,
+                name: formData.name,
                 category: formData.category,
                 body: submissionType === 'text' ? formData.content : "",
                 body_id: bodyFileId,
@@ -112,6 +112,8 @@ const SubmitArticle = () => {
                 }
             });
 
+            console.log(formData.tags)
+
             if (formData.isOriginal) {
                 await axios.post(
                     `${localhost}/api/articles/${articleResponse.data.id}/submit`,
@@ -120,9 +122,9 @@ const SubmitArticle = () => {
                 );
             }
             setFormData({
-                title: '',
+                name: '',
                 category: '',
-                content: '',
+                body: '',
                 tags: '',
                 isOriginal: false
             });
@@ -151,11 +153,11 @@ const SubmitArticle = () => {
 
                 <form onSubmit={handleSubmit} className={styles.articleForm}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="title" className={styles.formLabel}>Article title</label>
+                        <label htmlFor="name" className={styles.formLabel}>Article title</label>
                         <input
                             type="text"
-                            id="title"
-                            name="title"
+                            id="name"
+                            name="name"
                             placeholder="Enter the title of the article"
                             className={styles.formInput}
                             value={formData.article}

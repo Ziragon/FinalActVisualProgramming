@@ -1,10 +1,11 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import { useAuth } from '../../hooks/useAuth';
 import PortalModal from '../myArticlesPage/PortalModal.jsx';
 import styles from '../../styles/ContinueReviewModal.module.css';
 import starIcon from "../../styles/img/star.svg";
+import loadIcon from "../../styles/img/drop-file.svg";
 
 const ContinueReviewModal = ({ article, onClose, onReviewUpdated }) => {
   const { token, userId } = useAuth();
@@ -20,9 +21,14 @@ const ContinueReviewModal = ({ article, onClose, onReviewUpdated }) => {
     presentationComments: '',
     authorComments: '',
     editorComments: '',
-    attachments: null
+    attachment: null
   });
   const [isLoading, setIsLoading] = useState(true);
+  const fileInputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
 
   useEffect(() => {
     if (!token || !userId) return;
@@ -49,7 +55,7 @@ const ContinueReviewModal = ({ article, onClose, onReviewUpdated }) => {
           presentationComments: reviewData.presentationQuality || '',
           authorComments: reviewData.commentsToAuthor || '',
           editorComments: reviewData.confidentialComments || '',
-          attachments: reviewData.attachmentsId || null
+          attachment: null
         });
         setSelectedRating(reviewData.rating || 0);
       } catch (error) {
@@ -95,101 +101,129 @@ const ContinueReviewModal = ({ article, onClose, onReviewUpdated }) => {
     return errors;
   };
 
-const handleSaveDraft = async (values) => {
-  try {
-    const response = await axios.put(
-      `http://localhost:5000/api/reviews/${article.reviewId}`,
-      {
-        reviewerId: userId,
-        rating: values.overallRating,
-        decision: values.recommendation,
-        technicalMerit: values.technicalComments,
-        originality: values.originalityComments,
-        presentationQuality: values.presentationComments,
-        commentsToAuthor: values.authorComments,
-        confidentialComments: values.editorComments
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+  const handleSaveDraft = async (values) => {
+    try {
+      let attachmentId = null;
+      
+      // Загрузка файла, если он есть
+      if (values.attachment) {
+        const formDataFile = new FormData();
+        formDataFile.append('file', values.attachment);
+
+        const fileResponse = await axios.post(
+          `http://localhost:5000/api/files/upload`,
+          formDataFile,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+        attachmentId = fileResponse.data.id;
       }
-    );
-    
-    // Передаем флаг, что нужно обновить данные
-    if (onReviewUpdated) {
-      onReviewUpdated({ ...response.data, shouldRefresh: true });
-    }
-    
-    return response.data;
-  } catch (error) {
-    setApiError(error.response?.data?.message || 'Error saving draft');
-    throw error;
-  }
-};
 
-const handleSubmitReview = async (values) => {
-  try {
-    const updateResponse = await axios.put(
-      `http://localhost:5000/api/reviews/${article.reviewId}`,
-      {
-        reviewerId: userId,
-        rating: values.overallRating,
-        decision: values.recommendation,
-        technicalMerit: values.technicalComments,
-        originality: values.originalityComments,
-        presentationQuality: values.presentationComments,
-        commentsToAuthor: values.authorComments,
-        confidentialComments: values.editorComments
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      const response = await axios.put(
+        `http://localhost:5000/api/reviews/${article.reviewId}`,
+        {
+          reviewerId: userId,
+          rating: values.overallRating,
+          decision: values.recommendation,
+          technicalMerit: values.technicalComments,
+          originality: values.originalityComments,
+          presentationQuality: values.presentationComments,
+          commentsToAuthor: values.authorComments,
+          confidentialComments: values.editorComments,
+          attachmentsId: attachmentId // Сохраняем ID файла
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
+      );
+      
+      if (onReviewUpdated) {
+        onReviewUpdated({ ...response.data, shouldRefresh: true });
       }
-    );
+      
+      return response.data;
+    } catch (error) {
+      setApiError(error.response?.data?.message || 'Error saving draft');
+      throw error;
+    }
+  };
 
-    await axios.post(
-      `http://localhost:5000/api/reviews/${article.reviewId}/complete`,
-      {},
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+  const handleSubmitReview = async (values) => {
+    try {
+      let attachmentId = null;
+      
+      // Загрузка файла, если он есть
+      if (values.attachment) {
+        const formDataFile = new FormData();
+        formDataFile.append('file', values.attachment);
+
+        const fileResponse = await axios.post(
+          `http://localhost:5000/api/files/upload`,
+          formDataFile,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+        attachmentId = fileResponse.data.id;
+      }
+
+      const updateResponse = await axios.put(
+        `http://localhost:5000/api/reviews/${article.reviewId}`,
+        {
+          reviewerId: userId,
+          rating: values.overallRating,
+          decision: values.recommendation,
+          technicalMerit: values.technicalComments,
+          originality: values.originalityComments,
+          presentationQuality: values.presentationComments,
+          commentsToAuthor: values.authorComments,
+          confidentialComments: values.editorComments,
+          attachmentsId: attachmentId // Сохраняем ID файла
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
+      );
+
+      await axios.post(
+        `http://localhost:5000/api/reviews/${article.reviewId}/complete`,
+        {},
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (onReviewUpdated) {
+        onReviewUpdated({ ...updateResponse.data, isCompleted: true, shouldRefresh: true });
       }
-    );
-
-    if (onReviewUpdated) {
-      onReviewUpdated({ ...updateResponse.data, isCompleted: true, shouldRefresh: true });
+    } catch (error) {
+      setApiError(error.response?.data?.message || 'Error submitting review');
+      throw error;
     }
-  } catch (error) {
-    setApiError(error.response?.data?.message || 'Error submitting review');
-    throw error;
-  }
-};
+  };
 
-  const handleDrag = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
+  const handleFileChange = (e, setFieldValue) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setFieldValue('attachment', file);
     }
-  }, []);
-
-  const handleDrop = useCallback((e, setFieldValue, attachments) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const newFiles = Array.from(e.dataTransfer.files);
-      setFieldValue('attachments', [...attachments, ...newFiles]);
-    }
-  }, []);
+  };
 
   return (
     <PortalModal>
@@ -329,26 +363,34 @@ const handleSubmitReview = async (values) => {
                 </div>
 
                 <div className={styles.section}>
-                  <h3>Attachments</h3>
-                  <div 
-                    className={`${styles.uploadArea} ${dragActive ? styles.dragActive : ''}`}
-                    onDragEnter={handleDrag}
-                    onDragLeave={handleDrag}
-                    onDragOver={handleDrag}
-                    onDrop={(e) => handleDrop(e, setFieldValue, values.attachments)}
-                    onClick={() => document.getElementById('fileInput').click()}
-                  >
-                    <p>Drag and drop files here or click to upload</p>
+                  <h3>Attachment</h3>
+                  <div className={styles.fileUpload}>
+                    <label htmlFor="attachment" className={styles.uploadLabel}>
+                      {values.attachment ? (
+                        <span>{values.attachment.name}</span>
+                      ) : (
+                        <>
+                          <>
+                            <img src={loadIcon} alt="Loading" className={styles.icon}/>
+                          </>
+                          <span>Click to select a file</span>
+                        </>
+                      )}
+                    </label>
                     <input
-                      id="fileInput"
                       type="file"
-                      onChange={(e) => {
-                        const files = Array.from(e.target.files);
-                        setFieldValue('attachments', [...values.attachments, ...files]);
-                      }}
-                      multiple
+                      id="attachment"
+                      ref={fileInputRef}
                       className={styles.fileInput}
+                      onChange={(e) => handleFileChange(e, setFieldValue)}
                     />
+                    <button 
+                      type="button" 
+                      className="black_button"
+                      onClick={handleButtonClick}
+                    >
+                      Select File
+                    </button>
                   </div>
                 </div>
 

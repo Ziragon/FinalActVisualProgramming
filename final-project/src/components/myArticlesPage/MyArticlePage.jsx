@@ -31,11 +31,11 @@ const ArticlesPage = () => {
                 console.log('Raw API response:', response.data); 
                 const formattedArticles = response.data.map(article => ({
                   id: article.id,
-                  title: article.name,
+                  name: article.name,
                   status: getStatusText(article.status),
                   submitted: new Date(article.requestDate),
                   tag: article.category,
-                  content: article.body,
+                  body: article.body,
                   tags: article.tags ? article.tags.split(',') : []
                 }));
                 
@@ -65,30 +65,12 @@ const ArticlesPage = () => {
         }
     };
 
-   const formatDate = (dateString) => {
-    if (!dateString) return "N/A"; // Если дата не передана
-    
-    const date = new Date(dateString);
-    
-    // Проверяем, что дата валидна
-    if (isNaN(date.getTime())) return "N/A";
-    
-    const options = { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    };
-    return date.toLocaleDateString('en-US', options);
-};
-
     const allTags = ['All', ...new Set(articles.map(article => article.tag))];
 
     const filteredByTag = activeTag === 'All' ? articles : articles.filter(article => article.tag === activeTag);
 
     const filteredBySearch = filteredByTag.filter(article => 
-        article.title.toLowerCase().includes(searchTerm.toLowerCase())
+        article.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const filteredArticles = filteredBySearch;
@@ -166,7 +148,7 @@ const ArticlesPage = () => {
                 {currentArticles.map(article => (
                     <div key={article.id} className={styles.articleCard}>
                         <div className={styles.articleContent}>
-                            <h3 className={styles.articleTitle}>{article.title}</h3>
+                            <h3 className={styles.articleTitle}>{article.name}</h3>
                             <ul className={styles.articleMeta}>
                                 <img src={calendarImg} alt='?' className={styles.iconsformat} />
                                 <li><strong>Submitted:&nbsp;</strong> { article.submitted.toDateString().slice(4)}</li>

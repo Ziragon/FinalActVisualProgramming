@@ -43,6 +43,18 @@ namespace WebApplication1.Services
 
             await _profileRepository.SaveAsync();
         }
+        public async Task UpdateProfilePicAsync(int userId, int profilePicId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) throw new Exception("Пользователь не найден");
+
+            var profile = await _profileRepository.GetByUserIdAsync(userId);
+
+            profile.ProfilePicId = profilePicId;
+            _profileRepository.Update(profile);
+
+            await _profileRepository.SaveAsync();
+        }
 
         public async Task<Profile> GetByUserIdAsync(int userId)
         {

@@ -39,6 +39,24 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateProfile(int userId, [FromBody] ProfilePicRequest request)
+        {
+            try
+            {
+                await _profileService.UpdateProfilePicAsync(
+                    userId,
+                    request.ProfilePicId
+                );
+
+                return Ok(new { Message = "Профиль обновлён" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
@@ -74,5 +92,9 @@ namespace WebApplication1.Controllers
         public string Email { get; set; }
         public string Institution { get; set; }
         public string FieldOfExpertise { get; set; }
+    }
+    public class ProfilePicRequest
+    {
+        public int ProfilePicId { get; set; }
     }
 }
