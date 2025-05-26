@@ -13,11 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cee3f8f9ea8f84f52ae363d124290d3fa2471d7")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a92ab5c8ea1061c9b1baec8aa34a743a89079441")]
->>>>>>> origin/cssSetting
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+089e27ebc6948533e29ac5f0eff8239d4c7b08ee")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

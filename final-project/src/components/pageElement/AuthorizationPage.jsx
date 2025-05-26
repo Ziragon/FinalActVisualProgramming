@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,15 @@ import styles from '../../styles/AuthorizationPage.module.css';
 
 const AuthorizationPage = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth(); // Получаем isAuthenticated из хука
+
+    // useEffect для редиректа, если пользователь уже аутентифицирован
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/profile'); // Или на другую страницу, куда нужно перенаправлять залогиненных пользователей
+        }
+    }, [isAuthenticated, navigate]);
+
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .required('Обязательное поле')
@@ -49,6 +57,11 @@ const AuthorizationPage = () => {
         e.preventDefault();
         navigate('/register');
     };
+
+    // Если пользователь уже залогинен, не рендерим форму (можно отобразить сообщение)
+    if (isAuthenticated) {
+        return <div>Вы уже авторизованы.  Перенаправляю...</div>; // Или null, если ничего не нужно отображать
+    }
 
     return (
         <div className={styles.pageContainer}>

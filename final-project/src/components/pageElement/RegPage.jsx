@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,15 @@ import styles from '../../styles/AuthorizationPage.module.css';
 
 const RegPage = () => {
     const navigate = useNavigate();
-    const { login, userId } = useAuth();
+    const { login, isAuthenticated } = useAuth(); // Получаем isAuthenticated из хука
+
+    // useEffect для редиректа, если пользователь уже аутентифицирован
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/profile'); // Или на другую страницу, куда нужно перенаправлять залогиненных пользователей
+        }
+    }, [isAuthenticated, navigate]);
+
 
     const validationSchema = Yup.object().shape({
         username: Yup.string()
@@ -90,8 +98,14 @@ const RegPage = () => {
 
     const handleLoginClick = (e) => {
         e.preventDefault();
-        navigate('/');
+        navigate('/login');
     };
+
+    // Если пользователь уже залогинен, не рендерим форму
+    if (isAuthenticated) {
+        return <div>Вы уже зарегистрированы и авторизованы.  Перенаправляю...</div>; // Или null
+    }
+
 
     return (
         <div className={styles.pageContainer}>
@@ -101,12 +115,7 @@ const RegPage = () => {
                     <h1 className={styles.auth__title}>Регистрация</h1>
 
                     <Formik
-                        initialValues={{
-                            username: '',
-                            email: '',
-                            password: '',
-                            confirmPassword: ''
-                        }}
+                        initialValues={{ username: '', email: '', password: '', confirmPassword: '' }}
                         validationSchema={validationSchema}
                         onSubmit={handleSubmit}
                     >
@@ -119,7 +128,7 @@ const RegPage = () => {
                                         name="username"
                                         id="username"
                                         className={styles.form__input}
-                                        placeholder="Придумайте логин"
+                                        placeholder="Введите ваш логин"
                                     />
                                     <ErrorMessage name="username" component="div" className={styles.error__message} />
                                 </div>
@@ -143,7 +152,7 @@ const RegPage = () => {
                                         name="password"
                                         id="password"
                                         className={styles.form__input}
-                                        placeholder="Придумайте пароль"
+                                        placeholder="Введите ваш пароль"
                                     />
                                     <ErrorMessage name="password" component="div" className={styles.error__message} />
                                 </div>
@@ -155,7 +164,7 @@ const RegPage = () => {
                                         name="confirmPassword"
                                         id="confirmPassword"
                                         className={styles.form__input}
-                                        placeholder="Повторите пароль"
+                                        placeholder="Подтвердите ваш пароль"
                                     />
                                     <ErrorMessage name="confirmPassword" component="div" className={styles.error__message} />
                                 </div>
@@ -170,11 +179,8 @@ const RegPage = () => {
                             </Form>
                         )}
                     </Formik>
-
                     <div className={styles.auth__links}>
-                        <a href="#" className={styles.auth__link} onClick={handleLoginClick}>
-                            Уже есть аккаунт? Войти
-                        </a>
+                        <a href="#" className={styles.auth__link} onClick={handleLoginClick}>Уже есть аккаунт? Войти</a>
                     </div>
                 </div>
             </div>
