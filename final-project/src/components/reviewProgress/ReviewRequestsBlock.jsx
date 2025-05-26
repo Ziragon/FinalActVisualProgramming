@@ -1,15 +1,7 @@
 import React from 'react';
 import defcl from "../../styles/ReviewDefaultClasses.module.css";
-import timeIcon from "../../styles/img/time-svgrepo-com.svg";
 
-const ReviewRequestsBlock = ({item}) => //отображение запросов по статьям
-{
-    // const AcceptFunction = () => {
-
-    // }
-    // const DeclineFunction = () => {
-
-    // }
+const ReviewRequestsBlock = ({ item, onAccept, onDecline }) => {
     return (
         <div> 
             <div className={defcl.req_block}>
@@ -19,23 +11,23 @@ const ReviewRequestsBlock = ({item}) => //отображение запросо�
                 <p className={defcl.p_name}>{item.name}</p>
                 <p className={defcl.p_author}>Author: {item.author}</p>
                 <p className={defcl.p_abstract}>Abstract: {item.abstract}</p>
-                <div className={defcl.time_div}>
-                    <img src={timeIcon} alt="time" height='16px' width='16px'/>
-                    <p className={defcl.p_exp_time}>Expected time: {item.expectedTime}</p>
-                </div>
                 <div className={defcl.buttons}>
                     <button 
-                        // onClick={AcceptFunction()}
+                        onClick={onDecline}
                         className='white_button'
-                    >Decline</button>
+                    >
+                        Decline
+                    </button>
                     <button 
-                        // onClick={DeclineFunction()}
+                        onClick={onAccept}
                         className='black_button'
-                    >Accept Review</button>
+                    >
+                        Accept Review
+                    </button>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default ReviewRequestsBlock;
