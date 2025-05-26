@@ -137,7 +137,7 @@ namespace WebApplication1.Services
         {
             return await _reviewRepository.GetByUserIdAsync(userId);
         }
-        public async Task<Review> GetArticleByIdAsync(int reviewId)
+        public async Task<Review> GetReviewByIdAsync(int reviewId)
         { 
             return await _reviewRepository.GetByIdAsync(reviewId);
         }

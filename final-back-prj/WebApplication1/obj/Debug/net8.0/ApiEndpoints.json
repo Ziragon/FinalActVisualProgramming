@@ -27,6 +27,22 @@
   },
   {
     "ContainingType": "WebApplication1.Controllers.ArticlesController",
+    "Method": "GetArticleById",
+    "RelativePath": "api/Articles/{articleId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "articleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication1.Controllers.ArticlesController",
     "Method": "DeleteArticle",
     "RelativePath": "api/Articles/{articleId}",
     "HttpMethod": "DELETE",
@@ -288,6 +304,22 @@
       {
         "Name": "request",
         "Type": "WebApplication1.Controllers.ReviewUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApplication1.Controllers.ReviewsController",
+    "Method": "GetReviewById",
+    "RelativePath": "api/Reviews/{reviewId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewId",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

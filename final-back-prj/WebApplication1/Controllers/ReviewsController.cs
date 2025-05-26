@@ -87,11 +87,11 @@ namespace WebApplication1.Controllers
 
         [Authorize(Roles = "2")]
         [HttpGet("{reviewId}")]
-        public async Task<IActionResult> GetArticleById(int reviewId)
+        public async Task<IActionResult> GetReviewById(int reviewId)
         {
             try
             {
-                var reviews = await _reviewService.GetArticleByIdAsync(reviewId);
+                var reviews = await _reviewService.GetReviewByIdAsync(reviewId);
                 return Ok(reviews);
             }
             catch (Exception ex)

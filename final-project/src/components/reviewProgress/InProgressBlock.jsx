@@ -9,7 +9,6 @@ const localhost = "http://localhost:5000";
 const InProgressBlock = ({ item, onReviewUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { token } = useAuth();
-
     
     const handleSaveDraft = async (formData) => {
         try {
@@ -53,8 +52,7 @@ const InProgressBlock = ({ item, onReviewUpdate }) => {
                 },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
-            
-            // Передаем обновленные данные в родительский компонент
+
             onReviewUpdate({
                 ...updateResponse.data,
                 isCompleted: true

@@ -6,6 +6,7 @@ import InProgressBlock from './InProgressBlock';
 import defcl from "../../styles/ReviewDefaultClasses.module.css";
 
 const localhost = "http://localhost:5000";
+const profilesApi = "http://localhost:5000/api/profiles";
 
 const ReviewProgressPage = () => {
     const { token, userId } = useAuth();
@@ -14,6 +15,40 @@ const ReviewProgressPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [authorNames, setAuthorNames] = useState({});
+
+    const fetchAuthorName = async (userId) => {
+        try {
+            if (!userId) return 'Unnamed User';
+
+            if (authorNames[userId]) {
+                return authorNames[userId];
+            }
+
+            const response = await axios.get(`${profilesApi}/${userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            const name = response.data.fullName || `Unnamed User id: ${userId}`;
+
+            setAuthorNames(prev => ({ ...prev, [userId]: name }));
+            
+            return name;
+        } catch (err) {
+            console.error(`Error fetching author name for user ${userId}:`, err);
+            return `Unnamed User id: ${userId}`;
+        }
+    };
+
+    const enrichArticlesWithAuthorNames = async (articles) => {
+        return Promise.all(articles.map(async article => {
+            const authorName = await fetchAuthorName(article.userId);
+            return {
+                ...article,
+                author: authorName
+            };
+        }));
+    };
 
     const fetchArticlesInProgress = async () => {
         try {
@@ -27,60 +62,67 @@ const ReviewProgressPage = () => {
                 axios.get(`${localhost}/api/reviews/user/${userId}`, { headers })
             ]);
 
-            return draftResponse.data.map(article => {
+            const articles = draftResponse.data.map(article => {
                 const review = reviewsResponse.data.find(r => r.articleId === article.id);
                 return {
                     ...article,
                     requestDate: new Date(article.requestDate),
                     progress: review?.progress || 0,
-                    reviewId: review?.id
+                    reviewId: review?.id,
+                    userId: article.userId // Убедимся, что userId присутствует
                 };
             });
+
+            return await enrichArticlesWithAuthorNames(articles);
         } catch (err) {
             console.error('Error fetching in-progress articles:', err);
             throw err;
         }
     };
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
 
-      const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
+                const headers = {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                };
 
-      const [underReviewResponse, inProgressArticles] = await Promise.all([
-        axios.get(`${localhost}/api/articles/status/await_review`, { headers }),
-        fetchArticlesInProgress()
-      ]);
+                const [underReviewResponse, inProgressArticles] = await Promise.all([
+                    axios.get(`${localhost}/api/articles/status/await_review`, { headers }),
+                    fetchArticlesInProgress()
+                ]);
 
-      setArticlesForReview(underReviewResponse.data.map(article => ({
-        ...article,
-        requestDate: new Date(article.requestDate)
-      })));
+                const forReviewWithAuthors = await enrichArticlesWithAuthorNames(
+                    underReviewResponse.data.map(article => ({
+                        ...article,
+                        requestDate: new Date(article.requestDate),
+                        userId: article.userId
+                    }))
+                );
 
-      setArticlesInProgress(inProgressArticles);
-      
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      setError(err.response?.data?.message || 'Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  };
+                setArticlesForReview(forReviewWithAuthors);
+                setArticlesInProgress(inProgressArticles);
+                
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                setError(err.response?.data?.message || 'Failed to load data');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  if (token) {
-    fetchData();
-  }
-}, [token, userId, refreshTrigger])
+        if (token) {
+            fetchData();
+        }
+    }, [token, userId, refreshTrigger]);
 
     const handleAcceptReview = async (articleId) => {
         try {
@@ -119,25 +161,25 @@ useEffect(() => {
         setArticlesForReview(prev => prev.filter(article => article.id !== articleId));
     };
 
-const handleReviewUpdate = async (updatedReview) => {
-  if (updatedReview.shouldRefresh) {
-    // Принудительно обновляем данные
-    setRefreshTrigger(prev => prev + 1);
-  } else if (updatedReview.isCompleted) {
-    // Если рецензия завершена, обновляем список
-    const updatedArticles = await fetchArticlesInProgress();
-    setArticlesInProgress(updatedArticles);
-  } else {
-    // Если это просто обновление прогресса
-    setArticlesInProgress(prev => 
-      prev.map(article => 
-        article.reviewId === updatedReview.id 
-          ? { ...article, progress: updatedReview.progress } 
-          : article
-      )
-    );
-  }
-};
+    const handleReviewUpdate = async (updatedReview) => {
+      if (updatedReview.shouldRefresh) {
+        // Принудительно обновляем данные
+        setRefreshTrigger(prev => prev + 1);
+      } else if (updatedReview.isCompleted) {
+        // Если рецензия завершена, обновляем список
+        const updatedArticles = await fetchArticlesInProgress();
+        setArticlesInProgress(updatedArticles);
+      } else {
+        // Если это просто обновление прогресса
+        setArticlesInProgress(prev => 
+          prev.map(article => 
+            article.reviewId === updatedReview.id 
+              ? { ...article, progress: updatedReview.progress } 
+              : article
+          )
+        );
+      }
+    };
 
     if (loading) return <div className={defcl.main_container}>Loading...</div>;
     if (error) return <div className={defcl.main_container}>Error: {error}</div>;

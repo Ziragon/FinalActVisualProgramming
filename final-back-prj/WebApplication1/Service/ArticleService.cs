@@ -66,6 +66,11 @@ namespace WebApplication1.Services
             return await _articleRepository.GetByUserIdAsync(userId);
         }
 
+        public async Task<Article> GetArticleByIdAsync(int articleId)
+        {
+            return await _articleRepository.GetByIdAsync(articleId);
+        }
+
         public async Task DeleteArticleAsync(int articleId)
         {
             var article = await _articleRepository.GetByIdAsync(articleId);

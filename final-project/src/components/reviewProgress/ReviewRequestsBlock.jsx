@@ -2,6 +2,7 @@ import React from 'react';
 import defcl from "../../styles/ReviewDefaultClasses.module.css";
 
 const ReviewRequestsBlock = ({ item, onAccept, onDecline }) => {
+
     return (
         <div> 
             <div className={defcl.req_block}>

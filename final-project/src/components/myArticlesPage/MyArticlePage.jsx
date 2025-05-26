@@ -33,7 +33,7 @@ const ArticlesPage = () => {
                   id: article.id,
                   title: article.name,
                   status: getStatusText(article.status),
-                  submitted: formatDate(article.requestDate),
+                  submitted: new Date(article.requestDate),
                   tag: article.category,
                   content: article.body,
                   tags: article.tags ? article.tags.split(',') : []
@@ -169,7 +169,7 @@ const ArticlesPage = () => {
                             <h3 className={styles.articleTitle}>{article.title}</h3>
                             <ul className={styles.articleMeta}>
                                 <img src={calendarImg} alt='?' className={styles.iconsformat} />
-                                <li><strong>Submitted:</strong> {article.submitted}</li>
+                                <li><strong>Submitted:&nbsp;</strong> { article.submitted.toDateString().slice(4)}</li>
                                 <img src={tagImg} alt='?' className={styles.iconsformat} />
                                 <li><strong>{article.tag}</strong></li>
                             </ul>

@@ -11,6 +11,65 @@ const CompletedReviewsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [reviews, setReviews] = useState([]);
+    const [reviewerNames, setReviewerNames] = useState({});
+    const [articleNames, setArticleNames] = useState({});
+
+    const fetchAuthorName = async (userId) => {
+        try {
+            if (!userId) return 'Unnamed User';
+
+            if (reviewerNames[userId]) {
+                return reviewerNames[userId];
+            }
+
+            const response = await axios.get(`${localhost}/api/profiles/${userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            const name = response.data.fullName || `Unnamed User id: ${userId}`;
+
+            setReviewerNames(prev => ({ ...prev, [userId]: name }));
+            
+            return name;
+        } catch (err) {
+            console.error(`Error fetching author name for user ${userId}:`, err);
+            return `Unnamed User id: ${userId}`;
+        }
+    };
+
+    const fetchArticleName = async (id) => {
+        try {
+            if (!userId) return 'Unnamed User';
+
+            if (articleNames[id]) {
+                return articleNames[id];
+            }
+
+            const response = await axios.get(`${localhost}/api/articles/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            const name = response.data.name;
+
+            setArticleNames(prev => ({ ...prev, [name]: name }));
+            
+            return name;
+        } catch (err) {
+            console.error(`Error fetching author name for user ${userId}:`, err);
+        }
+    }
+
+    const enrichReviewsWithReviewerNames = async (reviews) => {
+        return Promise.all(reviews.map(async review => {
+            const authorName = await fetchAuthorName(review.userId);
+            const articleName = await fetchArticleName(review.id);
+            return {
+                ...review,
+                author: authorName,
+                name: articleName
+            };
+        }));
+    };
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -20,13 +79,9 @@ const CompletedReviewsPage = () => {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                const responseProfile = await axios.get(`${localhost}/api/reviews/user/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
                 const formattedReviews = response.data.map(review => ({
                     id: review.id,
+                    userId: review.userId,
                     title: review.name,
                     rating: review.rating,
                     decision: review.decision,
@@ -38,13 +93,11 @@ const CompletedReviewsPage = () => {
                     attachmentsId: review.attachmentsId,
                     progress: review.progress,
                     isCompleted: review.isCompleted,
-                    completeDate: formatDate(review.completeDate)
+                    completeDate: new Date(review.completeDate)
                 }));
                 
-                setReviews(formattedReviews);
+                setReviews(await enrichReviewsWithReviewerNames(formattedReviews));
                 setIsLoading(false);
-                console.log('All reviews:', reviews);
-                console.log('Filtered reviews:', reviews.filter(item => item.isCompleted));
             } catch (err) {
                 console.error('Ошибка при загрузке статей:', err);
                 setError('Не удалось загрузить статьи');
@@ -56,24 +109,6 @@ const CompletedReviewsPage = () => {
             fetchArticles();
         }
     }, [isAuthenticated, userId, token]);
-
-    const formatDate = (dateString) => {
-        if (!dateString) return "N/A";
-        
-        const date = new Date(dateString);
-        
-        // Проверяем, что дата валидна
-        if (isNaN(date.getTime())) return "N/A";
-        
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        };
-        return date.toLocaleDateString('en-US', options);
-    };
 
     if (isLoading) {
         return <div className={defcl.container}>Loading...</div>;

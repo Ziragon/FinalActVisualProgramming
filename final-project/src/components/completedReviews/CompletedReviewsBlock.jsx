@@ -6,13 +6,15 @@ import ReviewDetailsModal from './ReviewDetailsModal.jsx';
 const CompletedReviewsBlock = ({ item }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  
+
   return (
     <div className={defcl.rew_complete_block}>
       <div className={defcl.right_float_block}>
-        <p className={defcl.p_date}>Completed: {item.completeDate}</p>
+        <p className={defcl.p_date}>Completed: {item.completeDate.toDateString().slice(4)}</p>
       </div>
       <p className={defcl.p_name}>{item.name}</p>
-      <p className={defcl.p_author}>Author: {item.author}</p>
+      <p className={defcl.p_author}>Reviewed by: {item.author}</p>
       <hr className={defcl.hr}/>
       <div className={defcl.flex_block_comp}>
         <p className={defcl.p_rew_score}>Review Score: </p>

@@ -48,6 +48,20 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [HttpGet("{articleId}")]
+        public async Task<IActionResult> GetArticleById(int articleId)
+        {
+            try
+            {
+                var reviews = await _articleService.GetArticleByIdAsync(articleId);
+                return Ok(reviews);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
         [Authorize(Roles = "2")]
         [HttpGet("status/{status}")]
         public async Task<IActionResult> GetByStatus(string status)
