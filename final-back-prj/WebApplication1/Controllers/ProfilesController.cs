@@ -18,7 +18,7 @@ namespace WebApplication1.Controllers
             _profileService = profileService;
         }
 
-        [HttpPut("{userId}")] // Добавляем параметр userId в маршрут
+        [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateProfile(int userId, [FromBody] ProfileUpdateRequest request)
         {
             try
@@ -73,7 +73,6 @@ namespace WebApplication1.Controllers
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Institution { get; set; }
-
         public string FieldOfExpertise { get; set; }
     }
 }

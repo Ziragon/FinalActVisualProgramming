@@ -74,7 +74,6 @@ namespace WebApplication1.Controllers
         [HttpGet("profile")]
         public async Task<IActionResult> GetUserProfile()
         {
-            // Получаем ID текущего пользователя из claims
             var userId = int.Parse(User.FindFirst("userId")?.Value);
             var user = await _userService.GetByIdAsync(userId);
 
@@ -96,18 +95,39 @@ namespace WebApplication1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = "1")]
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateRequest request)
+        {
+            try
+            {
+                await _userService.UpdateUserAsync(userId, request.Login, request.RoleId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 
     public class UserRegisterRequest
     {
         public string Login { get; set; }
         public string Password { get; set; }
-        public int RoleId { get; set; } = 2; // По умолчанию роль "User"
+        public int RoleId { get; set; } = 3;
     }
 
     public class UserLoginRequest
     {
         public string Login { get; set; }
         public string Password { get; set; }
+    }
+
+    public class UserUpdateRequest
+    {
+        public string Login { get; set; }
+        public int RoleId { get; set; }
     }
 }

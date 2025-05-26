@@ -1,4 +1,5 @@
-﻿using WebApplication1.Models;
+﻿using Azure.Core;
+using WebApplication1.Models;
 using WebApplication1.Repositories;
 
 namespace WebApplication1.Services
@@ -61,6 +62,16 @@ namespace WebApplication1.Services
         public async Task<User> GetByIdAsync(int id)
         {
             return await _userRepository.GetByIdAsync(id);
+        }
+        public async Task UpdateUserAsync(int userId, string login, int roleId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) throw new Exception("Пользователь не найден");
+
+            user.Login = login;
+            user.RoleId = roleId;
+            _userRepository.Update(user);
+            await _userRepository.SaveAsync();
         }
 
         public async Task DeleteUserAsync(int id)
