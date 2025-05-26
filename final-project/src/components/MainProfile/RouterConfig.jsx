@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink } from 'react-router-dom';
+import { Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
 import ReviewProgressPage from '../reviewProgress/ReviewProgressPage';
 import SubmitArticle from "../submitArticle/SubmitArticle";
@@ -10,20 +10,26 @@ import profileImg from '../../styles/img/32.jpg';
 import { useAuth } from '../../hooks/useAuth';
 
 const MainProfile = () => {
-    const { roleId, username } = useAuth();
+    const { roleId, username, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     const isTabAvailable = (tabName) => {
         switch (tabName) {
             case 'adminPanel':
-                return roleId === 1; // Только для админа
+                return roleId === 1;
             case 'inProgressReviews':
             case 'completedReviews':
-                return roleId === 2; // Только для ревьюера
+                return roleId === 2;
             case 'myArticles':
             case 'submitArticle':
-                return roleId === 3; // Только для пользователя
+                return roleId === 3;
             case 'profile':
-                return true; // Профиль доступен всем
+                return true;
             default:
                 return false;
         }
@@ -36,15 +42,22 @@ const MainProfile = () => {
                     <h1>ReviewSystem</h1>
                 </div>
                 <div className={styles.headerRight}>
-                    <span className={styles.profileName}>{username || 'John Smith'}</span>
+                    <span className={styles.profileName}>{username || 'Зарегайся скотина'}</span>
                     <img
                         src={profileImg}
                         alt="?"
                         className={styles.profileImage}
                     />
+                    <button
+                        onClick={handleLogout}
+                        className={styles.logoutButton}
+                    >
+                        Exit
+                    </button>
                 </div>
             </header>
 
+            {/* Остальной код остается без изменений */}
             <div className={styles.dashboardHeader}>
                 <h2>
                     {roleId === 1 && 'Admin Dashboard'}
@@ -64,40 +77,34 @@ const MainProfile = () => {
 
             <nav className={styles.mainNav}>
                 <div className={styles.navLinks}>
-                    {/* Профиль доступен всем */}
                     <NavLink to="/profile" className={({ isActive }) =>
                         isActive ? styles.activeNavLink : undefined
                     }>Profile</NavLink>
 
-                    {/* My Articles - только для пользователя (roleId === 3) */}
                     {isTabAvailable('myArticles') && (
                         <NavLink to="/myArticles" className={({ isActive }) =>
                             isActive ? styles.activeNavLink : undefined
                         }>My Articles</NavLink>
                     )}
 
-                    {/* Submit Article - только для пользователя (roleId === 3) */}
                     {isTabAvailable('submitArticle') && (
                         <NavLink to="/submitArticle" className={({ isActive }) =>
                             isActive ? styles.activeNavLink : undefined
                         }>Submit Article</NavLink>
                     )}
 
-                    {/* In Progress Reviews - только для ревьюера (roleId === 2) */}
                     {isTabAvailable('inProgressReviews') && (
                         <NavLink to="/inProgressReviews" className={({ isActive }) =>
                             isActive ? styles.activeNavLink : undefined
                         }>In Progress Reviews</NavLink>
                     )}
 
-                    {/* Completed Reviews - только для ревьюера (roleId === 2) */}
                     {isTabAvailable('completedReviews') && (
                         <NavLink to="/completedReviews" className={({ isActive }) =>
                             isActive ? styles.activeNavLink : undefined
                         }>Completed Reviews</NavLink>
                     )}
 
-                    {/* Admin Panel - только для админа (roleId === 1) */}
                     {isTabAvailable('adminPanel') && (
                         <NavLink to="/adminPanel" className={({ isActive }) =>
                             isActive ? styles.activeNavLink : undefined
