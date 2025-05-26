@@ -19,9 +19,9 @@ POST {{host}}/api/users/register
 Content-Type: application/json
 
 {
-  "login": "Admin",
+  "login": "User",
   "password": "Password",
-  "roleId": 1
+  "roleId": 3
 }
 
 ### Авторизация обычного пользователя

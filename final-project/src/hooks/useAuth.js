@@ -6,10 +6,10 @@ export const useAuth = () => {
     isAuthenticated: false,
     userId: null,
     username: null,
+    roleId: null, // Добавляем поле для роли
     token: null
   });
 
-  // Проверка токена при монтировании
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -19,6 +19,7 @@ export const useAuth = () => {
           isAuthenticated: true,
           userId: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
           username: decoded.sub,
+          roleId: parseInt(decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']), // Предполагаем, что роль хранится здесь
           token: token
         });
       } catch (e) {
@@ -28,7 +29,6 @@ export const useAuth = () => {
     }
   }, []);
 
-  // Функция логина
   const login = (token) => {
     localStorage.setItem('authToken', token);
     const decoded = jwtDecode(token);
@@ -36,17 +36,18 @@ export const useAuth = () => {
       isAuthenticated: true,
       userId: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
       username: decoded.sub,
+      roleId: parseInt(decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']),
       token: token
     });
   };
 
-  // Функция логаута
   const logout = () => {
     localStorage.removeItem('authToken');
     setAuth({
       isAuthenticated: false,
       userId: null,
       username: null,
+      roleId: null,
       token: null
     });
   };

@@ -238,3 +238,25 @@
 .articlesSection {
     animation: fadeInUp 0.4s ease-out 0.5s both;
 }
+.ratingStars {
+    color: #000000;
+    font-size: 1.2em;
+}
+
+.statusBadge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.statusBadge.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.statusBadge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
