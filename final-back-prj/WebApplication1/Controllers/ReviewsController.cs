@@ -85,7 +85,6 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [Authorize(Roles = "2")]
         [HttpGet("{reviewId}")]
         public async Task<IActionResult> GetReviewById(int reviewId)
         {

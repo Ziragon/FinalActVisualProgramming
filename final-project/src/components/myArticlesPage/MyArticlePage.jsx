@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../hooks/useAuth';
 import DetailsModal from './DetailsModal';
+import ReviewDetailsModal from '../completedReviews/ReviewDetailsModal';
 import styles from '../../styles/myArticlesPage.module.css';
 import calendarImg from '../../styles/img/calendar-lines-alt-svgrepo-com.svg';
 import tagImg from '../../styles/img/tag-fill-round-1176-svgrepo-com.svg';
@@ -18,6 +19,8 @@ const ArticlesPage = () => {
     const [articleDetails, setArticleDetails] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedReview, setSelectedReview] = useState(null);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const articlesPerPage = 5;
 
     useEffect(() => {
@@ -53,6 +56,39 @@ const ArticlesPage = () => {
         }
     }, [isAuthenticated, userId, token]);
 
+    const fetchReview = async (articleId) => {
+        try {
+            const response = await axios.get(`${localhost}/api/reviews/${articleId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const reviewData = response.data;
+            const formattedReview = {
+                id: reviewData.id,
+                userId: reviewData.userId,
+                title: reviewData.name,
+                rating: reviewData.rating,
+                decision: reviewData.decision,
+                technicalMerit: reviewData.technicalMerit,
+                originality: reviewData.originality,
+                presentationQuality: reviewData.presentationQuality,
+                commentsToAuthor: reviewData.commentsToAuthor,
+                confidentialComments: reviewData.confidentialComments,
+                attachmentsId: reviewData.attachmentsId,
+                progress: reviewData.progress,
+                isCompleted: reviewData.isCompleted,
+                completeDate: reviewData.completeDate ? new Date(reviewData.completeDate) : null
+            };
+            
+            setSelectedReview(formattedReview);
+            setIsReviewModalOpen(true);
+        } catch (err) {
+            console.error('Ошибка при загрузке рецензии:', err);
+            setError('Не удалось загрузить рецензию');
+        }
+    };
 
     const getStatusText = (status) => {
         switch (status) {
@@ -60,7 +96,6 @@ const ArticlesPage = () => {
             case 'await_review': return 'Pending Review';
             case 'under_review': return 'Reviewing';
             case 'reviewed': return 'Reviewed';
-
             default: return status;
         }
     };
@@ -74,7 +109,6 @@ const ArticlesPage = () => {
     );
 
     const filteredArticles = filteredBySearch;
-
 
     const indexOfLastArticle = currentPage * articlesPerPage;
     const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
@@ -161,11 +195,21 @@ const ArticlesPage = () => {
                             <span className={`${styles.articleStatus} ${styles[article.status.replace(/\s+/g, '')]}`}>
                                 {article.status}
                             </span>
+                            <div>
+                            {article.status === 'Reviewed' && (
+                                <button
+                                    className="white_button"
+                                    onClick={() => fetchReview(article.id)}
+                                    style={{ marginRight: '10px' }}>
+                                    View Review
+                                </button>
+                            )}
                             <button
                                 className="black_button"
                                 onClick={() => setSelectedArticleId(article.id)}>
                                 View Details
                             </button>
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -179,6 +223,16 @@ const ArticlesPage = () => {
                         ...(articleDetails.find(d => d.id === selectedArticleId) || {})
                     }}
                     onClose={() => setSelectedArticleId(null)}
+                />
+            )}
+
+            {isReviewModalOpen && selectedReview && (
+                <ReviewDetailsModal
+                    review={selectedReview}
+                    onClose={() => {
+                        setIsReviewModalOpen(false);
+                        setSelectedReview(null);
+                    }}
                 />
             )}
 
