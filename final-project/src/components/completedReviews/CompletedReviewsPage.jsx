@@ -118,6 +118,15 @@ const CompletedReviewsPage = () => {
         return <div className={defcl.container}>{error}</div>;
     }
 
+    const completedReviews = reviews.filter(item => item.isCompleted);
+    
+    if (completedReviews.length === 0) {
+        return (
+            <div className={defcl.noReviewsContainer}>
+                <p className={defcl.noReviewsText}>Завершённых рецензий пока что нет...</p>
+            </div>
+        );
+    }
     return (
         <div className={defcl.main_container}>
         {reviews

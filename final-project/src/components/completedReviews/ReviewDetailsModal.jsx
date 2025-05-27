@@ -3,7 +3,6 @@ import PortalModal from '../myArticlesPage/PortalModal.jsx';
 import styles from '../../styles/CompletedReviewModal.module.css';
 import starIcon from '../../styles/img/star.svg'; 
 
-
 const ReviewDetailsModal = ({ review, onClose }) => {
   if (!review) return null;
 
@@ -39,28 +38,28 @@ const ReviewDetailsModal = ({ review, onClose }) => {
 
           <div className={styles.section}>
             <h3>Recommendation</h3>
-            <p>{review.decision}</p>
+            <p className={styles.wrappedText}>{review.decision}</p>
           </div>
 
           <div className={styles.section}>
             <h3>Detailed Review</h3>
             <h4>Technical Merit</h4>
-            <p>{review.technicalMerit || "No technical comments provided."}</p>
+            <p className={styles.wrappedText}>{review.technicalMerit || "No technical comments provided."}</p>
 
             <h4>Originality</h4>
-            <p>{review.originality || "No originality comments provided."}</p>
+            <p className={styles.wrappedText}>{review.originality || "No originality comments provided."}</p>
 
             <h4>Presentation Quality</h4>
-            <p>{review.presentationQuality || "No presentation quality comments provided."}</p>
+            <p className={styles.wrappedText}>{review.presentationQuality || "No presentation quality comments provided."}</p>
           </div>
 
           <div className={styles.section}>
             <h3>Additional Comments</h3>
             <h4>Comments to Authors</h4>
-            <p>{review.commentsToAuthor || "No additional comments for authors."}</p>
+            <p className={styles.wrappedText}>{review.commentsToAuthor || "No additional comments for authors."}</p>
 
             <h4>Confidential Comments to Editor</h4>
-            <p>{review.confidentialComments || "No confidential comments for editor."}</p>
+            <p className={styles.wrappedText}>{review.confidentialComments || "No confidential comments for editor."}</p>
           </div>
 
           {review.attachments && review.attachments.length > 0 && (

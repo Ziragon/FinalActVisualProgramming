@@ -237,3 +237,22 @@ hr {
     height: 18px;
     transition: opacity 0.2s;
 }
+
+.no_item_message{
+    display: flex;
+    justify-content: center;
+}
+
+.noReviewsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+}
+
+.noReviewsText {
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+}

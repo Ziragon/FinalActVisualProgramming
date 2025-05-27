@@ -111,3 +111,11 @@
   color: #666;
 }
 
+.wrappedText {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  max-height: 100px; /* или любая другая подходящая высота */
+  overflow-y: auto;
+}

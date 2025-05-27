@@ -6,8 +6,6 @@ import ReviewDetailsModal from './ReviewDetailsModal.jsx';
 const CompletedReviewsBlock = ({ item }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  
-
   return (
     <div className={defcl.rew_complete_block}>
       <div className={defcl.right_float_block}>

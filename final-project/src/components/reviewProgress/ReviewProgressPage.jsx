@@ -258,7 +258,7 @@ const ReviewProgressPage = () => {
                         />
                     ))
                 ) : (
-                    <p>No new review requests</p>
+                    <p className={defcl.no_item_message}>Выложенных Статей на оценку пока что нет</p>
                 )}
             </div>
             <div className={defcl.container}>
@@ -274,7 +274,7 @@ const ReviewProgressPage = () => {
                         />
                     ))
                 ) : (
-                    <p>No in-progress reviews</p>
+                    <p className={defcl.no_item_message}>Ваши рецензии отсутствуют</p>
                 )}
             </div>
             {selectedArticle && (
