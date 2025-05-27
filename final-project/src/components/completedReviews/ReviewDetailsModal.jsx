@@ -1,10 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PortalModal from '../myArticlesPage/PortalModal.jsx';
 import styles from '../../styles/CompletedReviewModal.module.css';
-import starIcon from '../../styles/img/star.svg'; 
+import starIcon from '../../styles/img/star.svg';
+import axios from 'axios';
+import { useAuth } from '../../hooks/useAuth';
 
 const ReviewDetailsModal = ({ review, onClose }) => {
+  const { token } = useAuth();
+  const [attachments, setAttachments] = useState([]);
+  const [isLoadingAttachments, setIsLoadingAttachments] = useState(false);
+
+  useEffect(() => {
+    const fetchAttachments = async () => {
+      if (!review?.attachmentsId || !token) return; // Не выполняем запрос без токена
+      
+      setIsLoadingAttachments(true);
+      try {
+        const attachmentArray = Array.isArray(review.attachmentsId) 
+          ? review.attachmentsId 
+          : [review.attachmentsId];
+        
+        const attachmentsData = await Promise.all(
+          attachmentArray.map(async (id) => {
+            const response = await axios.get(`http://localhost:5000/api/files/download/${id}`, {
+              headers: { 'Authorization': `Bearer ${token}` },
+              responseType: 'blob',
+            });
+            
+            const fileUrl = URL.createObjectURL(response.data);
+            return {
+              id,
+              name: `Attachment_${id}`,
+              url: fileUrl
+            };
+          })
+        );
+        
+        setAttachments(attachmentsData);
+      } catch (error) {
+        if (!axios.isCancel(error)) {
+          console.error('Error fetching attachments:', error);
+        }
+      } finally {
+        setIsLoadingAttachments(false);
+      }
+    };
+
+    fetchAttachments();
+
+    return () => {
+      attachments.forEach(file => URL.revokeObjectURL(file.url));
+    };
+  }, [review, token]); 
+
   if (!review) return null;
+
+  const handleDownload = (url, name) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <PortalModal>
@@ -62,14 +120,25 @@ const ReviewDetailsModal = ({ review, onClose }) => {
             <p className={styles.wrappedText}>{review.confidentialComments || "No confidential comments for editor."}</p>
           </div>
 
-          {review.attachments && review.attachments.length > 0 && (
+          {(attachments.length > 0 || isLoadingAttachments) && (
             <div className={styles.section}>
               <h3>Attachments</h3>
-              <ul className={styles.attachmentsList}>
-                {review.attachments.map((file, index) => (
-                  <li key={index}>{file.name}</li>
-                ))}
-              </ul>
+              {isLoadingAttachments ? (
+                <p>Loading attachments...</p>
+              ) : (
+                <ul className={styles.attachmentsList}>
+                  {attachments.map((file, index) => (
+                    <li key={index}>
+                      <button 
+                        onClick={() => handleDownload(file.url, file.name)}
+                        className={styles.downloadButton}
+                      >
+                      {file.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
 

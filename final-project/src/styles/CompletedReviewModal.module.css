@@ -119,3 +119,17 @@
   max-height: 100px; /* или любая другая подходящая высота */
   overflow-y: auto;
 }
+
+.downloadButton {
+  background: none;
+  border: none;
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+
+.downloadButton:hover {
+  color: #004499;
+}
